@@ -263,7 +263,7 @@
             const declaredPortion = parseFloat(document.getElementById('declaredPortion').value) || 0;
             const cashPortion = parseFloat(document.getElementById('cashPortion').value) || 0;
 
-            // Scenario A Calculations
+            // Scenario A Calculations (Agent fee is 1 month's rent)
             const agentGrossAnnual = agentRent * 12;
             let agentFeeA = aHasAgent ? agentRent * (includeVatA ? 1.19 : 1.0) : 0;
             const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
@@ -273,7 +273,7 @@
             const agentNetTotalTerm = (agentNetAnnual * leaseTermA) - agentFeeA;
             const agentAvgMonthly = totalMonthsA > 0 ? agentNetTotalTerm / totalMonthsA : 0;
 
-            // Scenario B Calculations
+            // Scenario B Calculations (Direct agent fee is also typically 1 month's rent if selected)
             const directGrossAnnual = directRent * 12;
             let agentFeeB = bHasAgent ? directRent * (includeVatB ? 1.19 : 1.0) : 0;
             const declaredAnnual = declaredPortion * 12;
@@ -286,8 +286,6 @@
 
             const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
             const averageMonthlyAdvantage = directAvgMonthly - agentAvgMonthly;
-            const taxSavingsAnnual = agentTaxDetails.totalTax - directTaxDetails.totalTax;
-            const taxSavingsTerm = taxSavingsAnnual * leaseTermB;
 
             // Update UI Labels for Terms
             document.getElementById('termLabelA').innerText = leaseTermA;
