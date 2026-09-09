@@ -218,20 +218,20 @@
 
         function getIncomeTaxForTotalNet(totalNetIncome) {
             let tax = 0;
-            if (totalNetIncome > 19500) {
-                let taxable = totalNetIncome - 19500;
-                let tier1 = Math.min(taxable, 8500);
+            if (totalNetIncome > 22000) {
+                let taxable = totalNetIncome - 22000;
+                let tier1 = Math.min(taxable, 10000);
                 tax += tier1 * 0.20;
                 taxable -= tier1;
 
                 if (taxable > 0) {
-                    let tier2 = Math.min(taxable, 8300);
+                    let tier2 = Math.min(taxable, 10000);
                     tax += tier2 * 0.25;
                     taxable -= tier2;
                 }
 
                 if (taxable > 0) {
-                    let tier3 = Math.min(taxable, 23700);
+                    let tier3 = Math.min(taxable, 30000);
                     tax += tier3 * 0.30;
                     taxable -= tier3;
                 }
@@ -296,7 +296,7 @@
 
             // Advantages
             const averageMonthlyAdvantage = directAvgMonthly - agentAvgMonthly;
-            const annualAdvantage = directNetAnnual - agentNetAnnual;
+            const annualAdvantage = directNetAnnual - agentNetAnnual - (agentFeeA - agentFeeB); // Normalized comparison per calendar year timeframe
             const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
 
             // Update UI Labels for Terms
@@ -319,7 +319,7 @@
             document.getElementById('resDirectTax').innerText = `-€${directTaxDetails.totalTax.toFixed(2)}`;
             document.getElementById('resDirectTotalTerm').innerText = `€${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Advantage Cards
+            // Advantage Cards (Using exact matching styling sizes/colors)
             document.getElementById('advantageMonthly').innerText = `+€${averageMonthlyAdvantage.toFixed(2)}`;
             document.getElementById('advantageAnnual').innerText = `+€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
