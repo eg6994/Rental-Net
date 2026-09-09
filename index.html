@@ -96,7 +96,7 @@
                         <h4 class="text-sm font-semibold tracking-wider text-slate-500 uppercase">Scenario A: Baseline</h4>
                         <div class="mt-4 flex items-baseline justify-between">
                             <span class="text-2xl font-bold text-slate-900" id="resAgentMonthly">€0</span>
-                            <span class="text-sm text-slate-500">Net Monthly In-Hand</span>
+                            <span class="text-sm text-slate-500">Avg Net Monthly In-Hand</span>
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
                             <div class="flex justify-between"><span>Gross Annual:</span> <span id="resAgentGross" class="font-medium">€0</span></div>
@@ -111,7 +111,7 @@
                         <h4 class="text-sm font-semibold tracking-wider text-emerald-700 uppercase">Scenario B: Target Offer</h4>
                         <div class="mt-4 flex items-baseline justify-between">
                             <span class="text-2xl font-bold text-emerald-700" id="resDirectMonthly">€0</span>
-                            <span class="text-sm text-emerald-600">Net Monthly In-Hand</span>
+                            <span class="text-sm text-emerald-600">Avg Net Monthly In-Hand</span>
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
                             <div class="flex justify-between"><span>Gross Annual:</span> <span id="resDirectGross" class="font-medium">€0</span></div>
@@ -269,8 +269,9 @@
             const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
             
             const agentNetAnnual = agentGrossAnnual - agentTaxDetails.totalTax; 
+            const totalMonthsA = leaseTermA * 12;
             const agentNetTotalTerm = (agentNetAnnual * leaseTermA) - agentFeeA;
-            const agentNetMonthly = agentNetAnnual / 12;
+            const agentAvgMonthly = totalMonthsA > 0 ? agentNetTotalTerm / totalMonthsA : 0;
 
             // Scenario B Calculations
             const directGrossAnnual = directRent * 12;
@@ -279,11 +280,12 @@
             const directTaxDetails = calculateTax(declaredAnnual, otherIncome);
             
             const directNetAnnual = directGrossAnnual - directTaxDetails.totalTax; 
+            const totalMonthsB = leaseTermB * 12;
             const directNetTotalTerm = (directNetAnnual * leaseTermB) - agentFeeB;
-            const directNetMonthly = directNetAnnual / 12;
+            const directAvgMonthly = totalMonthsB > 0 ? directNetTotalTerm / totalMonthsB : 0;
 
             const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
-            const averageMonthlyAdvantage = (directNetTotalTerm / (leaseTermB * 12)) - (agentNetTotalTerm / (leaseTermA * 12));
+            const averageMonthlyAdvantage = directAvgMonthly - agentAvgMonthly;
             const taxSavingsAnnual = agentTaxDetails.totalTax - directTaxDetails.totalTax;
             const taxSavingsTerm = taxSavingsAnnual * leaseTermB;
 
@@ -294,13 +296,13 @@
             document.getElementById('termLabelBBanner').innerText = leaseTermB;
 
             // Render Results
-            document.getElementById('resAgentMonthly').innerText = `€${agentNetMonthly.toFixed(2)}`;
+            document.getElementById('resAgentMonthly').innerText = `€${agentAvgMonthly.toFixed(2)}`;
             document.getElementById('resAgentGross').innerText = `€${agentGrossAnnual.toLocaleString()}`;
             document.getElementById('resAgentFee').innerText = `-€${agentFeeA.toFixed(2)}`;
             document.getElementById('resAgentTax').innerText = `-€${agentTaxDetails.totalTax.toFixed(2)}`;
             document.getElementById('resAgentTotalTerm').innerText = `€${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            document.getElementById('resDirectMonthly').innerText = `€${directNetMonthly.toFixed(2)}`;
+            document.getElementById('resDirectMonthly').innerText = `€${directAvgMonthly.toFixed(2)}`;
             document.getElementById('resDirectGross').innerText = `€${directGrossAnnual.toLocaleString()}`;
             document.getElementById('resDirectFee').innerText = `-€${agentFeeB.toFixed(2)}`;
             document.getElementById('resDirectDeclared').innerText = `€${declaredAnnual.toLocaleString()}/yr`;
