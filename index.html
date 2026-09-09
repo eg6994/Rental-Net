@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Monthly Rent (€)</label>
-                        <input type="number" id="agentRent" value="10000" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="agentRent" value="8000" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="flex items-center space-x-2">
                         <input type="checkbox" id="scenarioAHasAgent" checked onchange="toggleAgentControls('A')" class="rounded text-blue-600 focus:ring-blue-500">
@@ -60,11 +60,11 @@
                     <h3 class="font-medium text-emerald-600">Scenario B: Target Offer & Allocation</h3>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
-                        <input type="number" id="leaseTermB" value="3" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <input type="number" id="leaseTermB" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Total Direct Monthly Rent (€)</label>
-                        <input type="number" id="directRent" value="8000" oninput="onTotalRentChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <input type="number" id="directRent" value="6500" oninput="onTotalRentChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex items-center space-x-2">
                         <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded text-emerald-600 focus:ring-emerald-500">
@@ -78,11 +78,11 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Declared Portion (Wire / Revolut) (€)</label>
-                        <input type="number" id="declaredPortion" value="4000" oninput="onDeclaredChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <input type="number" id="declaredPortion" value="3000" oninput="onDeclaredChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Alternative/Cash Portion (€)</label>
-                        <input type="number" id="cashPortion" value="4000" oninput="onCashChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                        <input type="number" id="cashPortion" value="3500" oninput="onCashChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
             </div>
@@ -118,20 +118,30 @@
                             <div class="flex justify-between"><span>Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-medium text-red-600">€0</span></div>
                             <div class="flex justify-between"><span>Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-medium">€0</span></div>
                             <div class="flex justify-between"><span>Total Annual Taxes:</span> <span id="resDirectTax" class="font-medium text-emerald-600">€0</span></div>
-                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelB">3</span> Yrs):</span> <span id="resDirectTotalTerm">€0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelB">1</span> Yrs):</span> <span id="resDirectTotalTerm">€0</span></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Advantage Banner -->
-                <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold">Total Financial Advantage (<span id="termLabelBBanner">3</span> vs <span id="termLabelABanner">1</span> Years)</h3>
-                        <p class="text-slate-300 text-sm mt-1">Net cash difference across respective lease timelines.</p>
+                <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm space-y-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="text-lg font-semibold">Financial Advantage Breakdown (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
+                        <p class="text-slate-400 text-xs mt-0.5">Comparing net cash outcomes across respective lease timelines.</p>
                     </div>
-                    <div class="text-right">
-                        <span class="text-3xl font-bold text-emerald-400" id="advantageTotal">+€0</span>
-                        <span class="block text-xs text-slate-400" id="advantageMonthlySub">(= +€0 / month avg)</span>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left">
+                        <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
+                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Monthly Avg Advantage</span>
+                            <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageMonthly">+€0</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
+                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Annual Advantage</span>
+                            <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageAnnual">+€0</span>
+                        </div>
+                        <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
+                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">All-Time Total Advantage</span>
+                            <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageTotal">+€0</span>
+                        </div>
                     </div>
                 </div>
 
@@ -255,7 +265,7 @@
             const aHasAgent = document.getElementById('scenarioAHasAgent').checked;
             const includeVatA = document.getElementById('agentVatA').checked;
             
-            const leaseTermB = parseInt(document.getElementById('leaseTermB').value) || 3;
+            const leaseTermB = parseInt(document.getElementById('leaseTermB').value) || 1;
             const directRent = parseFloat(document.getElementById('directRent').value) || 0;
             const bHasAgent = document.getElementById('scenarioBHasAgent').checked;
             const includeVatB = document.getElementById('agentVatB').checked;
@@ -263,7 +273,7 @@
             const declaredPortion = parseFloat(document.getElementById('declaredPortion').value) || 0;
             const cashPortion = parseFloat(document.getElementById('cashPortion').value) || 0;
 
-            // Scenario A Calculations (Agent fee is 1 month's rent)
+            // Scenario A Calculations
             const agentGrossAnnual = agentRent * 12;
             let agentFeeA = aHasAgent ? agentRent * (includeVatA ? 1.19 : 1.0) : 0;
             const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
@@ -273,7 +283,7 @@
             const agentNetTotalTerm = (agentNetAnnual * leaseTermA) - agentFeeA;
             const agentAvgMonthly = totalMonthsA > 0 ? agentNetTotalTerm / totalMonthsA : 0;
 
-            // Scenario B Calculations (Direct agent fee is also typically 1 month's rent if selected)
+            // Scenario B Calculations
             const directGrossAnnual = directRent * 12;
             let agentFeeB = bHasAgent ? directRent * (includeVatB ? 1.19 : 1.0) : 0;
             const declaredAnnual = declaredPortion * 12;
@@ -284,8 +294,10 @@
             const directNetTotalTerm = (directNetAnnual * leaseTermB) - agentFeeB;
             const directAvgMonthly = totalMonthsB > 0 ? directNetTotalTerm / totalMonthsB : 0;
 
-            const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
+            // Advantages
             const averageMonthlyAdvantage = directAvgMonthly - agentAvgMonthly;
+            const annualAdvantage = directNetAnnual - agentNetAnnual;
+            const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
 
             // Update UI Labels for Terms
             document.getElementById('termLabelA').innerText = leaseTermA;
@@ -307,8 +319,10 @@
             document.getElementById('resDirectTax').innerText = `-€${directTaxDetails.totalTax.toFixed(2)}`;
             document.getElementById('resDirectTotalTerm').innerText = `€${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
+            // Advantage Cards
+            document.getElementById('advantageMonthly').innerText = `+€${averageMonthlyAdvantage.toFixed(2)}`;
+            document.getElementById('advantageAnnual').innerText = `+€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            document.getElementById('advantageMonthlySub').innerText = `(= +€${averageMonthlyAdvantage.toFixed(2)} / month avg)`;
 
             // Build English Pitch Text
             const pitchEN = `Dear property owner,
@@ -328,8 +342,10 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Annual Tax: €${directTaxDetails.totalTax.toFixed(2)} (applied strictly to the declared annual portion of €${declaredAnnual.toLocaleString()}).
   * Total Net In-Hand over ${leaseTermB} Years: €${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Bottom-Line Advantage (${leaseTermB} yrs vs ${leaseTermA} yr):**
-  Structuring our agreement directly at €${directRent.toLocaleString()}/mo with the custom split over ${leaseTermB} years nets you **+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} more in total pocket cash** compared to the baseline scenario.`;
+* **Bottom-Line Financial Advantages:**
+  * Monthly Average Advantage: +€${averageMonthlyAdvantage.toFixed(2)} / mo
+  * Annual Advantage: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / yr
+  * All-Time Total Advantage over ${leaseTermB} yrs: +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
             // Build Greek Pitch Text
             const pitchEL = `Αγαπητέ ιδιοκτήτη,
@@ -349,8 +365,10 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Ετήσιος Φόρος: €${directTaxDetails.totalTax.toFixed(2)} (μόνο επί του δηλωθέντος τμήματος €${declaredAnnual.toLocaleString()}).
   * Συνολικά Καθαρά σε ${leaseTermB} Έτη: €${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Τελικό Οικονομικό Πλεονέκτημα (${leaseTermB} vs ${leaseTermA} έτη):**
-  Διαμορφώνοντας τη συμφωνία απευθείας στα €${directRent.toLocaleString()}/μήνα με την προσαρμοσμένη κατανομή για ${leaseTermB} χρόνια, κερδίζεις συνολικά **+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} περισσότερα** σε καθαρό εισόδημα σε σύγκριση με το βασικό σενάριο.`;
+* **Συνολικά Οικονομικά Πλεονεκτήματα:**
+  * Μηνιαίο Μέσο Πλεονέκτημα: +€${averageMonthlyAdvantage.toFixed(2)} / μήνα
+  * Ετήσιο Πλεονέκτημα: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / έτος
+  * Συνολικό Πλεονέκτημα (${leaseTermB} έτη): +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
             document.getElementById('pitchTextEN').innerText = pitchEN;
             document.getElementById('pitchTextEL').innerText = pitchEL;
