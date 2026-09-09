@@ -470,10 +470,8 @@
             document.getElementById('advantageAnnual').innerText = `+€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Build Pitch Text based on active language
-            let pitchEN = '', pitchEL = '';
-            if (currentLang === 'en') {
-                pitchEN = `Dear property owner,
+            // Build Pitch Text outputs for English and Greek separately
+            const pitchEN = `Dear property owner,
 
 Let's review the exact financial comparison between your baseline (${leaseTermA} year) and our secure target offer (${leaseTermB} years):
 
@@ -494,8 +492,8 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Monthly Average Advantage: +€${averageMonthlyAdvantage.toFixed(2)} / mo
   * Annual Advantage: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / yr
   * All-Time Total Advantage over ${leaseTermB} yrs: +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            } else {
-                pitchEN = `Αγαπητέ ιδιοκτήτη,
+
+            const pitchEL = `Αγαπητέ ιδιοκτήτη,
 
 Ας εξετάσουμε την ακριβή οικονομική σύγκριση μεταξύ της βάσης αναφοράς (${leaseTermA} έτος) και της πρότασής μας (${leaseTermB} έτη):
 
@@ -516,11 +514,10 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Μηνιαίο Μέσο Πλεονέκτημα: +€${averageMonthlyAdvantage.toFixed(2)} / μήνα
   * Ετήσιο Πλεονέκτημα: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / έτος
   * Συνολικό Πλεονέκτημα (${leaseTermB} έτη): +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            }
 
-            // Sync both preview boxes to display whichever language is currently toggled
+            // Map English pitch to the left box and Greek pitch to the right box
             document.getElementById('pitchTextEN').innerText = pitchEN;
-            document.getElementById('pitchTextEL').innerText = pitchEN;
+            document.getElementById('pitchTextEL').innerText = pitchEL;
         }
 
         window.onload = function() {
