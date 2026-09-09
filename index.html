@@ -10,7 +10,7 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <header class="mb-8 text-center">
             <h1 class="text-3xl font-bold text-slate-900">Cyprus Rental Net Income Optimization Tool</h1>
-            <p class="text-slate-600 mt-2">Side-by-side comparison of agent listings vs. customized direct lease structures with marginal tax accuracy.</p>
+            <p class="text-slate-600 mt-2">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -28,9 +28,15 @@
                     </div>
                 </div>
 
+                <hr class="border-slate-200">
+
                 <!-- Scenario A: Agent Baseline -->
                 <div class="space-y-4">
                     <h3 class="font-medium text-blue-600">Scenario A: Baseline</h3>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermA" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700">Monthly Rent (€)</label>
                         <input type="number" id="agentRent" value="10000" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -53,6 +59,10 @@
                 <div class="space-y-4">
                     <h3 class="font-medium text-emerald-600">Scenario B: Target Offer & Allocation</h3>
                     <div>
+                        <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermB" value="3" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
                         <label class="block text-sm font-medium text-slate-700">Total Direct Monthly Rent (€)</label>
                         <input type="number" id="directRent" value="8000" oninput="onTotalRentChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
@@ -74,10 +84,6 @@
                         <label class="block text-sm font-medium text-slate-700">Alternative/Cash Portion (€)</label>
                         <input type="number" id="cashPortion" value="4000" oninput="onCashChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
-                        <input type="number" id="leaseTerm" value="3" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg">
-                    </div>
                 </div>
             </div>
 
@@ -94,9 +100,9 @@
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
                             <div class="flex justify-between"><span>Gross Annual:</span> <span id="resAgentGross" class="font-medium">€0</span></div>
-                            <div class="flex justify-between"><span>Agent Fee:</span> <span id="resAgentFee" class="font-medium text-red-600">€0</span></div>
+                            <div class="flex justify-between"><span>Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-medium text-red-600">€0</span></div>
                             <div class="flex justify-between"><span>Total Annual Taxes:</span> <span id="resAgentTax" class="font-medium text-red-600">€0</span></div>
-                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Annual:</span> <span id="resAgentAnnual">€0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelA">1</span> Yrs):</span> <span id="resAgentTotalTerm">€0</span></div>
                         </div>
                     </div>
 
@@ -109,10 +115,10 @@
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
                             <div class="flex justify-between"><span>Gross Annual:</span> <span id="resDirectGross" class="font-medium">€0</span></div>
-                            <div class="flex justify-between"><span>Agent Fee:</span> <span id="resDirectFee" class="font-medium text-red-600">€0</span></div>
+                            <div class="flex justify-between"><span>Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-medium text-red-600">€0</span></div>
                             <div class="flex justify-between"><span>Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-medium">€0</span></div>
                             <div class="flex justify-between"><span>Total Annual Taxes:</span> <span id="resDirectTax" class="font-medium text-emerald-600">€0</span></div>
-                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Annual:</span> <span id="resDirectAnnual">€0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelB">3</span> Yrs):</span> <span id="resDirectTotalTerm">€0</span></div>
                         </div>
                     </div>
                 </div>
@@ -120,12 +126,12 @@
                 <!-- Advantage Banner -->
                 <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm flex items-center justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold">Financial Advantage of Target Offer</h3>
-                        <p class="text-slate-300 text-sm mt-1">Extra cash kept in pocket compared to baseline scenario.</p>
+                        <h3 class="text-lg font-semibold">Total Financial Advantage (<span id="termLabelBBanner">3</span> vs <span id="termLabelABanner">1</span> Years)</h3>
+                        <p class="text-slate-300 text-sm mt-1">Net cash difference across respective lease timelines.</p>
                     </div>
                     <div class="text-right">
-                        <span class="text-3xl font-bold text-emerald-400" id="advantageMonthly">+€0</span>
-                        <span class="block text-xs text-slate-400">per month</span>
+                        <span class="text-3xl font-bold text-emerald-400" id="advantageTotal">+€0</span>
+                        <span class="block text-xs text-slate-400" id="advantageMonthlySub">(= +€0 / month avg)</span>
                     </div>
                 </div>
 
@@ -200,31 +206,26 @@
             calculate();
         }
 
-        // Computes progressive income tax for a given total taxable net income
         function getIncomeTaxForTotalNet(totalNetIncome) {
             let tax = 0;
             if (totalNetIncome > 19500) {
                 let taxable = totalNetIncome - 19500;
-                // 0 - 8500 at 20% (€19,501 to €28,000)
                 let tier1 = Math.min(taxable, 8500);
                 tax += tier1 * 0.20;
                 taxable -= tier1;
 
-                // next 8300 at 25% (€28,001 to €36,300)
                 if (taxable > 0) {
                     let tier2 = Math.min(taxable, 8300);
                     tax += tier2 * 0.25;
                     taxable -= tier2;
                 }
 
-                // next 23700 at 30% (€36,301 to €60,000)
                 if (taxable > 0) {
                     let tier3 = Math.min(taxable, 23700);
                     tax += tier3 * 0.30;
                     taxable -= tier3;
                 }
 
-                // over 60000 at 35%
                 if (taxable > 0) {
                     tax += taxable * 0.35;
                 }
@@ -233,14 +234,9 @@
         }
 
         function calculateTax(declaredAnnualGross, otherAnnualIncome) {
-            // Statutory 20% flat expense deduction applies to net rental income calculation
             const rentalNetProfit = declaredAnnualGross * 0.80;
-            
-            // Baseline net income from other sources (assuming already net or simplified taxable base)
-            const baseNetIncome = otherAnnualIncome; 
-
-            const totalNetWithoutRental = baseNetIncome;
-            const totalNetWithRental = baseNetIncome + rentalNetProfit;
+            const totalNetWithoutRental = otherAnnualIncome;
+            const totalNetWithRental = otherAnnualIncome + rentalNetProfit;
 
             const taxWithoutRental = getIncomeTaxForTotalNet(totalNetWithoutRental);
             const taxWithRental = getIncomeTaxForTotalNet(totalNetWithRental);
@@ -254,24 +250,26 @@
         function calculate() {
             const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
             
+            const leaseTermA = parseInt(document.getElementById('leaseTermA').value) || 1;
             const agentRent = parseFloat(document.getElementById('agentRent').value) || 0;
             const aHasAgent = document.getElementById('scenarioAHasAgent').checked;
             const includeVatA = document.getElementById('agentVatA').checked;
             
+            const leaseTermB = parseInt(document.getElementById('leaseTermB').value) || 3;
             const directRent = parseFloat(document.getElementById('directRent').value) || 0;
             const bHasAgent = document.getElementById('scenarioBHasAgent').checked;
             const includeVatB = document.getElementById('agentVatB').checked;
             
             const declaredPortion = parseFloat(document.getElementById('declaredPortion').value) || 0;
             const cashPortion = parseFloat(document.getElementById('cashPortion').value) || 0;
-            const leaseTerm = document.getElementById('leaseTerm').value || 3;
 
             // Scenario A Calculations
             const agentGrossAnnual = agentRent * 12;
             let agentFeeA = aHasAgent ? agentRent * (includeVatA ? 1.19 : 1.0) : 0;
-            
             const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
-            const agentNetAnnual = agentGrossAnnual - agentFeeA - agentTaxDetails.totalTax;
+            
+            const agentNetAnnual = agentGrossAnnual - agentTaxDetails.totalTax; 
+            const agentNetTotalTerm = (agentNetAnnual * leaseTermA) - agentFeeA;
             const agentNetMonthly = agentNetAnnual / 12;
 
             // Scenario B Calculations
@@ -280,71 +278,79 @@
             const declaredAnnual = declaredPortion * 12;
             const directTaxDetails = calculateTax(declaredAnnual, otherIncome);
             
-            const directNetAnnual = directGrossAnnual - agentFeeB - directTaxDetails.totalTax;
+            const directNetAnnual = directGrossAnnual - directTaxDetails.totalTax; 
+            const directNetTotalTerm = (directNetAnnual * leaseTermB) - agentFeeB;
             const directNetMonthly = directNetAnnual / 12;
 
-            const monthlyAdvantage = directNetMonthly - agentNetMonthly;
-            const annualAdvantage = monthlyAdvantage * 12;
-
+            const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
+            const averageMonthlyAdvantage = (directNetTotalTerm / (leaseTermB * 12)) - (agentNetTotalTerm / (leaseTermA * 12));
             const taxSavingsAnnual = agentTaxDetails.totalTax - directTaxDetails.totalTax;
+            const taxSavingsTerm = taxSavingsAnnual * leaseTermB;
+
+            // Update UI Labels for Terms
+            document.getElementById('termLabelA').innerText = leaseTermA;
+            document.getElementById('termLabelB').innerText = leaseTermB;
+            document.getElementById('termLabelABanner').innerText = leaseTermA;
+            document.getElementById('termLabelBBanner').innerText = leaseTermB;
 
             // Render Results
             document.getElementById('resAgentMonthly').innerText = `€${agentNetMonthly.toFixed(2)}`;
             document.getElementById('resAgentGross').innerText = `€${agentGrossAnnual.toLocaleString()}`;
             document.getElementById('resAgentFee').innerText = `-€${agentFeeA.toFixed(2)}`;
             document.getElementById('resAgentTax').innerText = `-€${agentTaxDetails.totalTax.toFixed(2)}`;
-            document.getElementById('resAgentAnnual').innerText = `€${agentNetAnnual.toFixed(2)}`;
+            document.getElementById('resAgentTotalTerm').innerText = `€${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
             document.getElementById('resDirectMonthly').innerText = `€${directNetMonthly.toFixed(2)}`;
             document.getElementById('resDirectGross').innerText = `€${directGrossAnnual.toLocaleString()}`;
             document.getElementById('resDirectFee').innerText = `-€${agentFeeB.toFixed(2)}`;
             document.getElementById('resDirectDeclared').innerText = `€${declaredAnnual.toLocaleString()}/yr`;
             document.getElementById('resDirectTax').innerText = `-€${directTaxDetails.totalTax.toFixed(2)}`;
-            document.getElementById('resDirectAnnual').innerText = `€${directNetAnnual.toFixed(2)}`;
+            document.getElementById('resDirectTotalTerm').innerText = `€${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            document.getElementById('advantageMonthly').innerText = `+€${monthlyAdvantage.toFixed(2)}`;
+            document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('advantageMonthlySub').innerText = `(= +€${averageMonthlyAdvantage.toFixed(2)} / month avg)`;
 
-            // Build English Pitch Text with all active parameters
+            // Build English Pitch Text
             const pitchEN = `Dear property owner,
 
-Let's break down the exact math across both options so you can see how the numbers truly land in your pocket:
+Let's review the exact financial comparison between your baseline (${leaseTermA} year) and our secure target offer (${leaseTermB} years):
 
-* **Scenario A (Baseline):** 
+* **Scenario A (Baseline - ${leaseTermA} Year Term):** 
   * Monthly Asking Rent: €${agentRent.toLocaleString()} (Gross Annual: €${agentGrossAnnual.toLocaleString()})
-  * Agent Commission Structure: ${aHasAgent ? `Included (1 month's rent = €${agentRent.toLocaleString()}${includeVatA ? ' + 19% VAT = €' + agentFeeA.toFixed(2) : ''})` : 'None / Direct'}
-  * Tax Breakdown: Factoring in other baseline income (€${otherIncome.toLocaleString()}/yr) and full gross declared (€${agentGrossAnnual.toLocaleString()}), resulting in €${agentTaxDetails.gesy.toFixed(2)} GESY + €${agentTaxDetails.incomeTax.toFixed(2)} Income Tax = €${agentTaxDetails.totalTax.toFixed(2)} total annual tax.
-  * Baseline Net In-Hand: €${agentNetMonthly.toFixed(2)} monthly (€${agentNetAnnual.toFixed(2)}/year).
+  * Agent Commission: ${aHasAgent ? `Included (€${agentFeeA.toFixed(2)} total in Year 1)` : 'None / Direct'}
+  * Annual Tax: €${agentTaxDetails.totalTax.toFixed(2)} (factoring in baseline other income of €${otherIncome.toLocaleString()}/yr).
+  * Total Net In-Hand over ${leaseTermA} Year(s): €${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Scenario B (Direct Target Offer):**
-  * Total Direct Monthly Rent: €${directRent.toLocaleString()} (Gross Annual: €${directGrossAnnual.toLocaleString()}) for a secure ${leaseTerm}-year term.
+* **Scenario B (Direct Target Offer - ${leaseTermB} Year Term):**
+  * Total Direct Monthly Rent: €${directRent.toLocaleString()} (Gross Annual: €${directGrossAnnual.toLocaleString()}) locked for ${leaseTermB} years.
   * Payment Split Structure: €${declaredPortion.toLocaleString()}/mo declared via Wire/Revolut + €${cashPortion.toLocaleString()}/mo alternative cash portion.
-  * Agent Commission Structure: ${bHasAgent ? `Included (1 month's rent = €${directRent.toLocaleString()}${includeVatB ? ' + 19% VAT = €' + agentFeeB.toFixed(2) : ''})` : 'None (Saved completely)'}
-  * Tax Breakdown: Taxes apply strictly to the declared annual portion (€${declaredAnnual.toLocaleString()}), resulting in €${directTaxDetails.totalTax.toFixed(2)} total annual tax (saving you €${taxSavingsAnnual.toFixed(2)} yearly in taxes alone!).
-  * Direct Net In-Hand: €${directNetMonthly.toFixed(2)} monthly (€${directNetAnnual.toFixed(2)}/year).
+  * Agent Commission: ${bHasAgent ? `Included (€${agentFeeB.toFixed(2)})` : 'None (Saved completely)'}
+  * Annual Tax: €${directTaxDetails.totalTax.toFixed(2)} (applied strictly to the declared annual portion of €${declaredAnnual.toLocaleString()}).
+  * Total Net In-Hand over ${leaseTermB} Years: €${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Bottom-Line Financial Advantage:**
-  By structuring our agreement directly at €${directRent.toLocaleString()}/mo with the custom split, you net **+€${monthlyAdvantage.toFixed(2)} more every single month** (+€${annualAdvantage.toFixed(2)} extra per year) compared to the baseline, plus you lock in a reliable ${leaseTerm}-year tenant with zero vacancy downtime and complete peace of mind.`;
+* **Bottom-Line Advantage (${leaseTermB} yrs vs ${leaseTermA} yr):**
+  Structuring our agreement directly at €${directRent.toLocaleString()}/mo with the custom split over ${leaseTermB} years nets you **+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} more in total pocket cash** compared to the baseline scenario.`;
 
-            // Build Greek Pitch Text with all active parameters
+            // Build Greek Pitch Text
             const pitchEL = `Αγαπητέ ιδιοκτήτη,
 
-Ας αναλύσουμε τα ακριβή μαθητικά δεδομένα και για τις δύο επιλογές ώστε να δεις πώς καταλήγουν τα χρήματα στην τσέπη σου:
+Ας εξετάσουμε την ακριβή οικονομική σύγκριση μεταξύ της βάσης αναφοράς (${leaseTermA} έτος) και της πρότασής μας (${leaseTermB} έτη):
 
-* **Σενάριο A (Βάση Αναφοράς):**
+* **Σενάριο A (Βάση Αναφοράς - Διάρκεια ${leaseTermA} έτους):**
   * Μηνιαίο Νοίκι Αγγελίας: €${agentRent.toLocaleString()} (Ακαθάριστο Ετήσιο: €${agentGrossAnnual.toLocaleString()})
-  * Δομή Μεσιτικής Αμοιβής: ${aHasAgent ? `Περιλαμβάνεται (1 μηνιαίο νοίκι = €${agentRent.toLocaleString()}${includeVatA ? ' + 19% ΦΠΑ = €' + agentFeeA.toFixed(2) : ''})` : 'Χωρίς μεσίτη / Direct'}
-  * Ανάλυση Φόρων: Υπολογιζομένων άλλων ετήσιων εσόδων (€${otherIncome.toLocaleString()}) και ολόκληρου του ακαθάριστου ποσού (€${agentGrossAnnual.toLocaleString()}), με €${agentTaxDetails.gesy.toFixed(2)} ΓΕΣΥ + €${agentTaxDetails.incomeTax.toFixed(2)} Φόρο Εισοδήματος = €${agentTaxDetails.totalTax.toFixed(2)} συνολικό ετήσιο φόρο.
-  * Καθαρά στο Χέρι (Βάση): €${agentNetMonthly.toFixed(2)} μηνιαίως (€${agentNetAnnual.toFixed(2)}/έτος).
+  * Μεσιτική Αμοιβή: ${aHasAgent ? `Περιλαμβάνεται (€${agentFeeA.toFixed(2)} το 1ο έτος)` : 'Χωρίς μεσίτη'}
+  * Ετήσιος Φόρος: €${agentTaxDetails.totalTax.toFixed(2)} (υπολογίζοντας άλλα έσοδα €${otherIncome.toLocaleString()}).
+  * Συνολικά Καθαρά σε ${leaseTermA} Έτος(-η): €${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Σενάριο Β (Άμεση Πρόταση Στόχος):**
-  * Συνολικό Άμεσο Μηνιαίο Νοίκι: €${directRent.toLocaleString()} (Ακαθάριστο Ετήσιο: €${directGrossAnnual.toLocaleString()}) για ασφαλή περίοδο ${leaseTerm} ετών.
-  * Δομή Κατανομής Πληρωμής: €${declaredPortion.toLocaleString()}/μήνα δηλωθέντα μέσω Wire/Revolut + €${cashPortion.toLocaleString()}/μήνα εναλλακτικό ποσό μετρητών.
-  * Δομή Μεσιτικής Αμοιβής: ${bHasAgent ? `Περιλαμβάνεται (1 μηνιαίο νοίκι = €${directRent.toLocaleString()}${includeVatB ? ' + 19% ΦΠΑ = €' + agentFeeB.toFixed(2) : ''})` : 'Καμία (Πλήρης εξοικονόμηση)'}
-  * Ανάλυση Φόρων: Οι φόροι υπολογίζονται αποκλειστικά επί του δηλωθέντος ετήσιου τμήματος (€${declaredAnnual.toLocaleString()}), δίνοντας €${directTaxDetails.totalTax.toFixed(2)} συνολικό ετήσιο φόρο (εξοικονομώντας €${taxSavingsAnnual.toFixed(2)} ετησίως μόνο σε φόρους!).
-  * Καθαρά στο Χέρι (Direct): €${directNetMonthly.toFixed(2)} μηνιαίως (€${directNetAnnual.toFixed(2)}/έτος).
+* **Σενάριο Β (Άμεση Πρόταση Στόχος - Διάρκεια ${leaseTermB} ετών):**
+  * Συνολικό Άμεσο Μηνιαίο Νοίκι: €${directRent.toLocaleString()} (Ακαθάριστο Ετήσιο: €${directGrossAnnual.toLocaleString()}) για ${leaseTermB} έτη.
+  * Δομή Κατανομής: €${declaredPortion.toLocaleString()}/μήνα δηλωθέντα μέσω Wire/Revolut + €${cashPortion.toLocaleString()}/μήνα με μετρητά.
+  * Μεσιτική Αμοιβή: ${bHasAgent ? `Περιλαμβάνεται (€${agentFeeB.toFixed(2)})` : 'Καμία (Πλήρης εξοικονόμηση)'}
+  * Ετήσιος Φόρος: €${directTaxDetails.totalTax.toFixed(2)} (μόνο επί του δηλωθέντος τμήματος €${declaredAnnual.toLocaleString()}).
+  * Συνολικά Καθαρά σε ${leaseTermB} Έτη: €${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
-* **Τελικό Οικονομικό Πλεονέκτημα:**
-  Διαμορφώνοντας τη συμφωνία μας απευθείας στα €${directRent.toLocaleString()}/μήνα με την προσαρμοσμένη κατανομή, κερδίζεις **+€${monthlyAdvantage.toFixed(2)} περισσότερα κάθε μα κάθε μήνα** (+€${annualAdvantage.toFixed(2)} επιπλέον ανά έτος) σε σύγκριση με τη βάση, εξασφαλίζοντας παράλληλα αξιόπιστο ενοικιαστή για ${leaseTerm} χρόνια χωρίς κενά διαστήματα και με απόλυτη ηρεμία.`;
+* **Τελικό Οικονομικό Πλεονέκτημα (${leaseTermB} vs ${leaseTermA} έτη):**
+  Διαμορφώνοντας τη συμφωνία απευθείας στα €${directRent.toLocaleString()}/μήνα με την προσαρμοσμένη κατανομή για ${leaseTermB} χρόνια, κερδίζεις συνολικά **+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} περισσότερα** σε καθαρό εισόδημα σε σύγκριση με το βασικό σενάριο.`;
 
             document.getElementById('pitchTextEN').innerText = pitchEN;
             document.getElementById('pitchTextEL').innerText = pitchEL;
