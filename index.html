@@ -10,13 +10,23 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <header class="mb-8 text-center">
             <h1 class="text-3xl font-bold text-slate-900">Cyprus Rental Net Income Optimization Tool</h1>
-            <p class="text-slate-600 mt-2">Side-by-side comparison of agent listings vs. customized direct lease structures.</p>
+            <p class="text-slate-600 mt-2">Side-by-side comparison of agent listings vs. customized direct lease structures with marginal tax accuracy.</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Control Panel -->
             <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
                 <h2 class="text-xl font-semibold text-slate-900 border-b pb-3">Scenario Controls</h2>
+
+                <!-- Landlord's Other Income Settings -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <h3 class="font-medium text-slate-900 text-sm">Landlord's Other Annual Income</h3>
+                    <p class="text-xs text-slate-500">Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.</p>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700">Other Annual Income (€)</label>
+                        <input type="number" id="otherIncome" value="0" step="5000" oninput="calculate()" class="mt-1 w-full p-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500">
+                    </div>
+                </div>
 
                 <!-- Scenario A: Agent Baseline -->
                 <div class="space-y-4">
@@ -50,7 +60,6 @@
                         <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded text-emerald-600 focus:ring-emerald-500">
                         <label class="text-sm font-medium text-slate-700">Involves Agent Fee</label>
                     </div>
-                    <!-- Scenario B VAT Checkbox Container (Always rendered cleanly in DOM) -->
                     <div id="agentCallOptionsB" class="space-y-2 pl-4 border-l-2 border-emerald-100">
                         <div class="flex items-center space-x-2">
                             <input type="checkbox" id="agentVatB" checked onchange="calculate()" class="rounded text-emerald-600 focus:ring-emerald-500">
@@ -191,50 +200,60 @@
             calculate();
         }
 
-        function calculateTax(declaredAnnualGross) {
-            const netProfit = declaredAnnualGross * 0.8;
-            let incomeTax = 0;
+        // Computes progressive income tax for a given total taxable net income
+        function getIncomeTaxForTotalNet(totalNetIncome) {
+            let tax = 0;
+            if (totalNetIncome > 19500) {
+                let taxable = totalNetIncome - 19500;
+                // 0 - 8500 at 20% (€19,501 to €28,000)
+                let tier1 = Math.min(taxable, 8500);
+                tax += tier1 * 0.20;
+                taxable -= tier1;
 
-            if (netProfit > 22000) {
-                let taxable = netProfit - 22000;
-                if (taxable <= 10000) {
-                    incomeTax += taxable * 0.20;
-                    taxable = 0;
-                } else {
-                    incomeTax += 10000 * 0.20;
-                    taxable -= 10000;
+                // next 8300 at 25% (€28,001 to €36,300)
+                if (taxable > 0) {
+                    let tier2 = Math.min(taxable, 8300);
+                    tax += tier2 * 0.25;
+                    taxable -= tier2;
                 }
 
+                // next 23700 at 30% (€36,301 to €60,000)
                 if (taxable > 0) {
-                    if (taxable <= 10000) {
-                        incomeTax += taxable * 0.25;
-                        taxable = 0;
-                    } else {
-                        incomeTax += 10000 * 0.25;
-                        taxable -= 10000;
-                    }
+                    let tier3 = Math.min(taxable, 23700);
+                    tax += tier3 * 0.30;
+                    taxable -= tier3;
                 }
 
+                // over 60000 at 35%
                 if (taxable > 0) {
-                    if (taxable <= 30000) {
-                        incomeTax += taxable * 0.30;
-                        taxable = 0;
-                    } else {
-                        incomeTax += 30000 * 0.30;
-                        taxable -= 30000;
-                    }
-                }
-
-                if (taxable > 0) {
-                    incomeTax += taxable * 0.35;
+                    tax += taxable * 0.35;
                 }
             }
+            return tax;
+        }
 
+        function calculateTax(declaredAnnualGross, otherAnnualIncome) {
+            // Statutory 20% flat expense deduction applies to net rental income calculation
+            const rentalNetProfit = declaredAnnualGross * 0.80;
+            
+            // Baseline net income from other sources (assuming already net or simplified taxable base)
+            const baseNetIncome = otherAnnualIncome; 
+
+            const totalNetWithoutRental = baseNetIncome;
+            const totalNetWithRental = baseNetIncome + rentalNetProfit;
+
+            const taxWithoutRental = getIncomeTaxForTotalNet(totalNetWithoutRental);
+            const taxWithRental = getIncomeTaxForTotalNet(totalNetWithRental);
+
+            const incomeTax = taxWithRental - taxWithoutRental;
             const gesy = declaredAnnualGross * 0.0265;
+
             return { incomeTax, gesy, totalTax: incomeTax + gesy };
         }
 
         function calculate() {
+            const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+            
             const agentRent = parseFloat(document.getElementById('agentRent').value) || 0;
             const aHasAgent = document.getElementById('scenarioAHasAgent').checked;
             const includeVatA = document.getElementById('agentVatA').checked;
@@ -251,7 +270,7 @@
             const agentGrossAnnual = agentRent * 12;
             let agentFeeA = aHasAgent ? agentRent * (includeVatA ? 1.19 : 1.0) : 0;
             
-            const agentTaxDetails = calculateTax(agentGrossAnnual);
+            const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
             const agentNetAnnual = agentGrossAnnual - agentFeeA - agentTaxDetails.totalTax;
             const agentNetMonthly = agentNetAnnual / 12;
 
@@ -259,7 +278,7 @@
             const directGrossAnnual = directRent * 12;
             let agentFeeB = bHasAgent ? directRent * (includeVatB ? 1.19 : 1.0) : 0;
             const declaredAnnual = declaredPortion * 12;
-            const directTaxDetails = calculateTax(declaredAnnual);
+            const directTaxDetails = calculateTax(declaredAnnual, otherIncome);
             
             const directNetAnnual = directGrossAnnual - agentFeeB - directTaxDetails.totalTax;
             const directNetMonthly = directNetAnnual / 12;
@@ -293,7 +312,7 @@ Let's break down the exact math across both options so you can see how the numbe
 * **Scenario A (Baseline):** 
   * Monthly Asking Rent: €${agentRent.toLocaleString()} (Gross Annual: €${agentGrossAnnual.toLocaleString()})
   * Agent Commission Structure: ${aHasAgent ? `Included (1 month's rent = €${agentRent.toLocaleString()}${includeVatA ? ' + 19% VAT = €' + agentFeeA.toFixed(2) : ''})` : 'None / Direct'}
-  * Tax Breakdown: Assumes full gross declared (€${agentGrossAnnual.toLocaleString()}), resulting in €${agentTaxDetails.gesy.toFixed(2)} GESY + €${agentTaxDetails.incomeTax.toFixed(2)} Income Tax = €${agentTaxDetails.totalTax.toFixed(2)} total annual tax.
+  * Tax Breakdown: Factoring in other baseline income (€${otherIncome.toLocaleString()}/yr) and full gross declared (€${agentGrossAnnual.toLocaleString()}), resulting in €${agentTaxDetails.gesy.toFixed(2)} GESY + €${agentTaxDetails.incomeTax.toFixed(2)} Income Tax = €${agentTaxDetails.totalTax.toFixed(2)} total annual tax.
   * Baseline Net In-Hand: €${agentNetMonthly.toFixed(2)} monthly (€${agentNetAnnual.toFixed(2)}/year).
 
 * **Scenario B (Direct Target Offer):**
@@ -314,7 +333,7 @@ Let's break down the exact math across both options so you can see how the numbe
 * **Σενάριο A (Βάση Αναφοράς):**
   * Μηνιαίο Νοίκι Αγγελίας: €${agentRent.toLocaleString()} (Ακαθάριστο Ετήσιο: €${agentGrossAnnual.toLocaleString()})
   * Δομή Μεσιτικής Αμοιβής: ${aHasAgent ? `Περιλαμβάνεται (1 μηνιαίο νοίκι = €${agentRent.toLocaleString()}${includeVatA ? ' + 19% ΦΠΑ = €' + agentFeeA.toFixed(2) : ''})` : 'Χωρίς μεσίτη / Direct'}
-  * Ανάλυση Φόρων: Υπολογίζεται επί ολόκληρου του ακαθάριστου ποσού (€${agentGrossAnnual.toLocaleString()}), με €${agentTaxDetails.gesy.toFixed(2)} ΓΕΣΥ + €${agentTaxDetails.incomeTax.toFixed(2)} Φόρο Εισοδήματος = €${agentTaxDetails.totalTax.toFixed(2)} συνολικό ετήσιο φόρο.
+  * Ανάλυση Φόρων: Υπολογιζομένων άλλων ετήσιων εσόδων (€${otherIncome.toLocaleString()}) και ολόκληρου του ακαθάριστου ποσού (€${agentGrossAnnual.toLocaleString()}), με €${agentTaxDetails.gesy.toFixed(2)} ΓΕΣΥ + €${agentTaxDetails.incomeTax.toFixed(2)} Φόρο Εισοδήματος = €${agentTaxDetails.totalTax.toFixed(2)} συνολικό ετήσιο φόρο.
   * Καθαρά στο Χέρι (Βάση): €${agentNetMonthly.toFixed(2)} μηνιαίως (€${agentNetAnnual.toFixed(2)}/έτος).
 
 * **Σενάριο Β (Άμεση Πρόταση Στόχος):**
