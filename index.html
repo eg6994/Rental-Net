@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyprus Rental Financial & Tax Comparison Tool</title>
+    <title>Cyprus Rental Net Income Optimization Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
@@ -24,8 +24,20 @@
             <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
                 <h2 id="uiControlsHeader" class="text-xl font-semibold text-slate-900 border-b pb-3">Scenario Controls</h2>
 
-                <!-- Landlord's Other Income Settings -->
+                <!-- Landlord Entity Type Settings -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <h3 id="uiEntityTypeTitle" class="font-medium text-slate-900 text-sm">Property Owner Entity Type</h3>
+                    <div>
+                        <label id="uiEntitySelectLabel" class="block text-xs font-medium text-slate-700">Ownership Structure</label>
+                        <select id="entityType" onchange="onEntityTypeChange()" class="mt-1 w-full p-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 bg-white">
+                            <option value="individual">Individual / Personal (Marginal Brackets + GeSY)</option>
+                            <option value="company">Company / Corporate (Flat 15% Tax)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Landlord's Other Income Settings (Only for Individual) -->
+                <div id="otherIncomeContainer" class="space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
                     <h3 id="uiOtherIncomeTitle" class="font-medium text-slate-900 text-sm">Landlord's Other Annual Income</h3>
                     <p id="uiOtherIncomeDesc" class="text-xs text-slate-500">Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.</p>
                     <div>
@@ -175,6 +187,8 @@
                 title: "Cyprus Rental Net Income Optimization Tool",
                 subtitle: "Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.",
                 controlsHeader: "Scenario Controls",
+                entityTypeTitle: "Property Owner Entity Type",
+                entitySelectLabel: "Ownership Structure",
                 otherIncomeTitle: "Landlord's Other Annual Income",
                 otherIncomeDesc: "Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.",
                 otherIncomeLabel: "Other Annual Income (€)",
@@ -218,6 +232,8 @@
                 title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
                 subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
                 controlsHeader: "Έλεγχος Σεναρίων",
+                entityTypeTitle: "Τύπος Οντότητας Ιδιοκτήτη",
+                entitySelectLabel: "Δομή Ιδιοκτησίας",
                 otherIncomeTitle: "Άλλα Ετήσια Εσοδα Ιδιοκτήτη",
                 otherIncomeDesc: "Προαιρετικό: Εισάγετε άλλα φορολογητέα έσοδα (μισθούς, επιχειρηματικά κέρδη, μερίσματα) για τον υπολογισμό της πραγματικής φορολογικής κλίμακας.",
                 otherIncomeLabel: "Άλλα Ετήσια Έσοδα (€)",
@@ -266,6 +282,8 @@
             document.getElementById('uiTitle').innerText = t.title;
             document.getElementById('uiSubtitle').innerText = t.subtitle;
             document.getElementById('uiControlsHeader').innerText = t.controlsHeader;
+            document.getElementById('uiEntityTypeTitle').innerText = t.entityTypeTitle;
+            document.getElementById('uiEntitySelectLabel').innerText = t.entitySelectLabel;
             document.getElementById('uiOtherIncomeTitle').innerText = t.otherIncomeTitle;
             document.getElementById('uiOtherIncomeDesc').innerText = t.otherIncomeDesc;
             document.getElementById('uiOtherIncomeLabel').innerText = t.otherIncomeLabel;
@@ -304,6 +322,17 @@
             document.getElementById('uiPitchTitleEN').innerText = t.pitchTitleEN;
             document.getElementById('uiPitchTitleEL').innerText = t.pitchTitleEL;
 
+            calculate();
+        }
+
+        function onEntityTypeChange() {
+            const entityType = document.getElementById('entityType').value;
+            const otherIncomeContainer = document.getElementById('otherIncomeContainer');
+            if (entityType === 'company') {
+                otherIncomeContainer.style.display = 'none';
+            } else {
+                otherIncomeContainer.style.display = 'block';
+            }
             calculate();
         }
 
@@ -389,21 +418,29 @@
             return tax;
         }
 
-        function calculateTax(declaredAnnualGross, otherAnnualIncome) {
-            const rentalNetProfit = declaredAnnualGross * 0.80;
-            const totalNetWithoutRental = otherAnnualIncome;
-            const totalNetWithRental = otherAnnualIncome + rentalNetProfit;
+        function calculateTax(declaredAnnualGross, otherAnnualIncome, entityType) {
+            if (entityType === 'company') {
+                // Corporate tax is flat 15% on taxable net profit (assuming standard 20% statutory expense deduction or direct net profit, matching individual formulation logic)
+                const rentalNetProfit = declaredAnnualGross * 0.80;
+                const corporateTax = rentalNetProfit * 0.15;
+                return { incomeTax: corporateTax, gesy: 0, totalTax: corporateTax };
+            } else {
+                const rentalNetProfit = declaredAnnualGross * 0.80;
+                const totalNetWithoutRental = otherAnnualIncome;
+                const totalNetWithRental = otherAnnualIncome + rentalNetProfit;
 
-            const taxWithoutRental = getIncomeTaxForTotalNet(totalNetWithoutRental);
-            const taxWithRental = getIncomeTaxForTotalNet(totalNetWithRental);
+                const taxWithoutRental = getIncomeTaxForTotalNet(totalNetWithoutRental);
+                const taxWithRental = getIncomeTaxForTotalNet(totalNetWithRental);
 
-            const incomeTax = taxWithRental - taxWithoutRental;
-            const gesy = declaredAnnualGross * 0.0265;
+                const incomeTax = taxWithRental - taxWithoutRental;
+                const gesy = declaredAnnualGross * 0.0265;
 
-            return { incomeTax, gesy, totalTax: incomeTax + gesy };
+                return { incomeTax, gesy, totalTax: incomeTax + gesy };
+            }
         }
 
         function calculate() {
+            const entityType = document.getElementById('entityType').value;
             const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
             
             const leaseTermA = parseInt(document.getElementById('leaseTermA').value) || 1;
@@ -422,7 +459,7 @@
             // Scenario A Calculations
             const agentGrossAnnual = agentRent * 12;
             let agentFeeA = aHasAgent ? agentRent * (includeVatA ? 1.19 : 1.0) : 0;
-            const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome);
+            const agentTaxDetails = calculateTax(agentGrossAnnual, otherIncome, entityType);
             
             const agentNetAnnual = agentGrossAnnual - agentTaxDetails.totalTax; 
             const totalMonthsA = leaseTermA * 12;
@@ -433,7 +470,7 @@
             const directGrossAnnual = directRent * 12;
             let agentFeeB = bHasAgent ? directRent * (includeVatB ? 1.19 : 1.0) : 0;
             const declaredAnnual = declaredPortion * 12;
-            const directTaxDetails = calculateTax(declaredAnnual, otherIncome);
+            const directTaxDetails = calculateTax(declaredAnnual, otherIncome, entityType);
             
             const directNetAnnual = directGrossAnnual - directTaxDetails.totalTax; 
             const totalMonthsB = leaseTermB * 12;
@@ -471,14 +508,22 @@
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
             // Build Pitch Text outputs for English and Greek separately
+            const taxDescEN = entityType === 'company' 
+                ? `Corporate Tax (Flat 15% on taxable net profit after 20% expense deduction)` 
+                : `Annual Tax: €${agentTaxDetails.totalTax.toFixed(2)} (factoring in baseline other income of €${otherIncome.toLocaleString()}/yr)`;
+
+            const taxDescEL = entityType === 'company'
+                ? `Εταιρικός Φόρος (Σταθερός 15% επί του φορολογητέου καθαρού κέρδους μετά την έκπτωση 20%)`
+                : `Ετήσιος Φόρος: €${agentTaxDetails.totalTax.toFixed(2)} (με άλλα έσοδα €${otherIncome.toLocaleString()})`;
+
             const pitchEN = `Dear property owner,
 
-Let's review the exact financial comparison between your baseline (${leaseTermA} year) and our secure target offer (${leaseTermB} years):
+Let's review the exact financial comparison between your baseline (${leaseTermA} year) and our secure target offer (${leaseTermB} years) [Structure: ${entityType === 'company' ? 'Company (15% Flat Tax)' : 'Individual'}]:
 
 * **Scenario A (Baseline - ${leaseTermA} Year Term):** 
   * Monthly Asking Rent: €${agentRent.toLocaleString()} (Gross Annual: €${agentGrossAnnual.toLocaleString()})
   * Agent Commission: ${aHasAgent ? `Included (€${agentFeeA.toFixed(2)} total in Year 1)` : 'None / Direct'}
-  * Annual Tax: €${agentTaxDetails.totalTax.toFixed(2)} (factoring in baseline other income of €${otherIncome.toLocaleString()}/yr).
+  * Tax Structure: ${taxDescEN}. Total Annual Tax: €${agentTaxDetails.totalTax.toFixed(2)}.
   * Total Net In-Hand over ${leaseTermA} Year(s): €${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
 * **Scenario B (Direct Target Offer - ${leaseTermB} Year Term):**
@@ -495,12 +540,12 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
 
             const pitchEL = `Αγαπητέ ιδιοκτήτη,
 
-Ας εξετάσουμε την ακριβή οικονομική σύγκριση μεταξύ της βάσης αναφοράς (${leaseTermA} έτος) και της πρότασής μας (${leaseTermB} έτη):
+Ας εξετάσουμε την ακριβή οικονομική σύγκριση μεταξύ της βάσης αναφοράς (${leaseTermA} έτος) και της πρότασής μας (${leaseTermB} έτη) [Δομή: ${entityType === 'company' ? 'Εταιρεία (15% Σταθερός Φόρος)' : 'Φυσικό Πρόσωπο'}]:
 
 * **Σενάριο A (Βάση Αναφοράς - Διάρκεια ${leaseTermA} έτους):**
   * Μηνιαίο Νοίκι Αγγελίας: €${agentRent.toLocaleString()} (Ακαθάριστο Ετήσιο: €${agentGrossAnnual.toLocaleString()})
   * Μεσιτική Αμοιβή: ${aHasAgent ? `Περιλαμβάνεται (€${agentFeeA.toFixed(2)} το 1ο έτος)` : 'Χωρίς μεσίτη'}
-  * Ετήσιος Φόρος: €${agentTaxDetails.totalTax.toFixed(2)} (υπολογίζοντας άλλα έσοδα €${otherIncome.toLocaleString()}).
+  * Φορολογική Δομή: ${taxDescEL}. Συνολικός Ετήσιος Φόρος: €${agentTaxDetails.totalTax.toFixed(2)}.
   * Συνολικά Καθαρά σε ${leaseTermA} Έτος(-η): €${agentNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}.
 
 * **Σενάριο Β (Άμεση Πρόταση Στόχος - Διάρκεια ${leaseTermB} ετών):**
@@ -515,7 +560,7 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Ετήσιο Πλεονέκτημα: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / έτος
   * Συνολικό Πλεονέκτημα (${leaseTermB} έτη): +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Map English pitch to the left box and Greek pitch to the right box
+            // Assign distinct English and Greek texts to their corresponding layout boxes
             document.getElementById('pitchTextEN').innerText = pitchEN;
             document.getElementById('pitchTextEL').innerText = pitchEL;
         }
