@@ -8,22 +8,28 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
     <div class="max-w-7xl mx-auto px-4 py-8">
-        <header class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-slate-900">Cyprus Rental Net Income Optimization Tool</h1>
-            <p class="text-slate-600 mt-2">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
+        <header class="mb-8 flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-4">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <h1 id="uiTitle" class="text-3xl font-bold text-slate-900">Cyprus Rental Net Income Optimization Tool</h1>
+                <p id="uiSubtitle" class="text-slate-600 mt-1">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
+            </div>
+            <!-- Language Switcher Button -->
+            <button onclick="toggleLanguage()" id="langBtn" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-slate-800 transition-colors">
+                Ελληνικά (EL)
+            </button>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Control Panel -->
             <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
-                <h2 class="text-xl font-semibold text-slate-900 border-b pb-3">Scenario Controls</h2>
+                <h2 id="uiControlsHeader" class="text-xl font-semibold text-slate-900 border-b pb-3">Scenario Controls</h2>
 
                 <!-- Landlord's Other Income Settings -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
-                    <h3 class="font-medium text-slate-900 text-sm">Landlord's Other Annual Income</h3>
-                    <p class="text-xs text-slate-500">Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.</p>
+                    <h3 id="uiOtherIncomeTitle" class="font-medium text-slate-900 text-sm">Landlord's Other Annual Income</h3>
+                    <p id="uiOtherIncomeDesc" class="text-xs text-slate-500">Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.</p>
                     <div>
-                        <label class="block text-xs font-medium text-slate-700">Other Annual Income (€)</label>
+                        <label id="uiOtherIncomeLabel" class="block text-xs font-medium text-slate-700">Other Annual Income (€)</label>
                         <input type="number" id="otherIncome" value="0" step="5000" oninput="calculate()" class="mt-1 w-full p-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500">
                     </div>
                 </div>
@@ -32,23 +38,23 @@
 
                 <!-- Scenario A: Agent Baseline -->
                 <div class="space-y-4">
-                    <h3 class="font-medium text-blue-600">Scenario A: Baseline</h3>
+                    <h3 id="uiScenarioAHeader" class="font-medium text-blue-600">Scenario A: Baseline</h3>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
+                        <label id="uiLeaseTermALabel" class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
                         <input type="number" id="leaseTermA" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Monthly Rent (€)</label>
+                        <label id="uiMonthlyRentLabel" class="block text-sm font-medium text-slate-700">Monthly Rent (€)</label>
                         <input type="number" id="agentRent" value="8000" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="flex items-center space-x-2">
                         <input type="checkbox" id="scenarioAHasAgent" checked onchange="toggleAgentControls('A')" class="rounded text-blue-600 focus:ring-blue-500">
-                        <label class="text-sm font-medium text-slate-700">Involves Agent Fee</label>
+                        <label id="uiAgentFeeLabelA" class="text-sm font-medium text-slate-700">Involves Agent Fee</label>
                     </div>
                     <div id="agentCallOptionsA" class="space-y-2 pl-4 border-l-2 border-blue-100">
                         <div class="flex items-center space-x-2">
                             <input type="checkbox" id="agentVatA" checked onchange="calculate()" class="rounded text-blue-600 focus:ring-blue-500">
-                            <label class="text-sm text-slate-700">Include 19% VAT on Commission</label>
+                            <label id="uiVatLabelA" class="text-sm text-slate-700">Include 19% VAT on Commission</label>
                         </div>
                     </div>
                 </div>
@@ -57,31 +63,31 @@
 
                 <!-- Scenario B: Direct Offer -->
                 <div class="space-y-4">
-                    <h3 class="font-medium text-emerald-600">Scenario B: Target Offer & Allocation</h3>
+                    <h3 id="uiScenarioBHeader" class="font-medium text-emerald-600">Scenario B: Target Offer & Allocation</h3>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
+                        <label id="uiLeaseTermBLabel" class="block text-sm font-medium text-slate-700">Lease Term (Years)</label>
                         <input type="number" id="leaseTermB" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Total Direct Monthly Rent (€)</label>
+                        <label id="uiDirectRentLabel" class="block text-sm font-medium text-slate-700">Total Direct Monthly Rent (€)</label>
                         <input type="number" id="directRent" value="6500" oninput="onTotalRentChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex items-center space-x-2">
                         <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded text-emerald-600 focus:ring-emerald-500">
-                        <label class="text-sm font-medium text-slate-700">Involves Agent Fee</label>
+                        <label id="uiAgentFeeLabelB" class="text-sm font-medium text-slate-700">Involves Agent Fee</label>
                     </div>
                     <div id="agentCallOptionsB" class="space-y-2 pl-4 border-l-2 border-emerald-100">
                         <div class="flex items-center space-x-2">
                             <input type="checkbox" id="agentVatB" checked onchange="calculate()" class="rounded text-emerald-600 focus:ring-emerald-500">
-                            <label class="text-sm text-slate-700">Include 19% VAT on Commission</label>
+                            <label id="uiVatLabelB" class="text-sm text-slate-700">Include 19% VAT on Commission</label>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Declared Portion (Wire / Revolut) (€)</label>
+                        <label id="uiDeclaredLabel" class="block text-sm font-medium text-slate-700">Declared Portion (Wire / Revolut) (€)</label>
                         <input type="number" id="declaredPortion" value="3000" oninput="onDeclaredChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700">Alternative/Cash Portion (€)</label>
+                        <label id="uiCashLabel" class="block text-sm font-medium text-slate-700">Alternative/Cash Portion (€)</label>
                         <input type="number" id="cashPortion" value="3500" oninput="onCashChange()" class="mt-1 w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
@@ -93,32 +99,32 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Scenario A Card -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                        <h4 class="text-sm font-semibold tracking-wider text-slate-500 uppercase">Scenario A: Baseline</h4>
+                        <h4 id="uiCardTitleA" class="text-sm font-semibold tracking-wider text-slate-500 uppercase">Scenario A: Baseline</h4>
                         <div class="mt-4 flex items-baseline justify-between">
                             <span class="text-2xl font-bold text-slate-900" id="resAgentMonthly">€0</span>
-                            <span class="text-sm text-slate-500">Avg Net Monthly In-Hand</span>
+                            <span id="uiMonthlySubA" class="text-sm text-slate-500">Avg Net Monthly In-Hand</span>
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
-                            <div class="flex justify-between"><span>Gross Annual:</span> <span id="resAgentGross" class="font-medium">€0</span></div>
-                            <div class="flex justify-between"><span>Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-medium text-red-600">€0</span></div>
-                            <div class="flex justify-between"><span>Total Annual Taxes:</span> <span id="resAgentTax" class="font-medium text-red-600">€0</span></div>
-                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelA">1</span> Yrs):</span> <span id="resAgentTotalTerm">€0</span></div>
+                            <div class="flex justify-between"><span id="uiGrossLabelA">Gross Annual:</span> <span id="resAgentGross" class="font-medium">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelA">Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-medium text-red-600">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelA">Total Annual Taxes:</span> <span id="resAgentTax" class="font-medium text-red-600">€0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span><span id="uiNetTotalTextA">Net Total</span> (<span id="termLabelA">1</span> <span id="uiYearsLabelA">Yrs</span>):</span> <span id="resAgentTotalTerm">€0</span></div>
                         </div>
                     </div>
 
                     <!-- Scenario B Card -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-emerald-200 bg-emerald-50/30">
-                        <h4 class="text-sm font-semibold tracking-wider text-emerald-700 uppercase">Scenario B: Target Offer</h4>
+                        <h4 id="uiCardTitleB" class="text-sm font-semibold tracking-wider text-emerald-700 uppercase">Scenario B: Target Offer</h4>
                         <div class="mt-4 flex items-baseline justify-between">
                             <span class="text-2xl font-bold text-emerald-700" id="resDirectMonthly">€0</span>
-                            <span class="text-sm text-emerald-600">Avg Net Monthly In-Hand</span>
+                            <span id="uiMonthlySubB" class="text-sm text-emerald-600">Avg Net Monthly In-Hand</span>
                         </div>
                         <div class="mt-4 space-y-2 text-sm text-slate-600 border-t pt-4">
-                            <div class="flex justify-between"><span>Gross Annual:</span> <span id="resDirectGross" class="font-medium">€0</span></div>
-                            <div class="flex justify-between"><span>Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-medium text-red-600">€0</span></div>
-                            <div class="flex justify-between"><span>Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-medium">€0</span></div>
-                            <div class="flex justify-between"><span>Total Annual Taxes:</span> <span id="resDirectTax" class="font-medium text-emerald-600">€0</span></div>
-                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span>Net Total (<span id="termLabelB">1</span> Yrs):</span> <span id="resDirectTotalTerm">€0</span></div>
+                            <div class="flex justify-between"><span id="uiGrossLabelB">Gross Annual:</span> <span id="resDirectGross" class="font-medium">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelB">Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-medium text-red-600">€0</span></div>
+                            <div class="flex justify-between"><span id="uiDeclaredRowLabel">Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-medium">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelB">Total Annual Taxes:</span> <span id="resDirectTax" class="font-medium text-emerald-600">€0</span></div>
+                            <div class="flex justify-between border-t pt-2 font-bold text-slate-900"><span><span id="uiNetTotalTextB">Net Total</span> (<span id="termLabelB">1</span> <span id="uiYearsLabelB">Yrs</span>):</span> <span id="resDirectTotalTerm">€0</span></div>
                         </div>
                     </div>
                 </div>
@@ -126,20 +132,20 @@
                 <!-- Advantage Banner -->
                 <div class="bg-slate-900 text-white p-6 rounded-xl shadow-sm space-y-4">
                     <div class="border-b border-slate-800 pb-3">
-                        <h3 class="text-lg font-semibold">Financial Advantage Breakdown (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
-                        <p class="text-slate-400 text-xs mt-0.5">Comparing net cash outcomes across respective lease timelines.</p>
+                        <h3 id="uiAdvantageHeader" class="text-lg font-semibold">Financial Advantage Breakdown (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
+                        <p id="uiAdvantageSub" class="text-slate-400 text-xs mt-0.5">Comparing net cash outcomes across respective lease timelines.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center md:text-left">
                         <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
-                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Monthly Avg Advantage</span>
+                            <span id="uiAdvMonthlyTitle" class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Monthly Avg Advantage</span>
                             <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageMonthly">+€0</span>
                         </div>
                         <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
-                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Annual Advantage</span>
+                            <span id="uiAdvAnnualTitle" class="block text-xs font-medium text-slate-400 uppercase tracking-wider">Annual Advantage</span>
                             <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageAnnual">+€0</span>
                         </div>
                         <div class="bg-slate-800/60 p-4 rounded-lg border border-slate-800">
-                            <span class="block text-xs font-medium text-slate-400 uppercase tracking-wider">All-Time Total Advantage</span>
+                            <span id="uiAdvTotalTitle" class="block text-xs font-medium text-slate-400 uppercase tracking-wider">All-Time Total Advantage</span>
                             <span class="text-3xl font-bold text-emerald-400 mt-1 block" id="advantageTotal">+€0</span>
                         </div>
                     </div>
@@ -148,11 +154,11 @@
                 <!-- Pitch Output Boxes (EN & EL) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="text-lg font-semibold text-slate-900 mb-3">Pitch Text (English)</h3>
+                        <h3 id="uiPitchTitleEN" class="text-lg font-semibold text-slate-900 mb-3">Pitch Text (English)</h3>
                         <div id="pitchTextEN" class="bg-slate-50 p-4 rounded-lg text-xs text-slate-700 whitespace-pre-line border border-slate-200 font-mono h-96 overflow-y-auto"></div>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="text-lg font-semibold text-slate-900 mb-3">Pitch Text (Greek / Ελληνικά)</h3>
+                        <h3 id="uiPitchTitleEL" class="text-lg font-semibold text-slate-900 mb-3">Pitch Text (Greek / Ελληνικά)</h3>
                         <div id="pitchTextEL" class="bg-slate-50 p-4 rounded-lg text-xs text-slate-700 whitespace-pre-line border border-slate-200 font-mono h-96 overflow-y-auto"></div>
                     </div>
                 </div>
@@ -161,6 +167,146 @@
     </div>
 
     <script>
+        let currentLang = 'en'; // default english
+
+        const translations = {
+            en: {
+                langBtnText: "Ελληνικά (EL)",
+                title: "Cyprus Rental Net Income Optimization Tool",
+                subtitle: "Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.",
+                controlsHeader: "Scenario Controls",
+                otherIncomeTitle: "Landlord's Other Annual Income",
+                otherIncomeDesc: "Optional: Enter other taxable earnings (salaries, business profits, dividends) to calculate true marginal tax stacking.",
+                otherIncomeLabel: "Other Annual Income (€)",
+                scenarioAHeader: "Scenario A: Baseline",
+                leaseTermALabel: "Lease Term (Years)",
+                monthlyRentLabel: "Monthly Rent (€)",
+                agentFeeLabelA: "Involves Agent Fee",
+                vatLabelA: "Include 19% VAT on Commission",
+                scenarioBHeader: "Scenario B: Target Offer & Allocation",
+                leaseTermBLabel: "Lease Term (Years)",
+                directRentLabel: "Total Direct Monthly Rent (€)",
+                agentFeeLabelB: "Involves Agent Fee",
+                vatLabelB: "Include 19% VAT on Commission",
+                declaredLabel: "Declared Portion (Wire / Revolut) (€)",
+                cashLabel: "Alternative/Cash Portion (€)",
+                cardTitleA: "Scenario A: Baseline",
+                monthlySubA: "Avg Net Monthly In-Hand",
+                grossLabelA: "Gross Annual:",
+                feeLabelA: "Agent Fee (Yr 1):",
+                taxLabelA: "Total Annual Taxes:",
+                netTotalTextA: "Net Total",
+                yearsLabelA: "Yrs",
+                cardTitleB: "Scenario B: Target Offer",
+                monthlySubB: "Avg Net Monthly In-Hand",
+                grossLabelB: "Gross Annual:",
+                feeLabelB: "Agent Fee (Yr 1):",
+                declaredRowLabel: "Declared Portion (Taxed):",
+                taxLabelB: "Total Annual Taxes:",
+                netTotalTextB: "Net Total",
+                yearsLabelB: "Yrs",
+                advantageHeader: "Financial Advantage Breakdown",
+                advantageSub: "Comparing net cash outcomes across respective lease timelines.",
+                advMonthlyTitle: "Monthly Avg Advantage",
+                advAnnualTitle: "Annual Advantage",
+                advTotalTitle: "All-Time Total Advantage",
+                pitchTitleEN: "Pitch Text (English)",
+                pitchTitleEL: "Pitch Text (Greek / Ελληνικά)"
+            },
+            el: {
+                langBtnText: "English (EN)",
+                title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
+                subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
+                controlsHeader: "Έλεγχος Σεναρίων",
+                otherIncomeTitle: "Άλλα Ετήσια Εσοδα Ιδιοκτήτη",
+                otherIncomeDesc: "Προαιρετικό: Εισάγετε άλλα φορολογητέα έσοδα (μισθούς, επιχειρηματικά κέρδη, μερίσματα) για τον υπολογισμό της πραγματικής φορολογικής κλίμακας.",
+                otherIncomeLabel: "Άλλα Ετήσια Έσοδα (€)",
+                scenarioAHeader: "Σενάριο Α: Βάση Αναφοράς",
+                leaseTermALabel: "Διάρκεια Μίσθωσης (Έτη)",
+                monthlyRentLabel: "Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelA: "Περιλαμβάνει Μεσιτική Αμοιβή",
+                vatLabelA: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                scenarioBHeader: "Σενάριο Β: Στοχευμένη Πρόταση & Κατανομή",
+                leaseTermBLabel: "Διάρκεια Μίσθωσης (Έτη)",
+                directRentLabel: "Συνολικό Άμεσο Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelB: "Περιλαμβάνει Μεσιτική Αμοιβή",
+                vatLabelB: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                declaredLabel: "Δηλωθέν Τμήμα (Wire / Revolut) (€)",
+                cashLabel: "Εναλλακτικό Τμήμα / Μετρητά (€)",
+                cardTitleA: "Σενάριο Α: Βάση Αναφοράς",
+                monthlySubA: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
+                grossLabelA: "Ακαθάριστο Ετήσιο:",
+                feeLabelA: "Μεσιτική Αμοιβή (1ο Έτος):",
+                taxLabelA: "Συνολικοί Ετήσιοι Φόροι:",
+                netTotalTextA: "Καθαρό Σύνολο",
+                yearsLabelA: "Έτη",
+                cardTitleB: "Σενάριο Β: Στοχευμένη Πρόταση",
+                monthlySubB: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
+                grossLabelB: "Ακαθάριστο Ετήσιο:",
+                feeLabelB: "Μεσιτική Αμοιβή (1ο Έτος):",
+                declaredRowLabel: "Δηλωθέν Τμήμα (Φορολογητέο):",
+                taxLabelB: "Συνολικοί Ετήσιοι Φόροι:",
+                netTotalTextB: "Καθαρό Σύνολο",
+                yearsLabelB: "Έτη",
+                advantageHeader: "Ανάλυση Οικονομικού Πλεονεκτήματος",
+                advantageSub: "Σύγκριση καθαρών αποτελεσμάτων σε μετρητά στα αντίστοιχα χρονοδιαγράμματα μίσθωσης.",
+                advMonthlyTitle: "Μηνιαίο Μέσο Πλεονέκτημα",
+                advAnnualTitle: "Ετήσιο Πλεονέκτημα",
+                advTotalTitle: "Συνολικό Πλεονέκτημα",
+                pitchTitleEN: "Κείμενο Παρουσίασης (Αγγλικά)",
+                pitchTitleEL: "Κείμενο Παρουσίασης (Ελληνικά)"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'el' : 'en';
+            const t = translations[currentLang];
+
+            document.getElementById('langBtn').innerText = t.langBtnText;
+            document.getElementById('uiTitle').innerText = t.title;
+            document.getElementById('uiSubtitle').innerText = t.subtitle;
+            document.getElementById('uiControlsHeader').innerText = t.controlsHeader;
+            document.getElementById('uiOtherIncomeTitle').innerText = t.otherIncomeTitle;
+            document.getElementById('uiOtherIncomeDesc').innerText = t.otherIncomeDesc;
+            document.getElementById('uiOtherIncomeLabel').innerText = t.otherIncomeLabel;
+            document.getElementById('uiScenarioAHeader').innerText = t.scenarioAHeader;
+            document.getElementById('uiLeaseTermALabel').innerText = t.leaseTermALabel;
+            document.getElementById('uiMonthlyRentLabel').innerText = t.monthlyRentLabel;
+            document.getElementById('uiAgentFeeLabelA').innerText = t.agentFeeLabelA;
+            document.getElementById('uiVatLabelA').innerText = t.vatLabelA;
+            document.getElementById('uiScenarioBHeader').innerText = t.scenarioBHeader;
+            document.getElementById('uiLeaseTermBLabel').innerText = t.leaseTermBLabel;
+            document.getElementById('uiDirectRentLabel').innerText = t.directRentLabel;
+            document.getElementById('uiAgentFeeLabelB').innerText = t.agentFeeLabelB;
+            document.getElementById('uiVatLabelB').innerText = t.vatLabelB;
+            document.getElementById('uiDeclaredLabel').innerText = t.declaredLabel;
+            document.getElementById('uiCashLabel').innerText = t.cashLabel;
+            document.getElementById('uiCardTitleA').innerText = t.cardTitleA;
+            document.getElementById('uiMonthlySubA').innerText = t.monthlySubA;
+            document.getElementById('uiGrossLabelA').innerText = t.grossLabelA;
+            document.getElementById('uiFeeLabelA').innerText = t.feeLabelA;
+            document.getElementById('uiTaxLabelA').innerText = t.taxLabelA;
+            document.getElementById('uiNetTotalTextA').innerText = t.netTotalTextA;
+            document.getElementById('uiYearsLabelA').innerText = t.yearsLabelA;
+            document.getElementById('uiCardTitleB').innerText = t.cardTitleB;
+            document.getElementById('uiMonthlySubB').innerText = t.monthlySubB;
+            document.getElementById('uiGrossLabelB').innerText = t.grossLabelB;
+            document.getElementById('uiFeeLabelB').innerText = t.feeLabelB;
+            document.getElementById('uiDeclaredRowLabel').innerText = t.declaredRowLabel;
+            document.getElementById('uiTaxLabelB').innerText = t.taxLabelB;
+            document.getElementById('uiNetTotalTextB').innerText = t.netTotalTextB;
+            document.getElementById('uiYearsLabelB').innerText = t.yearsLabelB;
+            document.getElementById('uiAdvantageHeader').innerText = t.advantageHeader;
+            document.getElementById('uiAdvantageSub').innerText = t.advantageSub;
+            document.getElementById('uiAdvMonthlyTitle').innerText = t.advMonthlyTitle;
+            document.getElementById('uiAdvAnnualTitle').innerText = t.advAnnualTitle;
+            document.getElementById('uiAdvTotalTitle').innerText = t.advTotalTitle;
+            document.getElementById('uiPitchTitleEN').innerText = t.pitchTitleEN;
+            document.getElementById('uiPitchTitleEL').innerText = t.pitchTitleEL;
+
+            calculate();
+        }
+
         function toggleAgentControls(scenario) {
             if (scenario === 'A') {
                 const hasAgent = document.getElementById('scenarioAHasAgent').checked;
@@ -324,8 +470,10 @@
             document.getElementById('advantageAnnual').innerText = `+€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Build English Pitch Text
-            const pitchEN = `Dear property owner,
+            // Build Pitch Text based on active language
+            let pitchEN = '', pitchEL = '';
+            if (currentLang === 'en') {
+                pitchEN = `Dear property owner,
 
 Let's review the exact financial comparison between your baseline (${leaseTermA} year) and our secure target offer (${leaseTermB} years):
 
@@ -346,9 +494,8 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Monthly Average Advantage: +€${averageMonthlyAdvantage.toFixed(2)} / mo
   * Annual Advantage: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / yr
   * All-Time Total Advantage over ${leaseTermB} yrs: +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-
-            // Build Greek Pitch Text
-            const pitchEL = `Αγαπητέ ιδιοκτήτη,
+            } else {
+                pitchEN = `Αγαπητέ ιδιοκτήτη,
 
 Ας εξετάσουμε την ακριβή οικονομική σύγκριση μεταξύ της βάσης αναφοράς (${leaseTermA} έτος) και της πρότασής μας (${leaseTermB} έτη):
 
@@ -369,9 +516,11 @@ Let's review the exact financial comparison between your baseline (${leaseTermA}
   * Μηνιαίο Μέσο Πλεονέκτημα: +€${averageMonthlyAdvantage.toFixed(2)} / μήνα
   * Ετήσιο Πλεονέκτημα: +€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} / έτος
   * Συνολικό Πλεονέκτημα (${leaseTermB} έτη): +€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
 
+            // Sync both preview boxes to display whichever language is currently toggled
             document.getElementById('pitchTextEN').innerText = pitchEN;
-            document.getElementById('pitchTextEL').innerText = pitchEL;
+            document.getElementById('pitchTextEL').innerText = pitchEN;
         }
 
         window.onload = function() {
