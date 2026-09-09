@@ -296,7 +296,7 @@
 
             // Advantages
             const averageMonthlyAdvantage = directAvgMonthly - agentAvgMonthly;
-            const annualAdvantage = directNetAnnual - agentNetAnnual - (agentFeeA - agentFeeB); // Normalized comparison per calendar year timeframe
+            const annualAdvantage = (directNetAnnual - agentFeeB) - (agentNetAnnual - agentFeeA);
             const totalAdvantage = directNetTotalTerm - agentNetTotalTerm;
 
             // Update UI Labels for Terms
@@ -319,7 +319,7 @@
             document.getElementById('resDirectTax').innerText = `-€${directTaxDetails.totalTax.toFixed(2)}`;
             document.getElementById('resDirectTotalTerm').innerText = `€${directNetTotalTerm.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-            // Advantage Cards (Using exact matching styling sizes/colors)
+            // Advantage Cards
             document.getElementById('advantageMonthly').innerText = `+€${averageMonthlyAdvantage.toFixed(2)}`;
             document.getElementById('advantageAnnual').innerText = `+€${annualAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
             document.getElementById('advantageTotal').innerText = `+€${totalAdvantage.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
