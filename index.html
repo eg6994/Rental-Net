@@ -222,6 +222,13 @@
                 </div>
             </div>
         </div>
+
+        <!-- Footer Disclaimer -->
+        <footer class="mt-8 pt-4 border-t border-slate-200 text-center">
+            <p id="uiDisclaimer" class="text-[10px] text-slate-400 leading-normal max-w-5xl mx-auto px-4">
+                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
+            </p>
+        </footer>
     </div>
 
     <script>
@@ -284,7 +291,8 @@
                 expSub4: "4. Corporate Structure Alternative (15% Flat Rate)",
                 expDesc4: "If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.",
                 expSub5: "5. Agent Fees & Commission VAT",
-                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum."
+                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.",
+                disclaimerText: "<strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations."
             },
             el: {
                 langBtnText: "English (EN)",
@@ -342,7 +350,8 @@
                 expSub4: "4. Εναλλακτική Εταιρική Δομή (Σταθερός Συντελεστής 15%)",
                 expDesc4: "Εάν δομηθεί υπό εταιρική οντότητα, τα κέρδη από ενοίκια υπόκεινται σε σταθερό <strong>εταιρικό φόρο 15%</strong> επί του καθαρού κέρδους ενοικίου (μετά την έκπτωση 20%), παρακάμπτοντας τα προσωπικά προοδευτικά κλιμάκια και το Γε.Σ.Υ.",
                 expSub5: "5. Μεσιτικές Αμοιβές & ΦΠΑ Προμήθειας",
-                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ενεργοποιηθεί ο ΦΠΑ, προστίθεται συντελεστής ΦΠΑ Κύπρου 19% απευθείας στο ποσό της προμήθειας."
+                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ενεργοποιηθεί ο ΦΠΑ, προστίθεται συντελεστής ΦΠΑ Κύπρου 19% απευθείας στο ποσό της προμήθειας.",
+                disclaimerText: "<strong>Αποποίηση ευθύνης:</strong> Αυτό το εργαλείο παρέχεται αποκλειστικά για εκπαιδευτικούς και ενημερωτικούς σκοπούς, προκειμένου να βοηθήσει τους χρήστες να κατανοήσουν πώς μεταβλητές όπως οι όροι μίσθωσης, οι εκπτώσεις εξόδων και τα δηλωθέντα τμήματα εισοδήματος αλληλεπιδρούν με τις φορολογικές κλίμακες της Κύπρου και τους υπολογισμούς του Γε.Σ.Υ. Δεν προορίζεται να παρέχει επίσημες φορολογικές, νομικές ή οικονομικές συμβουλές, ούτε προωθεί, ενθαρρύνει ή επικροτεί τη φοροδιαφυγή ή οποιαδήποτε μορφή μη συμμόρφωσης με τους νόμους της Κυπριακής Δημοκρατίας. Οι χρήστες φέρουν την αποκλειστική ευθύνη να διασφαλίζουν ότι όλες οι φορολογικές δηλώσεις και οικονομικές καταχωρήσεις συμμορφώνονται πλήρως με τη σχετική φορολογική νομοθεσία και θα πρέπει να συμβουλεύονται πιστοποιημένο αδειούχο λογιστή ή φορολογικό σύμβουλο για επαγγελματική καθοδήγηση σχετικά με τις συγκεκριμένες φορολογικές τους υποχρεώσεις."
             }
         };
 
@@ -407,6 +416,9 @@
             document.getElementById('uiExpDesc4').innerHTML = t.expDesc4;
             document.getElementById('uiExpSub5').innerText = t.expSub5;
             document.getElementById('uiExpDesc5').innerText = t.expDesc5;
+
+            // Disclaimer translation
+            document.getElementById('uiDisclaimer').innerHTML = t.disclaimerText;
 
             calculate();
         }
