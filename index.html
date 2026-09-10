@@ -1,349 +1,697 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudliq - GPU & AWS Reserved Instance Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-card {
-            background: rgba(18, 24, 38, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glow-effect {
-            box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.15);
-        }
-    </style>
+    <title>Cyprus Rental Net Income Optimization Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#090d16] text-slate-100 min-h-screen flex selection:bg-indigo-500 selection:text-white">
-
-    <!-- Sidebar -->
-    <aside class="w-64 border-r border-slate-800/80 bg-[#070a12]/80 backdrop-blur-xl flex-col justify-between hidden md:flex sticky top-0 h-screen z-20">
-        <div>
-            <!-- Logo area -->
-            <div class="p-6 flex items-center gap-3 border-b border-slate-800/60">
-                <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 flex items-center justify-center glow-effect">
-                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Cloudliq</h1>
-                    <span class="text-[10px] uppercase tracking-widest text-cyan-400 font-semibold">Compute Exchange</span>
-                </div>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white">
+    <div class="max-w-7xl mx-auto px-4 py-10">
+        <!-- Header -->
+        <header class="mb-10 flex flex-col md:flex-row items-center justify-between border-b border-slate-800 pb-6">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full border border-emerald-500/20 uppercase tracking-widest">Cyprus Real Estate Intelligence</span>
+                <h1 id="uiTitle" class="text-3xl font-extrabold text-white mt-2 tracking-tight">Cyprus Rental Net Income Optimization Tool</h1>
+                <p id="uiSubtitle" class="text-slate-400 text-sm mt-1">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
             </div>
-
-            <!-- Navigation Links -->
-            <nav class="p-4 space-y-1">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-600/10 text-indigo-400 font-medium text-sm border border-indigo-500/20 transition-all">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 font-medium text-sm transition-all">
-                    <i data-lucide="server" class="w-4 h-4"></i> GPU Availability
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 font-medium text-sm transition-all">
-                    <i data-lucide="layers" class="w-4 h-4"></i> AWS Reserved Instances
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 font-medium text-sm transition-all">
-                    <i data-lucide="arrow-left-right" class="w-4 h-4"></i> Secondary Market
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 font-medium text-sm transition-all">
-                    <i data-lucide="wallet" class="w-4 h-4"></i> Escrow & Billing
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 font-medium text-sm transition-all">
-                    <i data-lucide="settings" class="w-4 h-4"></i> API & Webhooks
-                </a>
-            </nav>
-        </div>
-
-        <!-- User Profile Quick View -->
-        <div class="p-4 border-t border-slate-800/60">
-            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-sm text-white">
-                        EG
-                    </div>
-                    <div>
-                        <div class="text-xs font-semibold text-slate-200">Superformance</div>
-                        <div class="text-[10px] text-emerald-400 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Live Node
-                        </div>
-                    </div>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col min-w-0">
-        <!-- Top Header -->
-        <header class="h-20 border-b border-slate-800/80 bg-[#090d16]/80 backdrop-blur-xl px-8 flex items-center justify-between sticky top-0 z-10">
-            <div class="flex items-center gap-4">
-                <div class="md:hidden">
-                    <button class="p-2 rounded-lg bg-slate-800 text-slate-300"><i data-lucide="menu" class="w-5 h-5"></i></button>
-                </div>
-                <div>
-                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                        <span>Infrastructure Overview</span>
-                        <span class="px-2 py-0.5 rounded-full text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">US-EAST-1</span>
-                    </h2>
-                    <p class="text-xs text-slate-400">Real-time AWS RI optimization & H100 cluster liquidity tracker.</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 w-64">
-                    <i data-lucide="search" class="w-4 h-4 text-slate-500 mr-2"></i>
-                    <input type="text" placeholder="Search instance ID, region..." class="bg-transparent border-none outline-none text-slate-200 placeholder-slate-500 w-full">
-                </div>
-                <button class="relative p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-white transition-all">
-                    <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                    <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-cyan-400"></span>
-                    <i data-lucide="bell" class="w-4 h-4"></i>
-                </button>
-                <button class="bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-medium text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2">
-                    <i data-lucide="plus" class="w-4 h-4"></i> List RI / GPU
-                </button>
-            </div>
+            <!-- Language Switcher Button -->
+            <button onclick="toggleLanguage()" id="langBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
+                <span>🌐 Ελληνικά (EL)</span>
+            </button>
         </header>
 
-        <!-- Scrollable Dashboard Body -->
-        <main class="p-8 space-y-8 max-w-7xl mx-auto w-full">
-            
-            <!-- Key Metric Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:border-indigo-500/40 transition-all">
-                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Active GPU Pool</span>
-                        <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                            <i data-lucide="cpu" class="w-4 h-4"></i>
-                        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Control Panel -->
+            <div class="lg:col-span-1 bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-800 space-y-6">
+                <h2 id="uiControlsHeader" class="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+                    <span>Scenario Controls</span>
+                    <span class="text-xs text-slate-500 font-normal">Live Calculation</span>
+                </h2>
+
+                <!-- Landlord Entity Type Settings -->
+                <div class="space-y-2 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
+                    <h3 id="uiEntityTypeTitle" class="font-semibold text-slate-200 text-xs uppercase tracking-wider">Property Owner Entity Type</h3>
+                    <div>
+                        <label id="uiEntitySelectLabel" class="block text-xs font-medium text-slate-400">Ownership Structure</label>
+                        <select id="entityType" onchange="onEntityTypeChange()" class="mt-1 w-full p-2.5 text-xs font-medium border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-slate-900 text-white">
+                            <option value="individual">Individual / Personal (Marginal Brackets + GeSY)</option>
+                            <option value="company">Company / Corporate (Flat 15% Tax)</option>
+                        </select>
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-extrabold text-white tracking-tight">1,284</span>
-                        <span class="text-xs font-semibold text-emerald-400 flex items-center"><i data-lucide="trending-up" class="w-3 h-3 mr-0.5"></i> +12.4%</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-2">H100 & A100 Tensor Core nodes</p>
                 </div>
 
-                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-all">
-                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Reserved Savings</span>
-                        <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-                            <i data-lucide="shield-check" class="w-4 h-4"></i>
-                        </div>
+                <!-- Landlord's Other Income Settings (Only for Individual) -->
+                <div id="otherIncomeContainer" class="space-y-3 bg-amber-950/20 p-4 rounded-xl border border-amber-500/30 shadow-sm">
+                    <h3 id="uiOtherIncomeTitle" class="font-semibold text-amber-400 text-xs flex items-center justify-between">
+                        <span>Landlord's Other Annual Income</span>
+                        <span class="text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold border border-amber-500/30">Important</span>
+                    </h3>
+                    <p id="uiOtherIncomeDesc" class="text-[11px] text-amber-200/70 leading-relaxed">Enter other taxable earnings (salaries, other rent, dividends) to compute precise marginal tax stacking.</p>
+                    <div>
+                        <label id="uiOtherIncomeLabel" class="block text-xs font-bold text-amber-300">Other Annual Income (€)</label>
+                        <input type="number" id="otherIncome" value="0" step="5000" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs font-medium border border-amber-500/30 rounded-xl focus:ring-2 focus:ring-amber-500 bg-slate-900 text-white">
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-extrabold text-white tracking-tight">$482.6K</span>
-                        <span class="text-xs font-semibold text-emerald-400 flex items-center"><i data-lucide="trending-up" class="w-3 h-3 mr-0.5"></i> +8.1%</span>
+                    <div id="uiTaxAccuracyNote" class="text-[10px] text-amber-300/80 bg-amber-900/40 p-2 rounded-lg border border-amber-500/20 leading-tight">
+                        ⚠️ Essential for calculating your exact marginal tax bracket accurately.
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-2">Annualized AWS RI optimization</p>
                 </div>
 
-                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:border-purple-500/40 transition-all">
-                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Market Liquidity</span>
-                        <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                            <i data-lucide="activity" class="w-4 h-4"></i>
+                <hr class="border-slate-800">
+
+                <!-- Scenario A: Baseline -->
+                <div class="space-y-4">
+                    <h3 id="uiScenarioAHeader" class="font-bold text-blue-400 text-sm flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Scenario A: Baseline</span>
+                    </h3>
+                    <div>
+                        <label id="uiLeaseTermALabel" class="block text-xs font-medium text-slate-400">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermA" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-slate-900 text-white">
+                    </div>
+                    <div>
+                        <label id="uiMonthlyRentLabel" class="block text-xs font-medium text-slate-400">Monthly Rent (€)</label>
+                        <input type="number" id="agentRent" value="8000" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-slate-900 text-white">
+                    </div>
+                    <div class="flex items-center space-x-2 pt-1">
+                        <input type="checkbox" id="scenarioAHasAgent" checked onchange="toggleAgentControls('A')" class="rounded border-slate-700 text-blue-600 focus:ring-blue-500 bg-slate-900">
+                        <label id="uiAgentFeeLabelA" class="text-xs font-medium text-slate-300">Involves Agent Fee (1 Mo)</label>
+                    </div>
+                    <div id="agentCallOptionsA" class="space-y-2 pl-4 border-l-2 border-blue-500/30">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="agentVatA" checked onchange="calculate()" class="rounded border-slate-700 text-blue-600 focus:ring-blue-500 bg-slate-900">
+                            <label id="uiVatLabelA" class="text-xs text-slate-400">Include 19% VAT on Commission</label>
                         </div>
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-extrabold text-white tracking-tight">94.2%</span>
-                        <span class="text-xs font-semibold text-purple-400 flex items-center">Optimal</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-2">Secondary broker clearance rate</p>
                 </div>
 
-                <div class="glass-card p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition-all">
-                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Escrow Secured</span>
-                        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <i data-lucide="lock" class="w-4 h-4"></i>
+                <hr class="border-slate-800">
+
+                <!-- Scenario B: Target Offer -->
+                <div class="space-y-4">
+                    <h3 id="uiScenarioBHeader" class="font-bold text-emerald-400 text-sm flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Scenario B: Target Offer & Allocation</span>
+                    </h3>
+                    <div>
+                        <label id="uiLeaseTermBLabel" class="block text-xs font-medium text-slate-400">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermB" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-slate-900 text-white">
+                    </div>
+                    <div>
+                        <label id="uiDirectRentLabel" class="block text-xs font-medium text-slate-400">Total Direct Monthly Rent (€)</label>
+                        <input type="number" id="directRent" value="6500" oninput="onTotalRentChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-slate-900 text-white">
+                    </div>
+                    <div class="flex items-center space-x-2 pt-1">
+                        <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-slate-900">
+                        <label id="uiAgentFeeLabelB" class="text-xs font-medium text-slate-300">Involves Agent Fee (1 Mo)</label>
+                    </div>
+                    <div id="agentCallOptionsB" class="space-y-2 pl-4 border-l-2 border-emerald-500/30 hidden">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="agentVatB" checked onchange="calculate()" class="rounded border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-slate-900">
+                            <label id="uiVatLabelB" class="text-xs text-slate-400">Include 19% VAT on Commission</label>
                         </div>
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-3xl font-extrabold text-white tracking-tight">$124.0K</span>
-                        <span class="text-xs font-semibold text-slate-400">Pending txn</span>
+                    <div>
+                        <label id="uiDeclaredLabel" class="block text-xs font-medium text-slate-400">Declared Portion (Wire / Revolut) (€)</label>
+                        <input type="number" id="declaredPortion" value="3000" oninput="onDeclaredChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-slate-900 text-white">
                     </div>
-                    <p class="text-[11px] text-slate-400 mt-2">Multi-sig automated smart contract</p>
+                    <div>
+                        <label id="uiCashLabel" class="block text-xs font-medium text-slate-400">Alternative/Cash Portion (€)</label>
+                        <input type="number" id="cashPortion" value="3500" oninput="onCashChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-slate-900 text-white">
+                    </div>
                 </div>
             </div>
 
-            <!-- Charts & Live Feed Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <!-- Main Chart Section -->
-                <div class="glass-card p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-6">
+            <!-- Results & Outputs -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Comparison Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Scenario A Card -->
+                    <div class="bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-800 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+                        <h4 id="uiCardTitleA" class="text-xs font-bold tracking-wider text-blue-400 uppercase">Scenario A: Baseline</h4>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span class="text-2xl font-extrabold text-white" id="resAgentMonthly">€0</span>
+                            <span id="uiMonthlySubA" class="text-xs text-slate-400 font-medium">Avg Net Monthly In-Hand</span>
+                        </div>
+                        <div class="mt-5 space-y-2.5 text-xs text-slate-300 border-t border-slate-800/80 pt-4">
+                            <div class="flex justify-between"><span id="uiGrossLabelA" class="text-slate-400">Gross Annual:</span> <span id="resAgentGross" class="font-semibold text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelA" class="text-slate-400">Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-semibold text-rose-400">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelA" class="text-slate-400">Total Annual Taxes:</span> <span id="resAgentTax" class="font-semibold text-rose-400">€0</span></div>
+                            <div class="flex justify-between border-t border-slate-800 pt-3 font-bold text-white text-sm">
+                                <span><span id="uiNetTotalTextA">Net Total</span> (<span id="termLabelA">1</span> <span id="uiYearsLabelA">Yrs</span>):</span> 
+                                <span id="resAgentTotalTerm" class="text-blue-400">€0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scenario B Card -->
+                    <div class="bg-slate-950 p-6 rounded-2xl shadow-xl border border-emerald-900/50 relative overflow-hidden bg-gradient-to-b from-emerald-950/10 to-slate-950">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+                        <h4 id="uiCardTitleB" class="text-xs font-bold tracking-wider text-emerald-400 uppercase">Scenario B: Target Offer</h4>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span class="text-2xl font-extrabold text-emerald-400" id="resDirectMonthly">€0</span>
+                            <span id="uiMonthlySubB" class="text-xs text-emerald-500/80 font-medium">Avg Net Monthly In-Hand</span>
+                        </div>
+                        <div class="mt-5 space-y-2.5 text-xs text-slate-300 border-t border-slate-800/80 pt-4">
+                            <div class="flex justify-between"><span id="uiGrossLabelB" class="text-slate-400">Gross Annual:</span> <span id="resDirectGross" class="font-semibold text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelB" class="text-slate-400">Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-semibold text-rose-400">€0</span></div>
+                            <div class="flex justify-between"><span id="uiDeclaredRowLabel" class="text-slate-400">Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-semibold text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelB" class="text-slate-400">Total Annual Taxes:</span> <span id="resDirectTax" class="font-semibold text-emerald-400">€0</span></div>
+                            <div class="flex justify-between border-t border-slate-800 pt-3 font-bold text-white text-sm">
+                                <span><span id="uiNetTotalTextB">Net Total</span> (<span id="termLabelB">1</span> <span id="uiYearsLabelB">Yrs</span>):</span> 
+                                <span id="resDirectTotalTerm" class="text-emerald-400">€0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advantage Banner -->
+                <div id="advantageBanner" class="bg-slate-950 text-white p-6 rounded-2xl shadow-xl border border-slate-800 space-y-4 transition-all duration-300">
+                    <div class="border-b border-slate-800 pb-3 flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
-                            <h3 class="font-bold text-base text-white">GPU Availability & RI Price Index</h3>
-                            <p class="text-xs text-slate-400">Spot vs. Reserved hourly cost trends across regions</p>
+                            <h3 id="uiAdvantageHeader" class="text-base font-bold text-white">Financial Advantage Breakdown (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
+                            <p id="uiAdvantageSub" class="text-slate-400 text-xs mt-0.5">Comparing net cash outcomes across respective lease timelines.</p>
                         </div>
-                        <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs">
-                            <button class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium shadow">24H</button>
-                            <button class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">7D</button>
-                            <button class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">30D</button>
-                        </div>
+                        <span id="advantageStatusBadge" class="mt-2 md:mt-0 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Target Advantage</span>
                     </div>
-
-                    <!-- Visual Chart / Waveform -->
-                    <div class="h-64 w-full flex items-end gap-2 pt-8 pb-2 px-2 relative border-b border-slate-800/60">
-                        <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-                            <div class="border-b border-slate-700 w-full"></div>
-                            <div class="border-b border-slate-700 w-full"></div>
-                            <div class="border-b border-slate-700 w-full"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80">
+                            <span id="uiAdvMonthlyTitle" class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Monthly Avg Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageMonthly">+€0</span>
                         </div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[40%] hover:brightness-125 transition-all cursor-pointer relative group">
-                            <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-900 text-[10px] text-slate-200 px-2 py-1 rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">$1.82/hr</span>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80">
+                            <span id="uiAdvAnnualTitle" class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Annual Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageAnnual">+€0</span>
                         </div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[55%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[45%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[70%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[65%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[85%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[75%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-cyan-600/20 to-cyan-400 rounded-t-sm h-[95%] hover:brightness-125 transition-all cursor-pointer relative group">
-                            <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-900 text-[10px] text-cyan-300 px-2 py-1 rounded border border-slate-700 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">Peak: $2.45/hr</span>
+                        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800/80">
+                            <span id="uiAdvTotalTitle" class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">All-Time Total Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageTotal">+€0</span>
                         </div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[80%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[60%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[70%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                        <div class="flex-1 bg-gradient-to-t from-indigo-600/20 to-indigo-500 rounded-t-sm h-[88%] hover:brightness-125 transition-all cursor-pointer relative group"></div>
-                    </div>
-
-                    <div class="flex items-center justify-between mt-4 text-xs text-slate-400">
-                        <span>00:00 UTC</span>
-                        <span>06:00 UTC</span>
-                        <span>12:00 UTC</span>
-                        <span>18:00 UTC</span>
-                        <span>Now</span>
                     </div>
                 </div>
 
-                <!-- Secondary Market Quick Order / Match -->
-                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="font-bold text-base text-white">Instant RI Match</h3>
-                            <span class="text-xs text-cyan-400 font-semibold flex items-center gap-1">
-                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Live Broker
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-400 mb-6">Instantly match your surplus AWS Reserved Instances with verified enterprise buyers.</p>
-
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block mb-1.5">Instance Type</label>
-                                <div class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-200 flex items-center justify-between">
-                                    <span>p4d.24xlarge (8x A100 40GB)</span>
-                                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-[11px] font-semibold text-slate-300 uppercase tracking-wider block mb-1.5">Term Length</label>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <button class="bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 py-2 rounded-xl text-xs font-semibold">1 Year</button>
-                                    <button class="bg-slate-900 border border-slate-800 text-slate-400 py-2 rounded-xl text-xs font-semibold hover:border-slate-700">2 Years</button>
-                                    <button class="bg-slate-900 border border-slate-800 text-slate-400 py-2 rounded-xl text-xs font-semibold hover:border-slate-700">3 Years</button>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Pitch Output Boxes (EN & EL) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-800 flex flex-col">
+                        <h3 id="uiPitchTitleEN" class="text-sm font-bold text-slate-200 mb-3 flex items-center justify-between">
+                            <span>Pitch Text (English)</span>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">EN</span>
+                        </h3>
+                        <div id="pitchTextEN" class="bg-slate-900/90 p-4 rounded-xl text-xs text-slate-300 whitespace-pre-line border border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
                     </div>
-
-                    <div class="mt-6">
-                        <div class="flex items-center justify-between text-xs mb-3 text-slate-400">
-                            <span>Estimated Return:</span>
-                            <span class="text-emerald-400 font-bold text-sm">$14,280 / mo</span>
-                        </div>
-                        <button class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-semibold text-xs py-3 rounded-xl shadow-lg shadow-cyan-500/10 transition-all flex items-center justify-center gap-2">
-                            <i data-lucide="zap" class="w-4 h-4"></i> Execute Smart Match
-                        </button>
+                    <div class="bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-800 flex flex-col">
+                        <h3 id="uiPitchTitleEL" class="text-sm font-bold text-slate-200 mb-3 flex items-center justify-between">
+                            <span>Pitch Text (Greek / Ελληνικά)</span>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">EL</span>
+                        </h3>
+                        <div id="pitchTextEL" class="bg-slate-900/90 p-4 rounded-xl text-xs text-slate-300 whitespace-pre-line border border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
                     </div>
-                </div>
-
-            </div>
-
-            <!-- Recent Transactions / Listings Table -->
-            <div class="glass-card rounded-2xl overflow-hidden">
-                <div class="p-6 border-b border-slate-800/80 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-base text-white">Active Secondary Market Listings</h3>
-                        <p class="text-xs text-slate-400">Recent AWS Reserved Instance & GPU node transfers</p>
-                    </div>
-                    <button class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1">
-                        View All Listings <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </button>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="border-b border-slate-800/60 text-slate-400 font-semibold uppercase tracking-wider bg-slate-900/40">
-                                <th class="py-3.5 px-6">Asset / ID</th>
-                                <th class="py-3.5 px-6">Region</th>
-                                <th class="py-3.5 px-6">Type</th>
-                                <th class="py-3.5 px-6">Discount Rate</th>
-                                <th class="py-3.5 px-6">Escrow Status</th>
-                                <th class="py-3.5 px-6 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-800/40 text-slate-300">
-                            <tr class="hover:bg-slate-800/20 transition-all">
-                                <td class="py-4 px-6 font-medium text-white flex items-center gap-2">
-                                    <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
-                                    RI-AWS-889412
-                                </td>
-                                <td class="py-4 px-6 text-slate-400">us-east-1</td>
-                                <td class="py-4 px-6"><span class="px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">c6i.32xlarge</span></td>
-                                <td class="py-4 px-6 text-emerald-400 font-semibold">38.5% Off</td>
-                                <td class="py-4 px-6"><span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold text-[10px]">Verified Escrow</span></td>
-                                <td class="py-4 px-6 text-right">
-                                    <button class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-all">Inspect</button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-slate-800/20 transition-all">
-                                <td class="py-4 px-6 font-medium text-white flex items-center gap-2">
-                                    <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
-                                    GPU-H100-CLUSTER-04
-                                </td>
-                                <td class="py-4 px-6 text-slate-400">eu-west-1</td>
-                                <td class="py-4 px-6"><span class="px-2 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-medium">NVIDIA H100 8x</span></td>
-                                <td class="py-4 px-6 text-emerald-400 font-semibold">22.0% Off</td>
-                                <td class="py-4 px-6"><span class="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold text-[10px]">Pending Transfer</span></td>
-                                <td class="py-4 px-6 text-right">
-                                    <button class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-all">Inspect</button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-slate-800/20 transition-all">
-                                <td class="py-4 px-6 font-medium text-white flex items-center gap-2">
-                                    <div class="w-2 h-2 rounded-full bg-slate-500"></div>
-                                    RI-AWS-551029
-                                </td>
-                                <td class="py-4 px-6 text-slate-400">us-west-2</td>
-                                <td class="py-4 px-6"><span class="px-2 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">m6i.16xlarge</span></td>
-                                <td class="py-4 px-6 text-emerald-400 font-semibold">41.2% Off</td>
-                                <td class="py-4 px-6"><span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold text-[10px]">Verified Escrow</span></td>
-                                <td class="py-4 px-6 text-right">
-                                    <button class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-all">Inspect</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
+        </div>
 
-        </main>
+        <!-- Expandable Explanation Section -->
+        <div class="mt-12 bg-slate-950 rounded-2xl shadow-xl border border-slate-800 overflow-hidden">
+            <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-900/50 hover:bg-slate-900 transition-colors focus:outline-none">
+                <div class="flex items-center space-x-3">
+                    <span class="p-2 bg-slate-800 rounded-xl text-slate-300 font-bold text-xs border border-slate-700">ℹ️</span>
+                    <h3 id="uiExpHeader" class="text-base font-bold text-white">How This Calculator Works (Cyprus Tax Logic)</h3>
+                </div>
+                <span id="expChevron" class="text-slate-400 font-bold text-lg transition-transform duration-200">▼</span>
+            </button>
+            <div id="expContent" class="hidden p-6 border-t border-slate-800 space-y-6 text-xs text-slate-300 leading-relaxed bg-slate-950">
+                <div>
+                    <h4 id="uiExpSub1" class="font-semibold text-white text-sm mb-1">1. Statutory Rental Expense Deduction (20%)</h4>
+                    <p id="uiExpDesc1">Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub2" class="font-semibold text-white text-sm mb-1">2. Individual Marginal Tax Brackets (Progressive Stacking)</h4>
+                    <p id="uiExpDesc2">For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-400">
+                        <li><strong>€0 – €22,000:</strong> 0%</li>
+                        <li><strong>€22,001 – €28,000:</strong> 20%</li>
+                        <li><strong>€28,001 – €36,000:</strong> 25%</li>
+                        <li><strong>€36,001 – €60,000:</strong> 30%</li>
+                        <li><strong>Over €60,000:</strong> 35%</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 id="uiExpSub3" class="font-semibold text-white text-sm mb-1">3. G.E.S.Y. (General Healthcare System) Contributions</h4>
+                    <p id="uiExpDesc3">Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> on rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub4" class="font-semibold text-white text-sm mb-1">4. Corporate Structure Alternative (15% Flat Rate)</h4>
+                    <p id="uiExpDesc4">If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub5" class="font-semibold text-white text-sm mb-1">5. Agent Fees & Commission VAT</h4>
+                    <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Disclaimer -->
+        <footer class="mt-10 pt-6 border-t border-slate-800 text-center">
+            <p id="uiDisclaimer" class="text-[10px] text-slate-500 leading-normal max-w-5xl mx-auto px-4">
+                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
+            </p>
+        </footer>
     </div>
 
     <script>
-        lucide.createIcons();
+        let currentLang = 'en';
+
+        const translations = {
+            en: {
+                langBtnText: "🌐 Ελληνικά (EL)",
+                title: "Cyprus Rental Net Income Optimization Tool",
+                subtitle: "Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.",
+                controlsHeader: "Scenario Controls",
+                entityTypeTitle: "Property Owner Entity Type",
+                entitySelectLabel: "Ownership Structure",
+                otherIncomeTitle: "Landlord's Other Annual Income",
+                otherIncomeBadge: "Important",
+                otherIncomeDesc: "Enter other taxable earnings (salaries, other rent, dividends) to compute precise marginal tax stacking.",
+                otherIncomeLabel: "Other Annual Income (€)",
+                taxAccuracyNote: "⚠️ Essential for calculating your exact marginal tax bracket accurately.",
+                scenarioAHeader: "Scenario A: Baseline",
+                leaseTermALabel: "Lease Term (Years)",
+                monthlyRentLabel: "Monthly Rent (€)",
+                agentFeeLabelA: "Involves Agent Fee (1 Mo)",
+                vatLabelA: "Include 19% VAT on Commission",
+                scenarioBHeader: "Scenario B: Target Offer & Allocation",
+                leaseTermBLabel: "Lease Term (Years)",
+                directRentLabel: "Total Direct Monthly Rent (€)",
+                agentFeeLabelB: "Involves Agent Fee (1 Mo)",
+                vatLabelB: "Include 19% VAT on Commission",
+                declaredLabel: "Declared Portion (Wire / Revolut) (€)",
+                cashLabel: "Alternative/Cash Portion (€)",
+                cardTitleA: "Scenario A: Baseline",
+                monthlySubA: "Avg Net Monthly In-Hand",
+                grossLabelA: "Gross Annual:",
+                feeLabelA: "Agent Fee (Yr 1):",
+                taxLabelA: "Total Annual Taxes:",
+                netTotalTextA: "Net Total",
+                yearsLabelA: "Yrs",
+                cardTitleB: "Scenario B: Target Offer",
+                monthlySubB: "Avg Net Monthly In-Hand",
+                grossLabelB: "Gross Annual:",
+                feeLabelB: "Agent Fee (Yr 1):",
+                declaredRowLabel: "Declared Portion (Taxed):",
+                taxLabelB: "Total Annual Taxes:",
+                netTotalTextB: "Net Total",
+                yearsLabelB: "Yrs",
+                advantageHeader: "Financial Advantage Breakdown",
+                advantageSub: "Comparing net cash outcomes across respective lease timelines.",
+                advMonthlyTitle: "Monthly Avg Advantage",
+                advAnnualTitle: "Annual Advantage",
+                advTotalTitle: "All-Time Total Advantage",
+                pitchTitleEN: "Pitch Text (English)",
+                pitchTitleEL: "Pitch Text (Greek / Ελληνικά)",
+                expHeader: "How This Calculator Works (Cyprus Tax Logic)",
+                expSub1: "1. Statutory Rental Expense Deduction (20%)",
+                expDesc1: "Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).",
+                expSub2: "2. Individual Marginal Tax Brackets (Progressive Stacking)",
+                expDesc2: "For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:",
+                expSub3: "3. G.E.S.Y. (General Healthcare System) Contributions",
+                expDesc3: "Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> on rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.",
+                expSub4: "4. Corporate Structure Alternative (15% Flat Rate)",
+                expDesc4: "If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.",
+                expSub5: "5. Agent Fees & Commission VAT",
+                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum."
+            },
+            el: {
+                langBtnText: "🌐 English (EN)",
+                title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
+                subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
+                controlsHeader: "Έλεγχος Σεναρίων",
+                entityTypeTitle: "Τύπος Οντότητας Ιδιοκτήτη",
+                entitySelectLabel: "Δομή Ιδιοκτησίας",
+                otherIncomeTitle: "Άλλα Ετήσια Έσοδα Ιδιοκτήτη",
+                otherIncomeBadge: "Σημαντικό",
+                otherIncomeDesc: "Εισαγωγή άλλων φορολογητέων εσόδων (μισθοί, άλλα ενοίκια, μερίσματα) για υπολογισμό φορολογικής κλίμακας.",
+                otherIncomeLabel: "Άλλα Ετήσια Έσοδα (€)",
+                taxAccuracyNote: "⚠️ Απαραίτητο για τον ακριβή υπολογισμό της οριακής φορολογικής κλίμακας.",
+                scenarioAHeader: "Σενάριο Α: Βάση Αναφοράς",
+                leaseTermALabel: "Διάρκεια Μίσθωσης (Έτη)",
+                monthlyRentLabel: "Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelA: "Περιλαμβάνει Μεσιτική Αμοιβή (1 Μήνα)",
+                vatLabelA: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                scenarioBHeader: "Σενάριο Β: Στοχευμένη Πρόταση & Κατανομή",
+                leaseTermBLabel: "Διάρκεια Μίσθωσης (Έτη)",
+                directRentLabel: "Συνολικό Άμεσο Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelB: "Περιλαμβάνει Μεσιτική Αμοιβή (1 Μήνα)",
+                vatLabelB: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                declaredLabel: "Δηλωθέν Τμήμα (Wire / Revolut) (€)",
+                cashLabel: "Εναλλακτικό Τμήμα / Μετρητά (€)",
+                cardTitleA: "Σενάριο Α: Βάση Αναφοράς",
+                monthlySubA: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
+                grossLabelA: "Ακαθάριστο Ετήσιο:",
+                feeLabelA: "Μεσιτική Αμοιβή (1ο Έτος):",
+                taxLabelA: "Συνολικοί Ετήσιοι Φόροι:",
+                netTotalTextA: "Καθαρό Σύνολο",
+                yearsLabelA: "Έτη",
+                cardTitleB: "Σενάριο Β: Στοχευμένη Πρόταση",
+                monthlySubB: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
+                grossLabelB: "Ακαθάριστο Ετήσιο:",
+                feeLabelB: "Μεσιτική Αμοιβή (1ο Έτος):",
+                declaredRowLabel: "Δηλωθέν Τμήμα (Φορολογητέο):",
+                taxLabelB: "Συνολικοί Ετήσιοι Φόροι:",
+                netTotalTextB: "Καθαρό Σύνολο",
+                yearsLabelB: "Έτη",
+                advantageHeader: "Ανάλυση Οικονομικού Πλεονεκτήματος",
+                advantageSub: "Σύγκριση καθαρών αποτελεσμάτων σε μετρητά στα αντίστοιχα χρονοδιαγράμματα μίσθωσης.",
+                advMonthlyTitle: "Μηνιαίο Μέσο Πλεονέκτημα",
+                advAnnualTitle: "Ετήσιο Πλεονέκτημα",
+                advTotalTitle: "Συνολικό Πλεονέκτημα",
+                pitchTitleEN: "Κείμενο Παρουσίασης (Αγγλικά)",
+                pitchTitleEL: "Κείμενο Παρουσίασης (Ελληνικά)",
+                expHeader: "Πώς λειτουργεί αυτός ο υπολογιστής (Φορολογική λογική Κύπρου)",
+                expSub1: "1. Νόμιμη Έκπτωση Εξόδων Ενοικίου (20%)",
+                expDesc1: "Σύμφωνα με την κυπριακή φορολογική νομοθεσία, οι ιδιοκτήτες δικαιούνται αυτόματα <strong>έκπτωση 20%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για συντήρηση, επισκευές και αποθέματα πριν από την επιβολή φόρου εισοδήματος (δηλ. Φορολογητέο Καθαρό Κέρδος Ενοικίου = Ακαθάριστο Ετήσιο Ενοίκιο × 80%).",
+                expSub2: "2. Οριακές Φορολογικές Κλίμακες Φυσικών Προσώπων (Κλιμακωτή Συσσώρευση)",
+                expDesc2: "Για τα φυσικά πρόσωπα, ο φόρος εισοδήματος είναι προοδευτικός. Η προσθήκη εισοδήματος από ενοίκια στα υπάρχοντα κέρδη μπορεί να σας ωθήσει σε υψηλότερα φορολογικά κλιμάκια. Ο υπολογιστής χρησιμοποιεί ακριβή κλιμακωτή οριακή κατανομή:",
+                expSub3: "3. Εισφορές Γε.Σ.Υ. (Γενικό Σύστημα Υγείας)",
+                expDesc3: "Η Κύπρος επιβάλει <strong>εισφορά Γε.Σ.Υ. 2.65%</strong> επί του εισοδήματος από ενοίκια για φυσικά πρόσωπα (με ανώτατο όριο εισοδήματος €180.000). Οι εταιρείες εξαιρούνται από το Γε.Σ.Υ. στα κέρδη ενοικίων.",
+                expSub4: "4. Εναλλακτική Εταιρική Δομή (Σταθερός Συντελεστής 15%)",
+                expDesc4: "Εάν δομηθεί υπό εταιρική οντότητα, τα κέρδη από ενοίκια υπόκεινται σε σταθερό <strong>εταιρικό φόρο 15%</strong> επί του καθαρού κέρδους ενοικίου (μετά την έκπτωση 20%), παρακάμπτοντας τα προσωπικά κλιμάκια και το Γε.Σ.Υ.",
+                expSub5: "5. Μεσιτικές Αμοιβές & ΦΠΑ Προμήθειας",
+                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ο ΦΠΑ είναι ενεργοποιημένος, προστίθεται απευθείας κυπριακός ΦΠΑ 19% στο ποσό της προμήθειας."
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'el' : 'en';
+            const t = translations[currentLang];
+
+            document.getElementById('langBtn').querySelector('span').innerText = t.langBtnText;
+            document.getElementById('uiTitle').innerText = t.title;
+            document.getElementById('uiSubtitle').innerText = t.subtitle;
+            document.getElementById('uiControlsHeader').querySelector('span').innerText = t.controlsHeader;
+            document.getElementById('uiEntityTypeTitle').innerText = t.entityTypeTitle;
+            document.getElementById('uiEntitySelectLabel').innerText = t.entitySelectLabel;
+            document.getElementById('uiOtherIncomeTitle').querySelector('span').innerText = t.otherIncomeTitle;
+            document.getElementById('uiOtherIncomeDesc').innerText = t.otherIncomeDesc;
+            document.getElementById('uiOtherIncomeLabel').innerText = t.otherIncomeLabel;
+            document.getElementById('uiTaxAccuracyNote').innerText = t.taxAccuracyNote;
+            document.getElementById('uiScenarioAHeader').querySelector('span:last-child').innerText = t.scenarioAHeader;
+            document.getElementById('uiLeaseTermALabel').innerText = t.leaseTermALabel;
+            document.getElementById('uiMonthlyRentLabel').innerText = t.monthlyRentLabel;
+            document.getElementById('uiAgentFeeLabelA').innerText = t.agentFeeLabelA;
+            document.getElementById('uiVatLabelA').innerText = t.vatLabelA;
+            document.getElementById('uiScenarioBHeader').querySelector('span:last-child').innerText = t.scenarioBHeader;
+            document.getElementById('uiLeaseTermBLabel').innerText = t.leaseTermBLabel;
+            document.getElementById('uiDirectRentLabel').innerText = t.directRentLabel;
+            document.getElementById('uiAgentFeeLabelB').innerText = t.agentFeeLabelB;
+            document.getElementById('uiVatLabelB').innerText = t.vatLabelB;
+            document.getElementById('uiDeclaredLabel').innerText = t.declaredLabel;
+            document.getElementById('uiCashLabel').innerText = t.cashLabel;
+
+            document.getElementById('uiCardTitleA').innerText = t.cardTitleA;
+            document.getElementById('uiMonthlySubA').innerText = t.monthlySubA;
+            document.getElementById('uiGrossLabelA').innerText = t.grossLabelA;
+            document.getElementById('uiFeeLabelA').innerText = t.feeLabelA;
+            document.getElementById('uiTaxLabelA').innerText = t.taxLabelA;
+            document.getElementById('uiNetTotalTextA').innerText = t.netTotalTextA;
+            document.getElementById('uiYearsLabelA').innerText = t.yearsLabelA;
+
+            document.getElementById('uiCardTitleB').innerText = t.cardTitleB;
+            document.getElementById('uiMonthlySubB').innerText = t.monthlySubB;
+            document.getElementById('uiGrossLabelB').innerText = t.grossLabelB;
+            document.getElementById('uiFeeLabelB').innerText = t.feeLabelB;
+            document.getElementById('uiDeclaredRowLabel').innerText = t.declaredRowLabel;
+            document.getElementById('uiTaxLabelB').innerText = t.taxLabelB;
+            document.getElementById('uiNetTotalTextB').innerText = t.netTotalTextB;
+            document.getElementById('uiYearsLabelB').innerText = t.yearsLabelB;
+
+            document.getElementById('uiAdvantageHeader').firstChild.nodeValue = t.advantageHeader + " (";
+            document.getElementById('uiAdvantageSub').innerText = t.advantageSub;
+            document.getElementById('uiAdvMonthlyTitle').innerText = t.advMonthlyTitle;
+            document.getElementById('uiAdvAnnualTitle').innerText = t.advAnnualTitle;
+            document.getElementById('uiAdvTotalTitle').innerText = t.advTotalTitle;
+
+            document.getElementById('uiPitchTitleEN').querySelector('span').innerText = t.pitchTitleEN;
+            document.getElementById('uiPitchTitleEL').querySelector('span').innerText = t.pitchTitleEL;
+            document.getElementById('uiExpHeader').innerText = t.expHeader;
+            document.getElementById('uiExpSub1').innerText = t.expSub1;
+            document.getElementById('uiExpDesc1').innerHTML = t.expDesc1;
+            document.getElementById('uiExpSub2').innerText = t.expSub2;
+            document.getElementById('uiExpDesc2').innerText = t.expDesc2;
+            document.getElementById('uiExpSub3').innerText = t.expSub3;
+            document.getElementById('uiExpDesc3').innerHTML = t.expDesc3;
+            document.getElementById('uiExpSub4').innerText = t.expSub4;
+            document.getElementById('uiExpDesc4').innerHTML = t.expDesc4;
+            document.getElementById('uiExpSub5').innerText = t.expSub5;
+            document.getElementById('uiExpDesc5').innerText = t.expDesc5;
+            document.getElementById('uiDisclaimer').innerHTML = t.disclaimerText;
+
+            calculate();
+        }
+
+        function onEntityTypeChange() {
+            const entityType = document.getElementById('entityType').value;
+            const container = document.getElementById('otherIncomeContainer');
+            if (entityType === 'company') {
+                container.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                container.classList.remove('opacity-50', 'pointer-events-none');
+            }
+            calculate();
+        }
+
+        function toggleAgentControls(scenario) {
+            const hasAgent = document.getElementById(`scenario${scenario}HasAgent`).checked;
+            const optionsDiv = document.getElementById(`agentCallOptions${scenario}`);
+            if (hasAgent) {
+                optionsDiv.classList.remove('hidden');
+            } else {
+                optionsDiv.classList.add('hidden');
+            }
+            calculate();
+        }
+
+        function onTotalRentChange() {
+            const total = parseFloat(document.getElementById('directRent').value) || 0;
+            let declared = parseFloat(document.getElementById('declaredPortion').value) || 0;
+            if (declared > total) {
+                declared = total;
+                document.getElementById('declaredPortion').value = declared;
+            }
+            const cash = Math.max(0, total - declared);
+            document.getElementById('cashPortion').value = cash;
+            calculate();
+        }
+
+        function onDeclaredChange() {
+            const total = parseFloat(document.getElementById('directRent').value) || 0;
+            let declared = parseFloat(document.getElementById('declaredPortion').value) || 0;
+            if (declared > total) {
+                declared = total;
+                document.getElementById('declaredPortion').value = declared;
+            }
+            const cash = Math.max(0, total - declared);
+            document.getElementById('cashPortion').value = cash;
+            calculate();
+        }
+
+        function onCashChange() {
+            const total = parseFloat(document.getElementById('directRent').value) || 0;
+            let cash = parseFloat(document.getElementById('cashPortion').value) || 0;
+            if (cash > total) {
+                cash = total;
+                document.getElementById('cashPortion').value = cash;
+            }
+            const declared = Math.max(0, total - cash);
+            document.getElementById('declaredPortion').value = declared;
+            calculate();
+        }
+
+        function toggleExplanation() {
+            const content = document.getElementById('expContent');
+            const chevron = document.getElementById('expChevron');
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        function calculateIndividualTaxAndGesy(taxableProfit, grossRent, otherIncome) {
+            // Progressive tax brackets for individuals in Cyprus
+            function getBracketTax(income) {
+                let tax = 0;
+                if (income <= 22000) {
+                    tax = 0;
+                } else if (income <= 28000) {
+                    tax = (income - 22000) * 0.20;
+                } else if (income <= 36000) {
+                    tax = (28000 - 22000) * 0.20 + (income - 28000) * 0.25;
+                } else if (income <= 60000) {
+                    tax = (28000 - 22000) * 0.20 + (36000 - 28000) * 0.25 + (income - 36000) * 0.30;
+                } else {
+                    tax = (28000 - 22000) * 0.20 + (36000 - 28000) * 0.25 + (60000 - 36000) * 0.30 + (income - 60000) * 0.35;
+                }
+                return tax;
+            }
+
+            const taxWithoutRent = getBracketTax(otherIncome);
+            const taxWithRent = getBracketTax(otherIncome + taxableProfit);
+            const incomeTax = Math.max(0, taxWithRent - taxWithoutRent);
+
+            // GESY: 2.65% on gross rental income for individuals, capped at €180,000 total annual income
+            const gesyBaseStart = Math.min(otherIncome, 180000);
+            const gesyBaseEnd = Math.min(otherIncome + grossRent, 180000);
+            const gesyTaxableAmount = Math.max(0, gesyBaseEnd - gesyBaseStart);
+            const gesy = gesyTaxableAmount * 0.0265;
+
+            return { tax: incomeTax + gesy, incomeTax, gesy };
+        }
+
+        function calculateCompanyTax(taxableProfit) {
+            // Corporate flat 15% tax on net profit after 20% allowance
+            return taxableProfit * 0.15;
+        }
+
+        function formatCurrency(val) {
+            return '€' + Math.round(val).toLocaleString();
+        }
+
+        function calculate() {
+            const entityType = document.getElementById('entityType').value;
+            const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+
+            // Scenario A Inputs
+            const termA = parseInt(document.getElementById('leaseTermA').value) || 1;
+            const agentRent = parseFloat(document.getElementById('agentRent').value) || 0;
+            const hasAgentA = document.getElementById('scenarioAHasAgent').checked;
+            const vatA = document.getElementById('agentVatA').checked;
+
+            // Scenario B Inputs
+            const termB = parseInt(document.getElementById('leaseTermB').value) || 1;
+            const directRent = parseFloat(document.getElementById('directRent').value) || 0;
+            const declaredPortion = parseFloat(document.getElementById('declaredPortion').value) || 0;
+            const cashPortion = parseFloat(document.getElementById('cashPortion').value) || 0;
+            const hasAgentB = document.getElementById('scenarioBHasAgent').checked;
+            const vatB = document.getElementById('agentVatB').checked;
+
+            // --- Scenario A Calculations ---
+            const grossAnnualA = agentRent * 12;
+            const grossTotalA = grossAnnualA * termA;
+            const agentFeeMultiplierA = vatA ? 1.19 : 1.0;
+            const agentFeeA = hasAgentA ? agentRent * agentFeeMultiplierA : 0;
+
+            let annualTaxA = 0;
+            const netProfitA = grossAnnualA * 0.80; // 20% statutory deduction
+
+            if (entityType === 'individual') {
+                const res = calculateIndividualTaxAndGesy(netProfitA, grossAnnualA, otherIncome);
+                annualTaxA = res.tax;
+            } else {
+                annualTaxA = calculateCompanyTax(netProfitA);
+            }
+
+            const totalTaxA = annualTaxA * termA;
+            const netTotalA = grossTotalA - agentFeeA - totalTaxA;
+            const netMonthlyA = netTotalA / (termA * 12);
+
+            // --- Scenario B Calculations ---
+            const grossAnnualB = directRent * 12;
+            const grossTotalB = grossAnnualB * termB;
+            const declaredAnnualB = declaredPortion * 12;
+            const cashAnnualB = cashPortion * 12;
+            
+            const agentFeeMultiplierB = vatB ? 1.19 : 1.0;
+            const agentFeeB = hasAgentB ? directRent * agentFeeMultiplierB : 0;
+
+            let annualTaxB = 0;
+            const netDeclaredProfitB = declaredAnnualB * 0.80; // 20% statutory deduction on declared portion
+
+            if (entityType === 'individual') {
+                const res = calculateIndividualTaxAndGesy(netDeclaredProfitB, declaredAnnualB, otherIncome);
+                annualTaxB = res.tax;
+            } else {
+                annualTaxB = calculateCompanyTax(netDeclaredProfitB);
+            }
+
+            const totalTaxB = annualTaxB * termB;
+            // Total net cash for B includes declared (after tax) + 100% of cash portion (unrecorded/alternative) minus agent fee
+            const netAnnualB = (declaredAnnualB - annualTaxB) + cashAnnualB;
+            const netTotalB = (netAnnualB * termB) - agentFeeB;
+            const netMonthlyB = netTotalB / (termB * 12);
+
+            // --- UI Updates: Scenario A ---
+            document.getElementById('resAgentMonthly').innerText = formatCurrency(netMonthlyA);
+            document.getElementById('resAgentGross').innerText = formatCurrency(grossTotalA);
+            document.getElementById('resAgentFee').innerText = formatCurrency(agentFeeA);
+            document.getElementById('resAgentTax').innerText = formatCurrency(totalTaxA);
+            document.getElementById('termLabelA').innerText = termA;
+            document.getElementById('resAgentTotalTerm').innerText = formatCurrency(netTotalA);
+
+            // --- UI Updates: Scenario B ---
+            document.getElementById('resDirectMonthly').innerText = formatCurrency(netMonthlyB);
+            document.getElementById('resDirectGross').innerText = formatCurrency(grossTotalB);
+            document.getElementById('resDirectFee').innerText = formatCurrency(agentFeeB);
+            document.getElementById('resDirectDeclared').innerText = formatCurrency(declaredAnnualB);
+            document.getElementById('resDirectTax').innerText = formatCurrency(totalTaxB);
+            document.getElementById('termLabelB').innerText = termB;
+            document.getElementById('resDirectTotalTerm').innerText = formatCurrency(netTotalB);
+
+            // --- Advantage Banner Updates ---
+            document.getElementById('termLabelABanner').innerText = termA;
+            document.getElementById('termLabelBBanner').innerText = termB;
+
+            const diffMonthly = netMonthlyB - netMonthlyA;
+            const diffAnnual = (netTotalB / termB) - (netTotalA / termA);
+            const diffTotal = netTotalB - netTotalA;
+
+            const elAdvMonthly = document.getElementById('advantageMonthly');
+            const elAdvAnnual = document.getElementById('advantageAnnual');
+            const elAdvTotal = document.getElementById('advantageTotal');
+
+            elAdvMonthly.innerText = (diffMonthly >= 0 ? '+' : '') + formatCurrency(diffMonthly);
+            elAdvAnnual.innerText = (diffAnnual >= 0 ? '+' : '') + formatCurrency(diffAnnual);
+            elAdvTotal.innerText = (diffTotal >= 0 ? '+' : '') + formatCurrency(diffTotal);
+
+            elAdvMonthly.className = "text-2xl font-black mt-1 block " + (diffMonthly >= 0 ? 'text-emerald-400' : 'text-rose-400');
+            elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-400' : 'text-rose-400');
+            elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-400' : 'text-rose-400');
+
+            // --- Pitch Text Generation ---
+            generatePitchTexts(netMonthlyA, netMonthlyB, netTotalA, netTotalB, agentRent, directRent, declaredPortion, cashPortion, termA, termB);
+        }
+
+        function generatePitchTexts(mNetA, mNetB, tNetA, tNetB, rentA, rentB, declB, cashB, termA, termB) {
+            const diffM = mNetB - mNetA;
+            const diffT = tNetB - tNetA;
+
+            const pitchEN = `Hello,
+
+Based on our financial net income optimization analysis for your Cyprus property:
+
+• Baseline Scenario A (${termA} Yr${termA > 1 ? 's' : ''}): €${Math.round(rentA).toLocaleString()}/mo gross yields an average in-hand net of €${Math.round(mNetA).toLocaleString()}/month (€${Math.round(tNetA).toLocaleString()} total net).
+• Target Scenario B (${termB} Yr${termB > 1 ? 's' : ''}): €${Math.round(rentB).toLocaleString()}/mo total structured as €${Math.round(declB).toLocaleString()} declared & €${Math.round(cashB).toLocaleString()} alternative portion yields an average in-hand net of €${Math.round(mNetB).toLocaleString()}/month (€${Math.round(tNetB).toLocaleString()} total net).
+
+Net Advantage: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/month (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} overall term advantage).
+
+This structure maximizes your take-home cash flow while remaining fully optimized under Cyprus regulatory frameworks. Let's discuss how to proceed.`;
+
+            const pitchEL = `Γεια σας,
+
+Με βάση την ανάλυση βελτιστοποίησης καθαρού εισοδήματος για το ακίνητό σας στην Κύπρο:
+
+• Βασικό Σενάριο Α (${termA} Έτ${termA > 1 ? 'η' : 'ος'}): €${Math.round(rentA).toLocaleString()}/μήνα ακαθάριστο αποδίδει μέσο καθαρό €${Math.round(mNetA).toLocaleString()}/μήνα (€${Math.round(tNetA).toLocaleString()} συνολικό καθαρό).
+• Στοχευμένο Σενάριο Β (${termB} Έτ${termB > 1 ? 'η' : 'ος'}): €${Math.round(rentB).toLocaleString()}/μήνα συνολικά δομημένο ως €${Math.round(declB).toLocaleString()} δηλωθέν & €${Math.round(cashB).toLocaleString()} εναλλακτικό τμήμα αποδίδει μέσο καθαρό €${Math.round(mNetB).toLocaleString()}/μήνα (€${Math.round(tNetB).toLocaleString()} συνολικό καθαρό).
+
+Καθαρό Πλεονέκτημα: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/μήνα (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} συνολικό πλεονέκτημα περιόδου).
+
+Αυτή η δομή μεγιστοποιεί τις καθαρές εισπράξεις σας διατηρώντας παράλληλα την πληρέστερη αποδοτικότητα υπό το κυπριακό ρυθμιστικό πλαίσιο. Ας συζητήσουμε πώς να προχωρήσουμε.`;
+
+            document.getElementById('pitchTextEN').innerText = pitchEN;
+            document.getElementById('pitchTextEL').innerText = pitchEL;
+        }
+
+        // Initial calculation on load
+        window.onload = function() {
+            calculate();
+        };
     </script>
 </body>
 </html>
