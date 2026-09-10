@@ -124,11 +124,11 @@
                     </div>
                     <div>
                         <label id="uiDeclaredLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Declared Portion (Wire / Revolut) (€)</label>
-                        <input type="number" id="declaredPortion" value="3000" min="0" oninput="onDeclaredChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                        <input type="number" id="declaredPortion" value="3250" min="0" oninput="onDeclaredChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                     </div>
                     <div>
                         <label id="uiCashLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Alternative/Cash Portion (€)</label>
-                        <input type="number" id="cashPortion" value="3500" min="0" oninput="onCashChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                        <input type="number" id="cashPortion" value="3250" min="0" oninput="onCashChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                     </div>
                 </div>
             </div>
@@ -506,13 +506,9 @@
 
         function onTotalRentChange() {
             const total = Math.max(0, parseFloat(document.getElementById('directRent').value) || 0);
-            let declared = Math.max(0, parseFloat(document.getElementById('declaredPortion').value) || 0);
-            if (declared > total) {
-                declared = total;
-                document.getElementById('declaredPortion').value = declared;
-            }
-            const cash = Math.max(0, total - declared);
-            document.getElementById('cashPortion').value = cash;
+            const half = total / 2;
+            document.getElementById('declaredPortion').value = half;
+            document.getElementById('cashPortion').value = half;
             calculate();
         }
 
