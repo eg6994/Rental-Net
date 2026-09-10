@@ -206,17 +206,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col">
                         <h3 id="uiPitchTitleEN" class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
-                            <span>Pitch Text</span>
+                            <span>Pitch Text (English)</span>
                             <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded font-mono">EN</span>
                         </h3>
-                        <div id="pitchTextEN" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-96 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
+                        <div id="pitchTextEN" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
                     </div>
                     <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col">
                         <h3 id="uiPitchTitleEL" class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
-                            <span>Pitch Text</span>
+                            <span>Pitch Text (Greek / Ελληνικά)</span>
                             <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded font-mono">EL</span>
                         </h3>
-                        <div id="pitchTextEL" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-96 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
+                        <div id="pitchTextEL" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
                     </div>
                 </div>
             </div>
@@ -227,14 +227,14 @@
             <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none">
                 <div class="flex items-center space-x-3">
                     <span class="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-300 dark:border-slate-700">ℹ️</span>
-                    <h3 id="uiExpHeader" class="text-base font-bold text-slate-900 dark:text-white">How This Calculator Works (Tax Logic)</h3>
+                    <h3 id="uiExpHeader" class="text-base font-bold text-slate-900 dark:text-white">How This Calculator Works (Cyprus Tax Logic)</h3>
                 </div>
                 <span id="expChevron" class="text-slate-400 font-bold text-lg transition-transform duration-200">▼</span>
             </button>
             <div id="expContent" class="hidden p-6 border-t border-slate-200 dark:border-slate-800 space-y-6 text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-950">
                 <div>
                     <h4 id="uiExpSub1" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">1. Statutory Rental Expense Deduction (20%)</h4>
-                    <p id="uiExpDesc1">Landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
+                    <p id="uiExpDesc1">Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
                 </div>
                 <div>
                     <h4 id="uiExpSub2" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)</h4>
@@ -249,7 +249,7 @@
                 </div>
                 <div>
                     <h4 id="uiExpSub3" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">3. G.E.S.Y. (General Healthcare System) Contributions</h4>
-                    <p id="uiExpDesc3">A <strong>2.65% G.E.S.Y. contribution</strong> is calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
+                    <p id="uiExpDesc3">Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
                 </div>
                 <div>
                     <h4 id="uiExpSub4" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">4. Corporate Structure Alternative (15% Flat Rate)</h4>
@@ -257,7 +257,7 @@
                 </div>
                 <div>
                     <h4 id="uiExpSub5" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">5. Agent Fees & Commission VAT</h4>
-                    <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% VAT rate is added directly to the commission sum.</p>
+                    <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.</p>
                 </div>
             </div>
         </div>
@@ -265,14 +265,14 @@
         <!-- Footer Disclaimer -->
         <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
             <p id="uiDisclaimer" class="text-[10px] text-slate-500 leading-normal max-w-5xl mx-auto px-4">
-                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
+                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
             </p>
         </footer>
     </div>
 
     <script>
         let currentLang = 'en';
-        let currentTheme = 'light';
+        let currentTheme = 'light'; // Default to day mode as requested
 
         const translations = {
             en: {
@@ -319,24 +319,24 @@
                 advMonthlyTitle: "Monthly Avg Advantage",
                 advAnnualTitle: "Annual Advantage",
                 advTotalTitle: "All-Time Total Advantage",
-                pitchTitleEN: "Pitch Text",
-                pitchTitleEL: "Pitch Text",
-                expHeader: "How This Calculator Works (Tax Logic)",
+                pitchTitleEN: "Pitch Text (English)",
+                pitchTitleEL: "Pitch Text (Greek / Ελληνικά)",
+                expHeader: "How This Calculator Works (Cyprus Tax Logic)",
                 expSub1: "1. Statutory Rental Expense Deduction (20%)",
-                expDesc1: "Landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).",
+                expDesc1: "Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).",
                 expSub2: "2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)",
                 expDesc2: "For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:",
                 expSub3: "3. G.E.S.Y. (General Healthcare System) Contributions",
-                expDesc3: "A <strong>2.65% G.E.S.Y. contribution</strong> is calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.",
+                expDesc3: "Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.",
                 expSub4: "4. Corporate Structure Alternative (15% Flat Rate)",
                 expDesc4: "If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.",
                 expSub5: "5. Agent Fees & Commission VAT",
-                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% VAT rate is added directly to the commission sum.",
-                disclaimerText: "<strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations."
+                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.",
+                disclaimerText: "<strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations."
             },
             el: {
                 langBtnText: "🌐 English (EN)",
-                title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων",
+                title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
                 subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
                 controlsHeader: "Έλεγχος Σεναρίων",
                 entityTypeTitle: "Τύπος Οντότητας Ιδιοκτήτη",
@@ -378,20 +378,20 @@
                 advMonthlyTitle: "Μηνιαίο Μέσο Πλεονέκτημα",
                 advAnnualTitle: "Ετήσιο Πλεονέκτημα",
                 advTotalTitle: "Συνολικό Πλεονέκτημα",
-                pitchTitleEN: "Pitch Text",
-                pitchTitleEL: "Pitch Text",
-                expHeader: "Πώς λειτουργεί αυτός ο υπολογιστής (Φορολογική λογική)",
+                pitchTitleEN: "Κείμενο Παρουσίασης (Αγγλικά)",
+                pitchTitleEL: "Κείμενο Παρουσίασης (Ελληνικά)",
+                expHeader: "Πώς λειτουργεί αυτός ο υπολογιστής (Φορολογική λογική Κύπρου)",
                 expSub1: "1. Νόμιμη Έκπτωση Εξόδων Ενοικίου (20%)",
-                expDesc1: "Οι ιδιοκτήτες δικαιούνται αυτόματα <strong>έκπτωση 20%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για συντήρηση, επισκευές και αποθέματα πριν από την επιβολή φόρου εισοδήματος (δηλ. Φορολογητέο Καθαρό Κέρδος Ενοικίου = Ακαθάριστο Ετήσιο Ενοίκιο × 80%).",
+                expDesc1: "Σύμφωνα με την κυπριακή φορολογική νομοθεσία, οι ιδιοκτήτες δικαιούνται αυτόματα <strong>έκπτωση 20%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για συντήρηση, επισκευές και αποθέματα πριν από την επιβολή φόρου εισοδήματος (δηλ. Φορολογητέο Καθαρό Κέρδος Ενοικίου = Ακαθάριστο Ετήσιο Ενοίκιο × 80%).",
                 expSub2: "2. Οριακές Φορολογικές Κλίμακες Φυσικών Προσώπων (2026)",
                 expDesc2: "Για τα φυσικά πρόσωπα, ο φόρος εισοδήματος είναι προοδευτικός. Η προσθήκη εισοδήματος από ενοίκια στα υπάρχοντα κέρδη μπορεί να σας ωθήσει σε υψηλότερα φορολογικά κλιμάκια. Ο υπολογιστής χρησιμοποιεί ακριβή κλιμακωτή οριακή κατανομή:",
                 expSub3: "3. Εισφορές Γε.Σ.Υ. (Γενικό Σύστημα Υγείας)",
-                expDesc3: "Η <strong>εισφορά Γε.Σ.Υ. 2.65%</strong> υπολογίζεται επί του ακαθάριστου εισοδήματος από ενοίκια για φυσικά πρόσωπα (με ανώτατο όριο εισοδήματος €180.000). Οι εταιρείες εξαιρούνται από το Γε.Σ.Υ. στα κέρδη ενοικίων.",
+                expDesc3: "Η Κύπρος επιβάλει <strong>εισφορά Γε.Σ.Υ. 2.65%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για φυσικά πρόσωπα (με ανώτατο όριο εισοδήματος €180.000). Οι εταιρείες εξαιρούνται από το Γε.Σ.Υ. στα κέρδη ενοικίων.",
                 expSub4: "4. Εναλλακτική Εταιρική Δομή (Σταθερός Συντελεστής 15%)",
                 expDesc4: "Εάν δομηθεί υπό εταιρική οντότητα, τα κέρδη από ενοίκια υπόκεινται σε σταθερό <strong>εταιρικό φόρο 15%</strong> επί του καθαρού κέρδους ενοικίου (μετά την έκπτωση 20%), παρακάμπτοντας τα προσωπικά κλιμάκια και το Γε.Σ.Υ.",
                 expSub5: "5. Μεσιτικές Αμοιβές & ΦΠΑ Προμήθειας",
-                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ο ΦΠΑ είναι ενεργοποιημένος, προστίθεται απευθείας ΦΠΑ 19% στο ποσό της προμήθειας.",
-                disclaimerText: "<strong>Αποποίηση Ευθύνης:</strong> Αυτό το εργαλείο παρέχεται αποκλειστικά για εκπαιδευτικούς και ενημερωτικούς σκοπούς, προκειμένου να βοηθήσει τους χρήστες να κατανοήσουν πώς μεταβλητές όπως οι όροι μίσθωσης, οι εκπτώσεις εξόδων και τα δηλωθέντα τμήματα εισοδήματος αλληλεπιδρούν με τις φορολογικές κλίμακες και τους υπολογισμούς του Γε.Σ.Υ. Δεν προορίζεται να παρέχει επίσημη φορολογική, νομική ή οικονομική συμβουλή. Οι χρήστες είναι αποκλειστικά υπεύθυνοι για τη διασφάλιση ότι όλες οι φορολογικές δηλώσεις και οι οικονομικές δηλώσεις συμμορφώνονται πλήρως με τη σχετική νομοθεσία και θα πρέπει να συμβουλεύονται πιστοποιημένο αδειούχο λογιστή ή φορολογικό σύμβουλο για επαγγελματική καθοδήγηση σχετικά με τις συγκεκριμένες φορολογικές τους υποχρεώσεις."
+                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ο ΦΠΑ είναι ενεργοποιημένος, προστίθεται απευθείας κυπριακός ΦΠΑ 19% στο ποσό της προμήθειας.",
+                disclaimerText: "<strong>Αποποίηση Ευθύνης:</strong> Αυτό το εργαλείο παρέχεται αποκλειστικά για εκπαιδευτικούς και ενημερωτικούς σκοπούς, προκειμένου να βοηθήσει τους χρήστες να κατανοήσουν πώς μεταβλητές όπως οι όροι μίσθωσης, οι εκπτώσεις εξόδων και τα δηλωθέντα τμήματα εισοδήματος αλληλεπιδρούν με τις φορολογικές κλίμακες της Κύπρου και τους υπολογισμούς του Γε.Σ.Υ. Δεν προορίζεται να παρέχει επίσημη φορολογική, νομική ή οικονομική συμβουλή, ούτε προωθεί, ενθαρρύνει ή επικροτεί τη φοροδιαφυγή ή οποιαδήποτε μορφή μη συμμόρφωσης με τους νόμους της Κυπριακής Δημοκρατίας. Οι χρήστες είναι αποκλειστικά υπεύθυνοι για τη διασφάλιση ότι όλες οι φορολογικές δηλώσεις και οι οικονομικές δηλώσεις συμμορφώνονται πλήρως με τη σχετική φορολογική νομοθεσία και θα πρέπει να συμβουλεύονται πιστοποιημένο αδειούχο λογιστή ή φορολογικό σύμβουλο για επαγγελματική καθοδήγηση σχετικά με τις συγκεκριμένες φορολογικές τους υποχρεώσεις."
             }
         };
 
@@ -672,105 +672,34 @@
             elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
             elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
 
-            generatePitchTexts({
-                grossAnnualA, agentFeeA, otherIncome, netProfitA, annualTaxA, netMonthlyA,
-                directRent, declaredPortion, cashPortion, agentFeeB, annualTaxB, netMonthlyB,
-                diffMonthly, diffTotal, termA, termB
-            });
+            generatePitchTexts(netMonthlyA, netMonthlyB, netTotalA, netTotalB, agentRent, directRent, declaredPortion, cashPortion, termA, termB);
         }
 
-        function generatePitchTexts(d) {
-            const formatCurr = (val) => '€' + Math.round(val).toLocaleString();
+        function generatePitchTexts(mNetA, mNetB, tNetA, tNetB, rentA, rentB, declB, cashB, termA, termB) {
+            const diffM = mNetB - mNetA;
+            const diffT = tNetB - tNetA;
 
-            // Dynamic agent fee descriptions
-            let agentFeeDescA = "No agent fee";
-            if (document.getElementById('scenarioAHasAgent').checked) {
-                const feeAmt = formatCurr(d.agentFeeA);
-                const vatChecked = document.getElementById('agentVatA').checked;
-                agentFeeDescA = vatChecked ? `Agency commission plus 19% VAT, totaling ${feeAmt}` : `Agency commission without VAT, totaling ${feeAmt}`;
-            }
+            const pitchEN = `Hello,
 
-            let agentFeeDescB = "No agent fee";
-            let agentFeeDescB_EL = "Χωρίς μεσίτη";
-            if (document.getElementById('scenarioBHasAgent').checked) {
-                const feeAmt = formatCurr(d.agentFeeB);
-                const vatChecked = document.getElementById('agentVatB').checked;
-                agentFeeDescB = vatChecked ? `Agency commission plus 19% VAT, totaling ${feeAmt}` : `Agency commission without VAT, totaling ${feeAmt}`;
-                agentFeeDescB_EL = vatChecked ? `Μεσιτική αμοιβή συν 19% ΦΠΑ, συνολικά ${feeAmt}` : `Μεσιτική αμοιβή χωρίς ΦΠΑ, συνολικά ${feeAmt}`;
-            }
+Based on our financial net income optimization analysis for your Cyprus property:
 
-            let agentFeeDescA_EL = "Χωρίς μεσίτη";
-            if (document.getElementById('scenarioAHasAgent').checked) {
-                const feeAmt = formatCurr(d.agentFeeA);
-                const vatChecked = document.getElementById('agentVatA').checked;
-                agentFeeDescA_EL = vatChecked ? `Μεσιτική αμοιβή συν 19% ΦΠΑ, συνολικά ${feeAmt}` : `Μεσιτική αμοιβή χωρίς ΦΠΑ, συνολικά ${feeAmt}`;
-            }
+• Baseline Scenario A (${termA} Yr${termA > 1 ? 's' : ''}): €${Math.round(rentA).toLocaleString()}/mo gross yields an average in-hand net of €${Math.round(mNetA).toLocaleString()}/month (€${Math.round(tNetA).toLocaleString()} total net).
+• Target Scenario B (${termB} Yr${termB > 1 ? 's' : ''}): €${Math.round(rentB).toLocaleString()}/mo total structured as €${Math.round(declB).toLocaleString()} declared & €${Math.round(cashB).toLocaleString()} alternative portion yields an average in-hand net of €${Math.round(mNetB).toLocaleString()}/month (€${Math.round(tNetB).toLocaleString()} total net).
 
-            let taxStackingEN = "";
-            let taxStackingEL = "";
-            if (d.otherIncome > 0) {
-                taxStackingEN = `Factoring in your existing annual income of **€${Math.round(d.otherIncome).toLocaleString()}/yr**, your additional rental income stacks directly on top, pushing you into higher tax brackets`;
-                taxStackingEL = `Συνυπολογίζοντας το υφιστάμενο ετήσιο εισόδημά σας ύψους **€${Math.round(d.otherIncome).toLocaleString()}/έτος**, τα επιπλέον έσοδα από το ενοίκιο προστίθενται απευθείας σωρευτικά, ανεβάζοντάς σας σε υψηλότερα φορολογικά κλιμάκια`;
-            } else {
-                taxStackingEN = `Calculated assuming **zero other annual income**, meaning your rental income is taxed starting from the lowest progressive slabs`;
-                taxStackingEL = `Υπολογίζεται με την παραδοχή **μηδενικού άλλου ετήσιου εισοδήματος**, γεγονός που σημαίνει ότι τα έσοδα από το ενοίκιο φορολογούνται ξεκινώντας από τα χαμηλότερα κλιμάκια`;
-            }
+Net Advantage: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/month (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} overall term advantage).
 
-            const grossRentAMo = d.grossAnnualA / 12;
-            const grossRentB MoTotal = d.directRent;
-            const grossAnnualA = d.grossAnnualA;
-            const netProfitA = d.netProfitA;
-            const annualTaxA = d.annualTaxA;
-            const netMonthlyA = d.netMonthlyA;
+This structure maximizes your take-home cash flow while remaining fully optimized under Cyprus regulatory frameworks. Let's discuss how to proceed.`;
 
-            const declaredPortion = d.declaredPortion;
-            const cashPortion = d.cashPortion;
-            const annualTaxB = d.annualTaxB;
-            const netMonthlyB = d.netMonthlyB;
+            const pitchEL = `Γεια σας,
 
-            const advantageMonthly = formatCurr(Math.abs(d.diffMonthly));
-            const advantageTotal = formatCurr(Math.abs(d.diffTotal));
-            const termLength = d.termB;
+Με βάση την ανάλυση βελτιστοποίησης καθαρού εισοδήματος για το ακίνητό σας στην Κύπρο:
 
-            const pitchEN = `Hi [Owner Name], following up on our discussion for [Property Name/Area]. 
+• Βασικό Σενάριο Α (${termA} Έτ${termA > 1 ? 'η' : 'ος'}): €${Math.round(rentA).toLocaleString()}/μήνα ακαθάριστο αποδίδει μέσο καθαρό €${Math.round(mNetA).toLocaleString()}/μήνα (€${Math.round(tNetA).toLocaleString()} συνολικό καθαρό).
+• Στοχευμένο Σενάριο Β (${termB} Έτ${termB > 1 ? 'η' : 'ος'}): €${Math.round(rentB).toLocaleString()}/μήνα συνολικά δομημένο ως €${Math.round(declB).toLocaleString()} δηλωθέν & €${Math.round(cashB).toLocaleString()} εναλλακτικό τμήμα αποδίδει μέσο καθαρό €${Math.round(mNetB).toLocaleString()}/μήνα (€${Math.round(tNetB).toLocaleString()} συνολικό καθαρό).
 
-I ran the complete side-by-side math comparing what you are looking to achieve against our optimized offer:
+Καθαρό Πλεονέκτημα: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/μήνα (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} συνολικό πλεονέκτημα περιόδου).
 
-**1️⃣ Your Target Baseline (€${Math.round(grossRentAMo).toLocaleString()}/mo):**
-* **Gross Income & Fees:** €${Math.round(grossAnnualA).toLocaleString()}/yr total | Agent cost: ${agentFeeDescA}.
-* **Tax Bracket Stacking:** ${taxStackingEN}.
-* **Taxable Foundation:** After the statutory **20% expense deduction** (80% net base), your net rental profit sits at €${Math.round(netProfitA).toLocaleString()}/yr.
-* **Taxes & Levies:** Subject to progressive marginal tax brackets + **2.65% G.E.S.Y.**, totaling €${Math.round(annualTaxA).toLocaleString()}/yr in deductions.
-* **Net In-Hand:** **€${Math.round(netMonthlyA).toLocaleString()}/mo** clear cash flow.
-
-**2️⃣ Our Optimized Offer (€${Math.round(grossRentBMoTotal).toLocaleString()}/mo total):**
-* **Structure & Fees:** Split into €${Math.round(declaredPortion).toLocaleString()}/mo via bank wire/Revolut and €${Math.round(cashPortion).toLocaleString()}/mo | Agent cost: ${agentFeeDescB}.
-* **Taxable Foundation:** Only the official bank portion is assessed after the **20% statutory deduction**, keeping your bracket exposure optimized.
-* **Taxes & Levies:** Total annual taxes drop to €${Math.round(annualTaxB).toLocaleString()}/yr.
-* **Net In-Hand:** **€${Math.round(netMonthlyB).toLocaleString()}/mo** clear cash flow.
-
-💡 **The Bottom-Line Advantage:** 
-By choosing our offer, you instantly clear an extra **+${advantageMonthly}/month**, adding up to a massive **+${advantageTotal} net advantage** in your pocket over the ${termLength} years—maximizing your return from day one.`;
-
-            const pitchEL = `Γεια σας [Owner Name], επανέρχομαι σχετικά με τη συζήτησή μας για το [Property Name/Area]. 
-
-Έτρεξα την πλήρη ανάλυση συγκρίνοντας αυτό που επιδιώκετε να πετύχετε με την βελτιστοποιημένη πρότασή μας:
-
-**1️⃣ Η Βασική σας Απαίτηση (€${Math.round(grossRentAMo).toLocaleString()}/μήνα):**
-* **Ακαθάριστο Εισόδημα & Έξοδα:** €${Math.round(grossAnnualA).toLocaleString()}/έτος συνολικά | Κόστος μεσίτη: ${agentFeeDescA_EL}.
-* **Κλιμάκωση Φορολογίας:** ${taxStackingEL}.
-* **Φορολογική Βάση:** Μετά τη νόμιμη **έκπτωση 20% για έξοδα** (80% καθαρή βάση), το καθαρό κέρδος ενοικίου σας διαμορφώνεται σε €${Math.round(netProfitA).toLocaleString()}/έτος.
-* **Φόροι & Εισφορές:** Υπόκειται σε προοδευτικά οριακά φορολογικά κλιμάκια + **2.65% Γε.Σ.Υ.**, συνολικά €${Math.round(annualTaxA).toLocaleString()}/έτος σε κρατήσεις.
-* **Καθαρό στην Τσέπη:** **€${Math.round(netMonthlyA).toLocaleString()}/μήνα** καθαρή ρευστότητα.
-
-**2️⃣ Η Βελτιστοποιημένη Πρότασή μας (€${Math.round(grossRentBMoTotal).toLocaleString()}/μήνα συνολικά):**
-* **Δομή & Έξοδα:** Κατανέμεται σε €${Math.round(declaredPortion).toLocaleString()}/μήνα μέσω τραπεζικού εμβάσματος/Revolut & €${Math.round(cashPortion).toLocaleString()}/μήνα | Κόστος μεσίτη: ${agentFeeDescB_EL}.
-* **Φορολογική Βάση:** Υπολογίζεται μόνο επί του επίσημου τμήματος μέσω τράπεζας μετά την **έκπτωση 20%**, διατηρώντας βελτιστοποιημένη την έκθεσή σας στα φορολογικά κλιμάκια.
-* **Φόροι & Εισφορές:** Οι συνολικοί ετήσιοι φόροι περιορίζονται σε €${Math.round(annualTaxB).toLocaleString()}/έτος.
-* **Καθαρό στην Τσέπη:** **€${Math.round(netMonthlyB).toLocaleString()}/μήνα** καθαρή ρευστότητα.
-
-💡 **Το Συνολικό Πλεονέκτημα:** 
-Με την επιλογή της πρότασής μας, εξασφαλίζετε άμεσα επιπλέον **+${advantageMonthly}/μήνα**, φτάνοντας σε ένα τεράστιο **συνολικό καθαρό πλεονέκτημα +${advantageTotal}** στην τσέπη σας για τη διάρκεια των ${termLength} ετών—μεγιστοποιώντας την απόδοσή σας από την πρώτη μέρα.`;
+Αυτή η δομή μεγιστοποιεί τις καθαρές εισπράξεις σας διατηρώντας παράλληλα την πληρέστερη αποδοτικότητα υπό το κυπριακό ρυθμιστικό πλαίσιο. Ας συζητήσουμε πώς να προχωρήσουμε.`;
 
             document.getElementById('pitchTextEN').innerText = pitchEN;
             document.getElementById('pitchTextEL').innerText = pitchEL;
