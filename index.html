@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +23,8 @@
             <!-- Actions: Language & Theme Switcher -->
             <div class="flex items-center space-x-3">
                 <button onclick="toggleTheme()" id="themeBtn" class="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
-                    <span id="themeIcon">☀️</span>
-                    <span id="themeText">Day Mode</span>
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Night Mode</span>
                 </button>
                 <button onclick="toggleLanguage()" id="langBtn" class="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <span>🌐 Ελληνικά (EL)</span>
@@ -272,7 +272,7 @@
 
     <script>
         let currentLang = 'en';
-        let currentTheme = 'dark';
+        let currentTheme = 'light'; // Default to day mode as requested
 
         const translations = {
             en: {
