@@ -12,6 +12,22 @@
             darkMode: 'class',
         }
     </script>
+
+    <style>
+        @media print {
+            body { font-size: 11px; background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            #exportWrapper { max-width: 100% !important; padding: 10px !important; margin: 0 !important; }
+            .grid { gap: 12px !important; }
+            .shadow-xl, .shadow-lg { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+            h1 { font-size: 20px !important; }
+            h2, h3 { font-size: 14px !important; }
+            .p-6 { padding: 12px !important; }
+            .space-y-6 > * + * { margin-top: 10px !important; }
+            .space-y-4 > * + * { margin-top: 8px !important; }
+        }
+    </style>
+
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
     <div id="exportWrapper" class="max-w-7xl mx-auto px-4 py-10">
@@ -207,27 +223,7 @@
                     </div>
                 </div>
 
-                <!-- Pitch Output Boxes (EN & EL) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col">
-                        <h3 id="uiPitchTitleEN" class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
-                            <span>Pitch Text (English)</span>
-                            <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded font-mono">EN</span>
-                        </h3>
-                        <div id="pitchTextEN" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
-                    </div>
-                    <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 flex flex-col">
-                        <h3 id="uiPitchTitleEL" class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center justify-between">
-                            <span>Pitch Text (Greek / Ελληνικά)</span>
-                            <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded font-mono">EL</span>
-                        </h3>
-                        <div id="pitchTextEL" class="bg-slate-100 dark:bg-slate-900/90 p-4 rounded-xl text-xs text-slate-700 dark:text-slate-300 whitespace-pre-line border border-slate-200 dark:border-slate-800/80 font-mono h-80 overflow-y-auto selection:bg-emerald-500 selection:text-white"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Expandable Explanation Section -->
+                <!-- Expandable Explanation Section -->
         <div class="mt-12 bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
             <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none">
                 <div class="flex items-center space-x-3">
@@ -331,8 +327,6 @@
                 advMonthlyTitle: "Monthly Avg Advantage",
                 advAnnualTitle: "Annual Advantage",
                 advTotalTitle: "All-Time Total Advantage",
-                pitchTitleEN: "Pitch Text (English)",
-                pitchTitleEL: "Pitch Text (Greek / Ελληνικά)",
                 expHeader: "How This Calculator Works (Cyprus Tax Logic)",
                 expSub1: "1. Statutory Rental Expense Deduction (20%)",
                 expDesc1: "Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).",
@@ -391,8 +385,6 @@
                 advMonthlyTitle: "Μηνιαίο Μέσο Πλεονέκτημα",
                 advAnnualTitle: "Ετήσιο Πλεονέκτημα",
                 advTotalTitle: "Συνολικό Πλεονέκτημα",
-                pitchTitleEN: "Κείμενο Παρουσίασης (Αγγλικά)",
-                pitchTitleEL: "Κείμενο Παρουσίασης (Ελληνικά)",
                 expHeader: "Πώς λειτουργεί αυτός ο υπολογιστής (Φορολογική λογική Κύπρου)",
                 expSub1: "1. Νόμιμη Έκπτωση Εξόδων Ενοικίου (20%)",
                 expDesc1: "Σύμφωνα με την κυπριακή φορολογική νομοθεσία, οι ιδιοκτήτες δικαιούνται αυτόματα <strong>έκπτωση 20%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για συντήρηση, επισκευές και αποθέματα πριν από την επιβολή φόρου εισοδήματος (δηλ. Φορολογητέο Καθαρό Κέρδος Ενοικίου = Ακαθάριστο Ετήσιο Ενοίκιο × 80%).",
@@ -493,8 +485,6 @@
             document.getElementById('uiAdvAnnualTitle').innerText = t.advAnnualTitle;
             document.getElementById('uiAdvTotalTitle').innerText = t.advTotalTitle;
 
-            document.getElementById('uiPitchTitleEN').querySelector('span').innerText = t.pitchTitleEN;
-            document.getElementById('uiPitchTitleEL').querySelector('span').innerText = t.pitchTitleEL;
             document.getElementById('uiExpHeader').innerText = t.expHeader;
             document.getElementById('uiExpSub1').innerText = t.expSub1;
             document.getElementById('uiExpDesc1').innerHTML = t.expDesc1;
@@ -701,37 +691,7 @@
             elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
             elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
 
-            generatePitchTexts(netMonthlyA, netMonthlyB, netTotalA, netTotalB, agentRent, directRent, declaredPortion, cashPortion, termA, termB);
-        }
-
-        function generatePitchTexts(mNetA, mNetB, tNetA, tNetB, rentA, rentB, declB, cashB, termA, termB) {
-            const diffM = mNetB - mNetA;
-            const diffT = tNetB - tNetA;
-
-            const pitchEN = `Hello,
-
-Based on our financial net income optimization analysis for your Cyprus property:
-
-• Baseline Scenario A (${termA} Yr${termA > 1 ? 's' : ''}): €${Math.round(rentA).toLocaleString()}/mo gross yields an average in-hand net of €${Math.round(mNetA).toLocaleString()}/month (€${Math.round(tNetA).toLocaleString()} total net).
-• Target Scenario B (${termB} Yr${termB > 1 ? 's' : ''}): €${Math.round(rentB).toLocaleString()}/mo total structured as €${Math.round(declB).toLocaleString()} declared & €${Math.round(cashB).toLocaleString()} alternative portion yields an average in-hand net of €${Math.round(mNetB).toLocaleString()}/month (€${Math.round(tNetB).toLocaleString()} total net).
-
-Net Advantage: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/month (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} overall term advantage).
-
-This structure maximizes your take-home cash flow while remaining fully optimized under Cyprus regulatory frameworks. Let's discuss how to proceed.`;
-
-            const pitchEL = `Γεια σας,
-
-Με βάση την ανάλυση βελτιστοποίησης καθαρού εισοδήματος για το ακίνητό σας στην Κύπρο:
-
-• Βασικό Σενάριο Α (${termA} Έτ${termA > 1 ? 'η' : 'ος'}): €${Math.round(rentA).toLocaleString()}/μήνα ακαθάριστο αποδίδει μέσο καθαρό €${Math.round(mNetA).toLocaleString()}/μήνα (€${Math.round(tNetA).toLocaleString()} συνολικό καθαρό).
-• Στοχευμένο Σενάριο Β (${termB} Έτ${termB > 1 ? 'η' : 'ος'}): €${Math.round(rentB).toLocaleString()}/μήνα συνολικά δομημένο ως €${Math.round(declB).toLocaleString()} δηλωθέν & €${Math.round(cashB).toLocaleString()} εναλλακτικό τμήμα αποδίδει μέσο καθαρό €${Math.round(mNetB).toLocaleString()}/μήνα (€${Math.round(tNetB).toLocaleString()} συνολικό καθαρό).
-
-Καθαρό Πλεονέκτημα: ${diffM >= 0 ? '+' : ''}€${Math.round(diffM).toLocaleString()}/μήνα (${diffT >= 0 ? '+' : ''}€${Math.round(diffT).toLocaleString()} συνολικό πλεονέκτημα περιόδου).
-
-Αυτή η δομή μεγιστοποιεί τις καθαρές εισπράξεις σας διατηρώντας παράλληλα την πληρέστερη αποδοτικότητα υπό το κυπριακό ρυθμιστικό πλαίσιο. Ας συζητήσουμε πώς να προχωρήσουμε.`;
-
-            document.getElementById('pitchTextEN').innerText = pitchEN;
-            document.getElementById('pitchTextEL').innerText = pitchEL;
+            
         }
 
         window.onload = function() {
