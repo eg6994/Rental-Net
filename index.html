@@ -3,197 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyprus Rental Net Income Optimization Report</title>
+    <title>Cyprus Rental Net Income Optimization Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include html2pdf library for PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
+
     <style>
         @media print {
-            body { font-size: 10px; background: white !important; color: black !important; }
+            body { font-size: 11px; background: white !important; color: black !important; }
             .no-print { display: none !important; }
-            #exportWrapper { max-width: 100% !important; padding: 4px !important; margin: 0 !important; }
-            .grid { gap: 8px !important; }
+            #exportWrapper { max-width: 100% !important; padding: 10px !important; margin: 0 !important; }
+            .grid { gap: 12px !important; }
             .shadow-xl, .shadow-lg { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
-            h1 { font-size: 18px !important; }
-            h2, h3 { font-size: 12px !important; }
-            .p-6 { padding: 10px !important; }
-            .p-5 { padding: 8px !important; }
-            .space-y-6 > * + * { margin-top: 8px !important; }
-            .space-y-4 > * + * { margin-top: 6px !important; }
+            h1 { font-size: 20px !important; }
+            h2, h3 { font-size: 14px !important; }
+            .p-6 { padding: 12px !important; }
+            .space-y-6 > * + * { margin-top: 10px !important; }
+            .space-y-4 > * + * { margin-top: 8px !important; }
         }
     </style>
+
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
-    <div id="exportWrapper" class="max-w-6xl mx-auto px-4 py-6 space-y-6">
-        
-        <!-- Header & Action Bar -->
-        <header class="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
-            <div class="text-center md:text-left mb-3 md:mb-0">
-                <span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold rounded-full border border-emerald-500/20 uppercase tracking-widest">Executive Net Income Report</span>
-                <h1 id="uiTitle" class="text-2xl font-extrabold mt-1 tracking-tight">Cyprus Rental Optimization Intelligence</h1>
-                <p id="uiSubtitle" class="text-slate-600 dark:text-slate-400 text-xs mt-0.5">Comprehensive baseline vs. target scenario analysis with full tax and allocation transparency.</p>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+    <div id="exportWrapper" class="max-w-7xl mx-auto px-4 py-10">
+        <!-- Header -->
+        <header class="mb-10 flex flex-col md:flex-row items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold rounded-full border border-emerald-500/20 uppercase tracking-widest">Cyprus Real Estate Intelligence</span>
+                <h1 id="uiTitle" class="text-3xl font-extrabold mt-2 tracking-tight">Cyprus Rental Net Income Optimization Tool</h1>
+                <p id="uiSubtitle" class="text-slate-600 dark:text-slate-400 text-sm mt-1">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
             </div>
-            <div class="flex items-center space-x-2.5 no-print">
-                <button onclick="exportToPDF()" id="pdfBtn" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow transition-all flex items-center space-x-1.5">
+            <!-- Actions: Language, Theme Switcher & PDF Export -->
+            <div class="flex items-center space-x-3 no-print">
+                <button onclick="exportToPDF()" id="pdfBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <span>📄 <span id="pdfBtnText">Export PDF</span></span>
                 </button>
-                <button onclick="toggleTheme()" id="themeBtn" class="px-3.5 py-2 bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow transition-all flex items-center space-x-1.5">
+                <button onclick="toggleTheme()" id="themeBtn" class="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <span id="themeIcon">🌙</span>
                     <span id="themeText">Night Mode</span>
                 </button>
-                <button onclick="toggleLanguage()" id="langBtn" class="px-3.5 py-2 bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow transition-all flex items-center space-x-1.5">
+                <button onclick="toggleLanguage()" id="langBtn" class="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <span>🌐 Ελληνικά (EL)</span>
                 </button>
             </div>
         </header>
 
-        <!-- Main 1-Pager Dashboard Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Left Column: Controls & Tax Logic Breakdown (4 Cols) -->
-            <div class="lg:col-span-4 space-y-4">
-                <!-- Control Panel -->
-                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 space-y-4">
-                    <h2 id="uiControlsHeader" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-2 flex items-center justify-between">
-                        <span>Scenario Controls</span>
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Live Active</span>
-                    </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Control Panel -->
+            <div class="lg:col-span-1 bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 space-y-6 no-print">
+                <h2 id="uiControlsHeader" class="text-lg font-bold border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center justify-between">
+                    <span>Scenario Controls</span>
+                    <span class="text-xs text-slate-500 font-normal">Live Calculation</span>
+                </h2>
 
-                    <!-- Entity Type -->
+                <!-- Landlord Entity Type Settings -->
+                <div class="space-y-2 bg-slate-100 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                    <h3 id="uiEntityTypeTitle" class="font-semibold text-slate-800 dark:text-slate-200 text-xs uppercase tracking-wider">Property Owner Entity Type</h3>
                     <div>
-                        <label id="uiEntitySelectLabel" class="block text-[11px] font-medium text-slate-600 dark:text-slate-400">Ownership Structure</label>
-                        <select id="entityType" onchange="onEntityTypeChange()" class="mt-1 w-full p-2 text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            <option value="individual">Individual (Progressive Brackets + GeSY)</option>
-                            <option value="company">Corporate Entity (Flat 15% Tax)</option>
+                        <label id="uiEntitySelectLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Ownership Structure</label>
+                        <select id="entityType" onchange="onEntityTypeChange()" class="mt-1 w-full p-2.5 text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                            <option value="individual">Individual / Personal (Marginal Brackets + GeSY)</option>
+                            <option value="company">Company / Corporate (Flat 15% Tax)</option>
                         </select>
                     </div>
+                </div>
 
-                    <!-- Other Income -->
-                    <div id="otherIncomeContainer" class="space-y-1.5 bg-amber-50/50 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-500/30">
-                        <label id="uiOtherIncomeLabel" class="block text-[11px] font-bold text-amber-800 dark:text-amber-300">Landlord's Other Annual Income (€)</label>
-                        <input type="number" id="otherIncome" value="0" min="0" step="5000" oninput="calculate()" class="w-full p-2 text-xs font-medium border border-amber-500/30 rounded-xl focus:ring-2 focus:ring-amber-500 bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                        <p id="uiTaxAccuracyNote" class="text-[9px] text-amber-900/70 dark:text-amber-300/70">Required for precise marginal tax stacking.</p>
+                <!-- Landlord's Other Income Settings (Only for Individual) -->
+                <div id="otherIncomeContainer" class="space-y-3 bg-amber-50 dark:bg-amber-950/20 p-4 rounded-xl border border-amber-500/30 shadow-sm">
+                    <h3 id="uiOtherIncomeTitle" class="font-semibold text-amber-700 dark:text-amber-400 text-xs flex items-center justify-between">
+                        <span>Landlord's Other Annual Income</span>
+                        <span class="text-[9px] bg-amber-500/20 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold border border-amber-500/30">Important</span>
+                    </h3>
+                    <p id="uiOtherIncomeDesc" class="text-[11px] text-amber-900/70 dark:text-amber-200/70 leading-relaxed">Enter other taxable earnings (salaries, other rent, dividends) to compute precise marginal tax stacking.</p>
+                    <div>
+                        <label id="uiOtherIncomeLabel" class="block text-xs font-bold text-amber-800 dark:text-amber-300">Other Annual Income (€)</label>
+                        <input type="number" id="otherIncome" value="0" min="0" step="5000" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs font-medium border border-amber-500/30 rounded-xl focus:ring-2 focus:ring-amber-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                     </div>
-
-                    <!-- Scenario Inputs Compact -->
-                    <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <!-- Baseline A -->
-                        <div class="space-y-2">
-                            <h3 id="uiScenarioAHeader" class="font-bold text-blue-600 dark:text-blue-400 text-xs flex items-center space-x-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                                <span>Baseline (A)</span>
-                            </h3>
-                            <div>
-                                <label class="text-[10px] text-slate-500">Term (Yrs)</label>
-                                <input type="number" id="leaseTermA" value="1" min="1" max="10" oninput="calculate()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-slate-500">Monthly Rent (€)</label>
-                                <input type="number" id="agentRent" value="8000" min="0" oninput="calculate()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
-                            <div class="flex items-center space-x-1.5 pt-0.5">
-                                <input type="checkbox" id="scenarioAHasAgent" checked onchange="toggleAgentControls('A')" class="rounded text-blue-600 focus:ring-blue-500">
-                                <label class="text-[10px] text-slate-600 dark:text-slate-400">Agent Fee (1mo)</label>
-                            </div>
-                        </div>
-
-                        <!-- Target B -->
-                        <div class="space-y-2">
-                            <h3 id="uiScenarioBHeader" class="font-bold text-emerald-600 dark:text-emerald-400 text-xs flex items-center space-x-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                <span>Target Offer (B)</span>
-                            </h3>
-                            <div>
-                                <label class="text-[10px] text-slate-500">Term (Yrs)</label>
-                                <input type="number" id="leaseTermB" value="1" min="1" max="10" oninput="calculate()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
-                            <div>
-                                <label class="text-[10px] text-slate-500">Total Rent (€)</label>
-                                <input type="number" id="directRent" value="6500" min="0" oninput="onTotalRentChange()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
-                            <div class="flex items-center space-x-1.5 pt-0.5">
-                                <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded text-emerald-600 focus:ring-emerald-500">
-                                <label class="text-[10px] text-slate-600 dark:text-slate-400">Agent Fee (1mo)</label>
-                            </div>
-                        </div>
+                    <div id="uiTaxAccuracyNote" class="text-[10px] text-amber-900/80 dark:text-amber-300/80 bg-amber-100 dark:bg-amber-900/40 p-2 rounded-lg border border-amber-500/20 leading-tight">
+                        ⚠️ Essential for calculating your exact marginal tax bracket accurately.
                     </div>
+                </div>
 
-                    <!-- Allocation Breakdown (Target B Split) -->
-                    <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300">Target Allocation Split (€)</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label id="uiDeclaredLabel" class="text-[9px] text-slate-500">Declared (Taxed)</label>
-                                <input type="number" id="declaredPortion" value="3250" min="0" oninput="onDeclaredChange()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
-                            <div>
-                                <label id="uiCashLabel" class="text-[9px] text-slate-500">Alternative/Cash</label>
-                                <input type="number" id="cashPortion" value="3250" min="0" oninput="onCashChange()" class="w-full p-1.5 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
-                            </div>
+                <hr class="border-slate-200 dark:border-slate-800">
+
+                <!-- Scenario A: Baseline -->
+                <div class="space-y-4">
+                    <h3 id="uiScenarioAHeader" class="font-bold text-blue-600 dark:text-blue-400 text-sm flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>Scenario A: Baseline</span>
+                    </h3>
+                    <div>
+                        <label id="uiLeaseTermALabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermA" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label id="uiMonthlyRentLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Monthly Rent (€)</label>
+                        <input type="number" id="agentRent" value="8000" min="0" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+                    <div class="flex items-center space-x-2 pt-1">
+                        <input type="checkbox" id="scenarioAHasAgent" checked onchange="toggleAgentControls('A')" class="rounded border-slate-300 dark:border-slate-700 text-blue-600 focus:ring-blue-500 bg-white dark:bg-slate-900">
+                        <label id="uiAgentFeeLabelA" class="text-xs font-medium text-slate-700 dark:text-slate-300">Involves Agent Fee (1 Mo)</label>
+                    </div>
+                    <div id="agentCallOptionsA" class="space-y-2 pl-4 border-l-2 border-blue-500/30">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="agentVatA" checked onchange="calculate()" class="rounded border-slate-300 dark:border-slate-700 text-blue-600 focus:ring-blue-500 bg-white dark:bg-slate-900">
+                            <label id="uiVatLabelA" class="text-xs text-slate-600 dark:text-slate-400">Include 19% VAT on Commission</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Transparent Calculation Logic Box (No expandable needed) -->
-                <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
-                    <h3 id="uiExpHeader" class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Cyprus Tax Logic & Math</h3>
-                    <ul class="text-[10px] text-slate-600 dark:text-slate-400 space-y-1.5 list-disc pl-4">
-                        <li><strong class="text-slate-900 dark:text-white">20% Expense Deduction:</strong> Automatically applied to gross annual rent before tax calculation ($\text{Profit} = \text{Gross} \times 80\%$).</li>
-                        <li><strong class="text-slate-900 dark:text-white">Marginal Stacking + GeSY:</strong> Progressive brackets (€22k-€72k+) plus 2.65% healthcare contribution on gross rent.</li>
-                        <li><strong class="text-slate-900 dark:text-white">Allocation Advantage:</strong> Scenario B splits income, lowering taxable brackets while preserving net in-hand cash.</li>
-                    </ul>
+                <hr class="border-slate-200 dark:border-slate-800">
+
+                <!-- Scenario B: Target Offer -->
+                <div class="space-y-4">
+                    <h3 id="uiScenarioBHeader" class="font-bold text-emerald-600 dark:text-emerald-400 text-sm flex items-center space-x-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Scenario B: Target Offer & Allocation</span>
+                    </h3>
+                    <div>
+                        <label id="uiLeaseTermBLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Lease Term (Years)</label>
+                        <input type="number" id="leaseTermB" value="1" min="1" max="10" oninput="calculate()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label id="uiDirectRentLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Total Direct Monthly Rent (€)</label>
+                        <input type="number" id="directRent" value="6500" min="0" oninput="onTotalRentChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+                    <div class="flex items-center space-x-2 pt-1">
+                        <input type="checkbox" id="scenarioBHasAgent" onchange="toggleAgentControls('B')" class="rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-white dark:bg-slate-900">
+                        <label id="uiAgentFeeLabelB" class="text-xs font-medium text-slate-700 dark:text-slate-300">Involves Agent Fee (1 Mo)</label>
+                    </div>
+                    <div id="agentCallOptionsB" class="space-y-2 pl-4 border-l-2 border-emerald-500/30 hidden">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="agentVatB" checked onchange="calculate()" class="rounded border-slate-300 dark:border-slate-700 text-emerald-600 focus:ring-emerald-500 bg-white dark:bg-slate-900">
+                            <label id="uiVatLabelB" class="text-xs text-slate-600 dark:text-slate-400">Include 19% VAT on Commission</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label id="uiDeclaredLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Declared Portion (Wire / Revolut) (€)</label>
+                        <input type="number" id="declaredPortion" value="3250" min="0" oninput="onDeclaredChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label id="uiCashLabel" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Alternative/Cash Portion (€)</label>
+                        <input type="number" id="cashPortion" value="3250" min="0" oninput="onCashChange()" class="mt-1 w-full p-2.5 text-xs border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Column: Results, Comparisons & Great Advantage Banner (8 Cols) -->
-            <div class="lg:col-span-8 space-y-4">
-                
-                <!-- EMPHASIZED ADVANTAGE BANNER (Prominent placement as requested) -->
-                <div id="advantageBanner" class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-5 rounded-2xl shadow-xl space-y-3 relative overflow-hidden">
-                    <div class="absolute -right-6 -bottom-6 opacity-10 text-8xl font-black">€</div>
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-emerald-500/40 pb-2">
-                        <div>
-                            <span class="text-[10px] bg-emerald-800/60 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold border border-emerald-400/30">Key Financial Takeaway</span>
-                            <h3 id="uiAdvantageHeader" class="text-sm font-extrabold mt-1">Target Offer Net Advantage (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
-                        </div>
-                        <span id="advantageStatusBadge" class="mt-1 md:mt-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest bg-white text-emerald-800">Optimized Gain</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="bg-emerald-900/40 p-3 rounded-xl border border-emerald-400/20">
-                            <span id="uiAdvMonthlyTitle" class="block text-[10px] font-medium text-emerald-200 uppercase">Monthly Avg Gain</span>
-                            <span class="text-xl font-black mt-0.5 block text-white" id="advantageMonthly">+€0</span>
-                        </div>
-                        <div class="bg-emerald-900/40 p-3 rounded-xl border border-emerald-400/20">
-                            <span id="uiAdvAnnualTitle" class="block text-[10px] font-medium text-emerald-200 uppercase">Annual Gain</span>
-                            <span class="text-xl font-black mt-0.5 block text-white" id="advantageAnnual">+€0</span>
-                        </div>
-                        <div class="bg-emerald-900/40 p-3 rounded-xl border border-emerald-400/20">
-                            <span id="uiAdvTotalTitle" class="block text-[10px] font-medium text-emerald-200 uppercase">Total Term Gain</span>
-                            <span class="text-xl font-black mt-0.5 block text-white" id="advantageTotal">+€0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Side-by-Side Comparison Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
+            <!-- Results & Outputs -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Comparison Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Scenario A Card -->
-                    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 relative">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500 rounded-t-2xl"></div>
+                    <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
                         <h4 id="uiCardTitleA" class="text-xs font-bold tracking-wider text-blue-600 dark:text-blue-400 uppercase">Scenario A: Baseline</h4>
-                        <div class="mt-2 flex items-baseline justify-between">
-                            <span class="text-xl font-extrabold text-slate-900 dark:text-white" id="resAgentMonthly">€0</span>
-                            <span id="uiMonthlySubA" class="text-[10px] text-slate-500 font-medium">Avg Net Monthly In-Hand</span>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span class="text-2xl font-extrabold text-slate-900 dark:text-white" id="resAgentMonthly">€0</span>
+                            <span id="uiMonthlySubA" class="text-xs text-slate-600 dark:text-slate-400 font-medium">Avg Net Monthly In-Hand</span>
                         </div>
-                        <div class="mt-3 space-y-2 text-xs text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-slate-800 pt-3">
-                            <div class="flex justify-between"><span id="uiGrossLabelA">Gross Annual:</span> <span id="resAgentGross" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
-                            <div class="flex justify-between"><span id="uiFeeLabelA">Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-semibold text-rose-500">€0</span></div>
-                            <div class="flex justify-between"><span id="uiTaxLabelA">Total Annual Taxes:</span> <span id="resAgentTax" class="font-semibold text-rose-500">€0</span></div>
-                            <div class="flex justify-between border-t border-slate-200 dark:border-slate-800 pt-2 font-bold text-slate-900 dark:text-white">
+                        <div class="mt-5 space-y-2.5 text-xs text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-slate-800/80 pt-4">
+                            <div class="flex justify-between"><span id="uiGrossLabelA" class="text-slate-600 dark:text-slate-400">Gross Annual:</span> <span id="resAgentGross" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelA" class="text-slate-600 dark:text-slate-400">Agent Fee (Yr 1):</span> <span id="resAgentFee" class="font-semibold text-rose-500 dark:text-rose-400">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelA" class="text-slate-600 dark:text-slate-400">Total Annual Taxes:</span> <span id="resAgentTax" class="font-semibold text-rose-500 dark:text-rose-400">€0</span></div>
+                            <div class="flex justify-between border-t border-slate-200 dark:border-slate-800 pt-3 font-bold text-slate-900 dark:text-white text-sm">
                                 <span><span id="uiNetTotalTextA">Net Total</span> (<span id="termLabelA">1</span> <span id="uiYearsLabelA">Yrs</span>):</span> 
                                 <span id="resAgentTotalTerm" class="text-blue-600 dark:text-blue-400">€0</span>
                             </div>
@@ -201,19 +178,19 @@
                     </div>
 
                     <!-- Scenario B Card -->
-                    <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-lg border border-emerald-200 dark:border-emerald-900/50 relative">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500 rounded-t-2xl"></div>
+                    <div class="bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-emerald-200 dark:border-emerald-900/50 relative overflow-hidden bg-gradient-to-b from-emerald-50/30 to-white dark:from-emerald-950/10 dark:to-slate-950">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
                         <h4 id="uiCardTitleB" class="text-xs font-bold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase">Scenario B: Target Offer</h4>
-                        <div class="mt-2 flex items-baseline justify-between">
-                            <span class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400" id="resDirectMonthly">€0</span>
-                            <span id="uiMonthlySubB" class="text-[10px] text-emerald-600/80 font-medium">Avg Net Monthly In-Hand</span>
+                        <div class="mt-4 flex items-baseline justify-between">
+                            <span class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400" id="resDirectMonthly">€0</span>
+                            <span id="uiMonthlySubB" class="text-xs text-emerald-600/80 dark:text-emerald-500/80 font-medium">Avg Net Monthly In-Hand</span>
                         </div>
-                        <div class="mt-3 space-y-2 text-xs text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-slate-800 pt-3">
-                            <div class="flex justify-between"><span id="uiGrossLabelB">Gross Annual:</span> <span id="resDirectGross" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
-                            <div class="flex justify-between"><span id="uiFeeLabelB">Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-semibold text-rose-500">€0</span></div>
-                            <div class="flex justify-between"><span id="uiDeclaredRowLabel">Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
-                            <div class="flex justify-between"><span id="uiTaxLabelB">Total Annual Taxes:</span> <span id="resDirectTax" class="font-semibold text-emerald-600 dark:text-emerald-400">€0</span></div>
-                            <div class="flex justify-between border-t border-slate-200 dark:border-slate-800 pt-2 font-bold text-slate-900 dark:text-white">
+                        <div class="mt-5 space-y-2.5 text-xs text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-slate-800/80 pt-4">
+                            <div class="flex justify-between"><span id="uiGrossLabelB" class="text-slate-600 dark:text-slate-400">Gross Annual:</span> <span id="resDirectGross" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiFeeLabelB" class="text-slate-600 dark:text-slate-400">Agent Fee (Yr 1):</span> <span id="resDirectFee" class="font-semibold text-rose-500 dark:text-rose-400">€0</span></div>
+                            <div class="flex justify-between"><span id="uiDeclaredRowLabel" class="text-slate-600 dark:text-slate-400">Declared Portion (Taxed):</span> <span id="resDirectDeclared" class="font-semibold text-slate-900 dark:text-white">€0</span></div>
+                            <div class="flex justify-between"><span id="uiTaxLabelB" class="text-slate-600 dark:text-slate-400">Total Annual Taxes:</span> <span id="resDirectTax" class="font-semibold text-emerald-600 dark:text-emerald-400">€0</span></div>
+                            <div class="flex justify-between border-t border-slate-200 dark:border-slate-800 pt-3 font-bold text-slate-900 dark:text-white text-sm">
                                 <span><span id="uiNetTotalTextB">Net Total</span> (<span id="termLabelB">1</span> <span id="uiYearsLabelB">Yrs</span>):</span> 
                                 <span id="resDirectTotalTerm" class="text-emerald-600 dark:text-emerald-400">€0</span>
                             </div>
@@ -221,35 +198,115 @@
                     </div>
                 </div>
 
-                <!-- Footer Disclaimer -->
-                <footer class="pt-2 border-t border-slate-200 dark:border-slate-800 text-center">
-                    <p id="uiDisclaimer" class="text-[9px] text-slate-500 leading-normal max-w-4xl mx-auto">
-                        <strong>Disclaimer:</strong> Provided for educational and informational purposes to illustrate tax and allocation mechanics under Cyprus legislation. Not formal financial or legal advice. Users are responsible for compliance with Republic of Cyprus tax laws.
-                    </p>
-                </footer>
+                <!-- Advantage Banner -->
+                <div id="advantageBanner" class="bg-white dark:bg-slate-950 text-slate-900 dark:text-white p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 space-y-4 transition-all duration-300">
+                    <div class="border-b border-slate-200 dark:border-slate-800 pb-3 flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                            <h3 id="uiAdvantageHeader" class="text-base font-bold text-slate-900 dark:text-white">Financial Advantage Breakdown (<span id="termLabelBBanner">1</span> vs <span id="termLabelABanner">1</span> Years)</h3>
+                            <p id="uiAdvantageSub" class="text-slate-600 dark:text-slate-400 text-xs mt-0.5">Comparing net cash outcomes across respective lease timelines.</p>
+                        </div>
+                        <span id="advantageStatusBadge" class="mt-2 md:mt-0 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">Target Advantage</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-100 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                            <span id="uiAdvMonthlyTitle" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Monthly Avg Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageMonthly">+€0</span>
+                        </div>
+                        <div class="bg-slate-100 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                            <span id="uiAdvAnnualTitle" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Annual Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageAnnual">+€0</span>
+                        </div>
+                        <div class="bg-slate-100 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800/80">
+                            <span id="uiAdvTotalTitle" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">All-Time Total Advantage</span>
+                            <span class="text-2xl font-black mt-1 block" id="advantageTotal">+€0</span>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Expandable Explanation Section -->
+        <div class="mt-12 bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none">
+                <div class="flex items-center space-x-3">
+                    <span class="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-300 dark:border-slate-700">ℹ️</span>
+                    <h3 id="uiExpHeader" class="text-base font-bold text-slate-900 dark:text-white">How This Calculator Works (Cyprus Tax Logic)</h3>
+                </div>
+                <span id="expChevron" class="text-slate-400 font-bold text-lg transition-transform duration-200">▼</span>
+            </button>
+            <div id="expContent" class="hidden p-6 border-t border-slate-200 dark:border-slate-800 space-y-6 text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-950">
+                <div>
+                    <h4 id="uiExpSub1" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">1. Statutory Rental Expense Deduction (20%)</h4>
+                    <p id="uiExpDesc1">Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub2" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)</h4>
+                    <p id="uiExpDesc2">For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
+                        <li><strong>€0 – €22,000:</strong> 0%</li>
+                        <li><strong>€22,001 – €32,000:</strong> 20%</li>
+                        <li><strong>€32,001 – €42,000:</strong> 25%</li>
+                        <li><strong>€42,001 – €72,000:</strong> 30%</li>
+                        <li><strong>Over €72,000:</strong> 35%</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 id="uiExpSub3" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">3. G.E.S.Y. (General Healthcare System) Contributions</h4>
+                    <p id="uiExpDesc3">Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub4" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">4. Corporate Structure Alternative (15% Flat Rate)</h4>
+                    <p id="uiExpDesc4">If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.</p>
+                </div>
+                <div>
+                    <h4 id="uiExpSub5" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">5. Agent Fees & Commission VAT</h4>
+                    <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.</p>
+                </div>
             </div>
         </div>
+
+        <!-- Footer Disclaimer -->
+        <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
+            <p id="uiDisclaimer" class="text-[10px] text-slate-500 leading-normal max-w-5xl mx-auto px-4">
+                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
+            </p>
+        </footer>
     </div>
+
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
 
     <script>
         let currentLang = 'en';
-        let currentTheme = 'light';
+        let currentTheme = 'light'; // Default to day mode as requested
 
         const translations = {
             en: {
                 langBtnText: "🌐 Ελληνικά (EL)",
                 pdfBtnText: "Export PDF",
-                title: "Cyprus Rental Optimization Intelligence",
-                subtitle: "Comprehensive baseline vs. target scenario analysis with full tax and allocation transparency.",
+                title: "Cyprus Rental Net Income Optimization Tool",
+                subtitle: "Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.",
                 controlsHeader: "Scenario Controls",
+                entityTypeTitle: "Property Owner Entity Type",
                 entitySelectLabel: "Ownership Structure",
-                otherIncomeLabel: "Landlord's Other Annual Income (€)",
-                taxAccuracyNote: "Required for precise marginal tax stacking.",
-                scenarioAHeader: "Baseline (A)",
-                scenarioBHeader: "Target Offer (B)",
-                declaredLabel: "Declared (Taxed)",
-                cashLabel: "Alternative/Cash",
+                otherIncomeTitle: "Landlord's Other Annual Income",
+                otherIncomeBadge: "Important",
+                otherIncomeDesc: "Enter other taxable earnings (salaries, other rent, dividends) to compute precise marginal tax stacking.",
+                otherIncomeLabel: "Other Annual Income (€)",
+                taxAccuracyNote: "⚠️ Essential for calculating your exact marginal tax bracket accurately.",
+                scenarioAHeader: "Scenario A: Baseline",
+                leaseTermALabel: "Lease Term (Years)",
+                monthlyRentLabel: "Monthly Rent (€)",
+                agentFeeLabelA: "Involves Agent Fee (1 Mo)",
+                vatLabelA: "Include 19% VAT on Commission",
+                scenarioBHeader: "Scenario B: Target Offer & Allocation",
+                leaseTermBLabel: "Lease Term (Years)",
+                directRentLabel: "Total Direct Monthly Rent (€)",
+                agentFeeLabelB: "Involves Agent Fee (1 Mo)",
+                vatLabelB: "Include 19% VAT on Commission",
+                declaredLabel: "Declared Portion (Wire / Revolut) (€)",
+                cashLabel: "Alternative/Cash Portion (€)",
                 cardTitleA: "Scenario A: Baseline",
                 monthlySubA: "Avg Net Monthly In-Hand",
                 grossLabelA: "Gross Annual:",
@@ -265,47 +322,81 @@
                 taxLabelB: "Total Annual Taxes:",
                 netTotalTextB: "Net Total",
                 yearsLabelB: "Yrs",
-                advantageHeader: "Target Offer Net Advantage",
-                advMonthlyTitle: "Monthly Avg Gain",
-                advAnnualTitle: "Annual Gain",
-                advTotalTitle: "Total Term Gain",
-                expHeader: "Cyprus Tax Logic & Math",
-                disclaimerText: "<strong>Disclaimer:</strong> Provided for educational and informational purposes to illustrate tax and allocation mechanics under Cyprus legislation. Not formal financial or legal advice. Users are responsible for compliance with Republic of Cyprus tax laws."
+                advantageHeader: "Financial Advantage Breakdown",
+                advantageSub: "Comparing net cash outcomes across respective lease timelines.",
+                advMonthlyTitle: "Monthly Avg Advantage",
+                advAnnualTitle: "Annual Advantage",
+                advTotalTitle: "All-Time Total Advantage",
+                expHeader: "How This Calculator Works (Cyprus Tax Logic)",
+                expSub1: "1. Statutory Rental Expense Deduction (20%)",
+                expDesc1: "Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).",
+                expSub2: "2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)",
+                expDesc2: "For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:",
+                expSub3: "3. G.E.S.Y. (General Healthcare System) Contributions",
+                expDesc3: "Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.",
+                expSub4: "4. Corporate Structure Alternative (15% Flat Rate)",
+                expDesc4: "If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.",
+                expSub5: "5. Agent Fees & Commission VAT",
+                expDesc5: "Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.",
+                disclaimerText: "<strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations."
             },
             el: {
                 langBtnText: "🌐 English (EN)",
                 pdfBtnText: "Εξαγωγή PDF",
-                title: "Ευφυΐα Βελτιστοποίησης Ενοικίων Κύπρου",
-                subtitle: "Ολοκληρωμένη ανάλυση βασικού έναντι στοχευμένου σεναρίου με πλήρη διαφάνεια φόρων.",
+                title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
+                subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
                 controlsHeader: "Έλεγχος Σεναρίων",
+                entityTypeTitle: "Τύπος Οντότητας Ιδιοκτήτη",
                 entitySelectLabel: "Δομή Ιδιοκτησίας",
-                otherIncomeLabel: "Άλλα Ετήσια Έσοδα Ιδιοκτήτη (€)",
-                taxAccuracyNote: "Απαραίτητο για ακριβή οριακή φορολόγηση.",
-                scenarioAHeader: "Βάση (Α)",
-                scenarioBHeader: "Στόχος (Β)",
-                declaredLabel: "Δηλωθέν (Φορολογητέο)",
-                cashLabel: "Εναλλακτικό / Μετρητά",
+                otherIncomeTitle: "Άλλα Ετήσια Έσοδα Ιδιοκτήτη",
+                otherIncomeBadge: "Σημαντικό",
+                otherIncomeDesc: "Εισαγωγή άλλων φορολογητέων εσόδων (μισθοί, άλλα ενοίκια, μερίσματα) για υπολογισμό φορολογικής κλίμακας.",
+                otherIncomeLabel: "Άλλα Ετήσια Έσοδα (€)",
+                taxAccuracyNote: "⚠️ Απαραίτητο για τον ακριβή υπολογισμό της οριακής φορολογικής κλίμακας.",
+                scenarioAHeader: "Σενάριο Α: Βάση Αναφοράς",
+                leaseTermALabel: "Διάρκεια Μίσθωσης (Έτη)",
+                monthlyRentLabel: "Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelA: "Περιλαμβάνει Μεσιτική Αμοιβή (1 Μήνα)",
+                vatLabelA: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                scenarioBHeader: "Σενάριο Β: Στοχευμένη Πρόταση & Κατανομή",
+                leaseTermBLabel: "Διάρκεια Μίσθωσης (Έτη)",
+                directRentLabel: "Συνολικό Άμεσο Μηνιαίο Ενοίκιο (€)",
+                agentFeeLabelB: "Περιλαμβάνει Μεσιτική Αμοιβή (1 Μήνα)",
+                vatLabelB: "Συμπερίληψη ΦΠΑ 19% στην Προμήθεια",
+                declaredLabel: "Δηλωθέν Τμήμα (Wire / Revolut) (€)",
+                cashLabel: "Εναλλακτικό Τμήμα / Μετρητά (€)",
                 cardTitleA: "Σενάριο Α: Βάση Αναφοράς",
-                monthlySubA: "Μέσος Καθαρός Μηνιαίος",
+                monthlySubA: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
                 grossLabelA: "Ακαθάριστο Ετήσιο:",
-                feeLabelA: "Μεσιτική (1ο Έτος):",
-                taxLabelA: "Συνολικοί Φόροι:",
+                feeLabelA: "Μεσιτική Αμοιβή (1ο Έτος):",
+                taxLabelA: "Συνολικοί Ετήσιοι Φόροι:",
                 netTotalTextA: "Καθαρό Σύνολο",
                 yearsLabelA: "Έτη",
                 cardTitleB: "Σενάριο Β: Στοχευμένη Πρόταση",
-                monthlySubB: "Μέσος Καθαρός Μηνιαίος",
+                monthlySubB: "Μέσος Καθαρός Μηνιαίος Εισπραττόμενος",
                 grossLabelB: "Ακαθάριστο Ετήσιο:",
-                feeLabelB: "Μεσιτική (1ο Έτος):",
+                feeLabelB: "Μεσιτική Αμοιβή (1ο Έτος):",
                 declaredRowLabel: "Δηλωθέν Τμήμα (Φορολογητέο):",
-                taxLabelB: "Συνολικοί Φόροι:",
+                taxLabelB: "Συνολικοί Ετήσιοι Φόροι:",
                 netTotalTextB: "Καθαρό Σύνολο",
                 yearsLabelB: "Έτη",
-                advantageHeader: "Καθαρό Πλεονέκτημα Στόχου",
-                advMonthlyTitle: "Μηνιαίο Κέρδος",
-                advAnnualTitle: "Ετήσιο Κέρδος",
-                advTotalTitle: "Συνολικό Κέρδος",
-                expHeader: "Φορολογική Λογική Κύπρου",
-                disclaimerText: "<strong>Αποποίηση Ευθύνης:</strong> Παρέχεται για εκπαιδευτικούς σκοπούς απεικόνισης φορολογικών μηχανισμών στην Κύπρο. Δεν αποτελεί επίσημη οικονομική συμβουλή."
+                advantageHeader: "Ανάλυση Οικονομικού Πλεονεκτήματος",
+                advantageSub: "Σύγκριση καθαρών αποτελεσμάτων σε μετρητά στα αντίστοιχα χρονοδιαγράμματα μίσθωσης.",
+                advMonthlyTitle: "Μηνιαίο Μέσο Πλεονέκτημα",
+                advAnnualTitle: "Ετήσιο Πλεονέκτημα",
+                advTotalTitle: "Συνολικό Πλεονέκτημα",
+                expHeader: "Πώς λειτουργεί αυτός ο υπολογιστής (Φορολογική λογική Κύπρου)",
+                expSub1: "1. Νόμιμη Έκπτωση Εξόδων Ενοικίου (20%)",
+                expDesc1: "Σύμφωνα με την κυπριακή φορολογική νομοθεσία, οι ιδιοκτήτες δικαιούνται αυτόματα <strong>έκπτωση 20%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για συντήρηση, επισκευές και αποθέματα πριν από την επιβολή φόρου εισοδήματος (δηλ. Φορολογητέο Καθαρό Κέρδος Ενοικίου = Ακαθάριστο Ετήσιο Ενοίκιο × 80%).",
+                expSub2: "2. Οριακές Φορολογικές Κλίμακες Φυσικών Προσώπων (2026)",
+                expDesc2: "Για τα φυσικά πρόσωπα, ο φόρος εισοδήματος είναι προοδευτικός. Η προσθήκη εισοδήματος από ενοίκια στα υπάρχοντα κέρδη μπορεί να σας ωθήσει σε υψηλότερα φορολογικά κλιμάκια. Ο υπολογιστής χρησιμοποιεί ακριβή κλιμακωτή οριακή κατανομή:",
+                expSub3: "3. Εισφορές Γε.Σ.Υ. (Γενικό Σύστημα Υγείας)",
+                expDesc3: "Η Κύπρος επιβάλει <strong>εισφορά Γε.Σ.Υ. 2.65%</strong> επί του ακαθάριστου εισοδήματος από ενοίκια για φυσικά πρόσωπα (με ανώτατο όριο εισοδήματος €180.000). Οι εταιρείες εξαιρούνται από το Γε.Σ.Υ. στα κέρδη ενοικίων.",
+                expSub4: "4. Εναλλακτική Εταιρική Δομή (Σταθερός Συντελεστής 15%)",
+                expDesc4: "Εάν δομηθεί υπό εταιρική οντότητα, τα κέρδη από ενοίκια υπόκεινται σε σταθερό <strong>εταιρικό φόρο 15%</strong> επί του καθαρού κέρδους ενοικίου (μετά την έκπτωση 20%), παρακάμπτοντας τα προσωπικά κλιμάκια και το Γε.Σ.Υ.",
+                expSub5: "5. Μεσιτικές Αμοιβές & ΦΠΑ Προμήθειας",
+                expDesc5: "Οι μεσιτικές προμήθειες εφαρμόζονται ως εφάπαξ έκπτωση του 1ου έτους. Εάν ο ΦΠΑ είναι ενεργοποιημένος, προστίθεται απευθείας κυπριακός ΦΠΑ 19% στο ποσό της προμήθειας.",
+                disclaimerText: "<strong>Αποποίηση Ευθύνης:</strong> Αυτό το εργαλείο παρέχεται αποκλειστικά για εκπαιδευτικούς και ενημερωτικούς σκοπούς, προκειμένου να βοηθήσει τους χρήστες να κατανοήσουν πώς μεταβλητές όπως οι όροι μίσθωσης, οι εκπτώσεις εξόδων και τα δηλωθέντα τμήματα εισοδήματος αλληλεπιδρούν με τις φορολογικές κλίμακες της Κύπρου και τους υπολογισμούς του Γε.Σ.Υ. Δεν προορίζεται να παρέχει επίσημη φορολογική, νομική ή οικονομική συμβουλή, ούτε προωθεί, ενθαρρύνει ή επικροτεί τη φοροδιαφυγή ή οποιαδήποτε μορφή μη συμμόρφωσης με τους νόμους της Κυπριακής Δημοκρατίας. Οι χρήστες είναι αποκλειστικά υπεύθυνοι για τη διασφάλιση ότι όλες οι φορολογικές δηλώσεις και οι οικονομικές δηλώσεις συμμορφώνονται πλήρως με τη σχετική φορολογική νομοθεσία και θα πρέπει να συμβουλεύονται πιστοποιημένο αδειούχο λογιστή ή φορολογικό σύμβουλο για επαγγελματική καθοδήγηση σχετικά με τις συγκεκριμένες φορολογικές τους υποχρεώσεις."
             }
         };
 
@@ -313,12 +404,14 @@
             const element = document.getElementById('exportWrapper');
             const filename = currentLang === 'el' ? 'Cyprus_Rental_Optimization_Report_EL.pdf' : 'Cyprus_Rental_Optimization_Report_EN.pdf';
             const opt = {
-                margin:       [0.3, 0.3, 0.3, 0.3],
+                margin:       [0.5, 0.5, 0.5, 0.5],
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
+
+            // Temporarily ensure explanation is visible for complete PDF review if desired, or keep current state
             html2pdf().from(element).set(opt).save();
         }
 
@@ -331,12 +424,12 @@
                 currentTheme = 'light';
                 htmlEl.classList.remove('dark');
                 themeIcon.innerText = '🌙';
-                themeText.innerText = currentLang === 'en' ? 'Night Mode' : 'Νυχτερινή';
+                themeText.innerText = currentLang === 'en' ? 'Night Mode' : 'Νυχτερινή Λειτουργία';
             } else {
                 currentTheme = 'dark';
                 htmlEl.classList.add('dark');
                 themeIcon.innerText = '☀️';
-                themeText.innerText = currentLang === 'en' ? 'Day Mode' : 'Ημέρας';
+                themeText.innerText = currentLang === 'en' ? 'Day Mode' : 'Λειτουργία Ημέρας';
             }
         }
 
@@ -346,15 +439,26 @@
 
             document.getElementById('langBtn').querySelector('span').innerText = t.langBtnText;
             document.getElementById('pdfBtnText').innerText = t.pdfBtnText;
-            document.getElementById('themeText').innerText = currentTheme === 'dark' ? (currentLang === 'en' ? 'Day Mode' : 'Ημέρας') : (currentLang === 'en' ? 'Night Mode' : 'Νυχτερινή');
+            document.getElementById('themeText').innerText = currentTheme === 'dark' ? (currentLang === 'en' ? 'Day Mode' : 'Λειτουργία Ημέρας') : (currentLang === 'en' ? 'Night Mode' : 'Νυχτερινή Λειτουργία');
             document.getElementById('uiTitle').innerText = t.title;
             document.getElementById('uiSubtitle').innerText = t.subtitle;
             document.getElementById('uiControlsHeader').querySelector('span').innerText = t.controlsHeader;
+            document.getElementById('uiEntityTypeTitle').innerText = t.entityTypeTitle;
             document.getElementById('uiEntitySelectLabel').innerText = t.entitySelectLabel;
+            document.getElementById('uiOtherIncomeTitle').querySelector('span').innerText = t.otherIncomeTitle;
+            document.getElementById('uiOtherIncomeDesc').innerText = t.otherIncomeDesc;
             document.getElementById('uiOtherIncomeLabel').innerText = t.otherIncomeLabel;
             document.getElementById('uiTaxAccuracyNote').innerText = t.taxAccuracyNote;
             document.getElementById('uiScenarioAHeader').querySelector('span:last-child').innerText = t.scenarioAHeader;
+            document.getElementById('uiLeaseTermALabel').innerText = t.leaseTermALabel;
+            document.getElementById('uiMonthlyRentLabel').innerText = t.monthlyRentLabel;
+            document.getElementById('uiAgentFeeLabelA').innerText = t.agentFeeLabelA;
+            document.getElementById('uiVatLabelA').innerText = t.vatLabelA;
             document.getElementById('uiScenarioBHeader').querySelector('span:last-child').innerText = t.scenarioBHeader;
+            document.getElementById('uiLeaseTermBLabel').innerText = t.leaseTermBLabel;
+            document.getElementById('uiDirectRentLabel').innerText = t.directRentLabel;
+            document.getElementById('uiAgentFeeLabelB').innerText = t.agentFeeLabelB;
+            document.getElementById('uiVatLabelB').innerText = t.vatLabelB;
             document.getElementById('uiDeclaredLabel').innerText = t.declaredLabel;
             document.getElementById('uiCashLabel').innerText = t.cashLabel;
 
@@ -376,11 +480,22 @@
             document.getElementById('uiYearsLabelB').innerText = t.yearsLabelB;
 
             document.getElementById('uiAdvantageHeader').firstChild.nodeValue = t.advantageHeader + " (";
+            document.getElementById('uiAdvantageSub').innerText = t.advantageSub;
             document.getElementById('uiAdvMonthlyTitle').innerText = t.advMonthlyTitle;
             document.getElementById('uiAdvAnnualTitle').innerText = t.advAnnualTitle;
             document.getElementById('uiAdvTotalTitle').innerText = t.advTotalTitle;
 
             document.getElementById('uiExpHeader').innerText = t.expHeader;
+            document.getElementById('uiExpSub1').innerText = t.expSub1;
+            document.getElementById('uiExpDesc1').innerHTML = t.expDesc1;
+            document.getElementById('uiExpSub2').innerText = t.expSub2;
+            document.getElementById('uiExpDesc2').innerText = t.expDesc2;
+            document.getElementById('uiExpSub3').innerText = t.expSub3;
+            document.getElementById('uiExpDesc3').innerHTML = t.expDesc3;
+            document.getElementById('uiExpSub4').innerText = t.expSub4;
+            document.getElementById('uiExpDesc4').innerHTML = t.expDesc4;
+            document.getElementById('uiExpSub5').innerText = t.expSub5;
+            document.getElementById('uiExpDesc5').innerHTML = t.expDesc5;
             document.getElementById('uiDisclaimer').innerHTML = t.disclaimerText;
 
             calculate();
@@ -398,6 +513,13 @@
         }
 
         function toggleAgentControls(scenario) {
+            const hasAgent = document.getElementById(`scenario${scenario}HasAgent`).checked;
+            const optionsDiv = document.getElementById(`agentCallOptions${scenario}`);
+            if (hasAgent) {
+                optionsDiv.classList.remove('hidden');
+            } else {
+                optionsDiv.classList.add('hidden');
+            }
             calculate();
         }
 
@@ -412,33 +534,61 @@
         function onDeclaredChange() {
             const total = Math.max(0, parseFloat(document.getElementById('directRent').value) || 0);
             let declared = Math.max(0, parseFloat(document.getElementById('declaredPortion').value) || 0);
-            if (declared > total) { declared = total; document.getElementById('declaredPortion').value = declared; }
-            document.getElementById('cashPortion').value = Math.max(0, total - declared);
+            if (declared > total) {
+                declared = total;
+                document.getElementById('declaredPortion').value = declared;
+            }
+            const cash = Math.max(0, total - declared);
+            document.getElementById('cashPortion').value = cash;
             calculate();
         }
 
         function onCashChange() {
             const total = Math.max(0, parseFloat(document.getElementById('directRent').value) || 0);
             let cash = Math.max(0, parseFloat(document.getElementById('cashPortion').value) || 0);
-            if (cash > total) { cash = total; document.getElementById('cashPortion').value = cash; }
-            document.getElementById('declaredPortion').value = Math.max(0, total - cash);
+            if (cash > total) {
+                cash = total;
+                document.getElementById('cashPortion').value = cash;
+            }
+            const declared = Math.max(0, total - cash);
+            document.getElementById('declaredPortion').value = declared;
             calculate();
+        }
+
+        function toggleExplanation() {
+            const content = document.getElementById('expContent');
+            const chevron = document.getElementById('expChevron');
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
         }
 
         function calculateIndividualTaxAndGesy(taxableProfit, grossRent, otherIncome) {
             function getBracketTax(income) {
                 let tax = 0;
-                if (income <= 22000) tax = 0;
-                else if (income <= 32000) tax = (income - 22000) * 0.20;
-                else if (income <= 42000) tax = (32000 - 22000) * 0.20 + (income - 32000) * 0.25;
-                else if (income <= 72000) tax = (32000 - 22000) * 0.20 + (42000 - 32000) * 0.25 + (income - 42000) * 0.30;
-                else tax = (32000 - 22000) * 0.20 + (42000 - 32000) * 0.25 + (72000 - 42000) * 0.30 + (income - 72000) * 0.35;
+                if (income <= 22000) {
+                    tax = 0;
+                } else if (income <= 32000) {
+                    tax = (income - 22000) * 0.20;
+                } else if (income <= 42000) {
+                    tax = (32000 - 22000) * 0.20 + (income - 32000) * 0.25;
+                } else if (income <= 72000) {
+                    tax = (32000 - 22000) * 0.20 + (42000 - 32000) * 0.25 + (income - 42000) * 0.30;
+                } else {
+                    tax = (32000 - 22000) * 0.20 + (42000 - 32000) * 0.25 + (72000 - 42000) * 0.30 + (income - 72000) * 0.35;
+                }
                 return tax;
             }
-            const incomeTax = Math.max(0, getBracketTax(otherIncome + taxableProfit) - getBracketTax(otherIncome));
-            const gesyTaxableAmount = Math.max(0, Math.min(otherIncome + grossRent, 180000) - Math.min(otherIncome, 180000));
+
+            const taxWithoutRent = getBracketTax(otherIncome);
+            const taxWithRent = getBracketTax(otherIncome + taxableProfit);
+            const incomeTax = Math.max(0, taxWithRent - taxWithoutRent);
+
+            const gesyBaseStart = Math.min(otherIncome, 180000);
+            const gesyBaseEnd = Math.min(otherIncome + grossRent, 180000);
+            const gesyTaxableAmount = Math.max(0, gesyBaseEnd - gesyBaseStart);
             const gesy = gesyTaxableAmount * 0.0265;
-            return { tax: incomeTax + gesy };
+
+            return { tax: incomeTax + gesy, incomeTax, gesy };
         }
 
         function calculateCompanyTax(taxableProfit) {
@@ -456,20 +606,29 @@
             const termA = Math.max(1, parseInt(document.getElementById('leaseTermA').value) || 1);
             const agentRent = Math.max(0, parseFloat(document.getElementById('agentRent').value) || 0);
             const hasAgentA = document.getElementById('scenarioAHasAgent').checked;
+            const vatA = document.getElementById('agentVatA').checked;
 
             const termB = Math.max(1, parseInt(document.getElementById('leaseTermB').value) || 1);
             const directRent = Math.max(0, parseFloat(document.getElementById('directRent').value) || 0);
             const declaredPortion = Math.max(0, parseFloat(document.getElementById('declaredPortion').value) || 0);
             const cashPortion = Math.max(0, parseFloat(document.getElementById('cashPortion').value) || 0);
             const hasAgentB = document.getElementById('scenarioBHasAgent').checked;
+            const vatB = document.getElementById('agentVatB').checked;
 
             const grossAnnualA = agentRent * 12;
             const grossTotalA = grossAnnualA * termA;
-            const agentFeeA = hasAgentA ? agentRent : 0;
+            const agentFeeMultiplierA = vatA ? 1.19 : 1.0;
+            const agentFeeA = hasAgentA ? agentRent * agentFeeMultiplierA : 0;
 
-            let annualTaxA = entityType === 'individual' ? 
-                calculateIndividualTaxAndGesy(grossAnnualA * 0.80, grossAnnualA, otherIncome).tax : 
-                calculateCompanyTax(grossAnnualA * 0.80);
+            let annualTaxA = 0;
+            const netProfitA = grossAnnualA * 0.80;
+
+            if (entityType === 'individual') {
+                const res = calculateIndividualTaxAndGesy(netProfitA, grossAnnualA, otherIncome);
+                annualTaxA = res.tax;
+            } else {
+                annualTaxA = calculateCompanyTax(netProfitA);
+            }
 
             const totalTaxA = annualTaxA * termA;
             const netTotalA = grossTotalA - agentFeeA - totalTaxA;
@@ -479,11 +638,19 @@
             const grossTotalB = grossAnnualB * termB;
             const declaredAnnualB = declaredPortion * 12;
             const cashAnnualB = cashPortion * 12;
-            const agentFeeB = hasAgentB ? directRent : 0;
+            
+            const agentFeeMultiplierB = vatB ? 1.19 : 1.0;
+            const agentFeeB = hasAgentB ? directRent * agentFeeMultiplierB : 0;
 
-            let annualTaxB = entityType === 'individual' ? 
-                calculateIndividualTaxAndGesy(declaredAnnualB * 0.80, declaredAnnualB, otherIncome).tax : 
-                calculateCompanyTax(declaredAnnualB * 0.80);
+            let annualTaxB = 0;
+            const netDeclaredProfitB = declaredAnnualB * 0.80;
+
+            if (entityType === 'individual') {
+                const res = calculateIndividualTaxAndGesy(netDeclaredProfitB, declaredAnnualB, otherIncome);
+                annualTaxB = res.tax;
+            } else {
+                annualTaxB = calculateCompanyTax(netDeclaredProfitB);
+            }
 
             const totalTaxB = annualTaxB * termB;
             const netAnnualB = (declaredAnnualB - annualTaxB) + cashAnnualB;
@@ -512,12 +679,24 @@
             const diffAnnual = (netTotalB / termB) - (netTotalA / termA);
             const diffTotal = netTotalB - netTotalA;
 
-            document.getElementById('advantageMonthly').innerText = (diffMonthly >= 0 ? '+' : '') + formatCurrency(diffMonthly);
-            document.getElementById('advantageAnnual').innerText = (diffAnnual >= 0 ? '+' : '') + formatCurrency(diffAnnual);
-            document.getElementById('advantageTotal').innerText = (diffTotal >= 0 ? '+' : '') + formatCurrency(diffTotal);
+            const elAdvMonthly = document.getElementById('advantageMonthly');
+            const elAdvAnnual = document.getElementById('advantageAnnual');
+            const elAdvTotal = document.getElementById('advantageTotal');
+
+            elAdvMonthly.innerText = (diffMonthly >= 0 ? '+' : '') + formatCurrency(diffMonthly);
+            elAdvAnnual.innerText = (diffAnnual >= 0 ? '+' : '') + formatCurrency(diffAnnual);
+            elAdvTotal.innerText = (diffTotal >= 0 ? '+' : '') + formatCurrency(diffTotal);
+
+            elAdvMonthly.className = "text-2xl font-black mt-1 block " + (diffMonthly >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
+            elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
+            elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
+
+            
         }
 
-        window.onload = function() { calculate(); };
+        window.onload = function() {
+            calculate();
+        };
     </script>
 </body>
 </html>
