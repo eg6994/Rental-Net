@@ -26,10 +26,103 @@
             .space-y-6 > * + * { margin-top: 10px !important; }
             .space-y-4 > * + * { margin-top: 8px !important; }
         }
-    </style>
 
+        /* Institutional PDF Report Styles (Hidden on screen, rendered precisely on export) */
+        #pdfReportContainer {
+            display: none;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+    
+    <!-- ========================================================== -->
+    <!-- HIDDEN EXECUTIVE PDF REPORT TEMPLATE (A4 Portrait Optimized) -->
+    <!-- ========================================================== -->
+    <div id="pdfReportContainer" style="width: 210mm; min-height: 297mm; padding: 12mm 15mm; background: #ffffff; color: #0f172a; font-family: Helvetica, Arial, sans-serif; box-sizing: border-box; position: relative;">
+        
+        <!-- 8. PROFESSIONAL REPORT HEADER -->
+        <div style="border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <div style="font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #047857; margin-bottom: 2px;">Cyprus Real Estate Intelligence &bull; Institutional Advisory</div>
+                <h1 style="font-size: 18px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2;">CYPRUS RENTAL OFFER COMPARISON REPORT</h1>
+            </div>
+            <div style="text-align: right; font-size: 8px; color: #64748b; line-height: 1.3;">
+                <div><strong>Generated:</strong> <span id="repGenDate">2026-09-11</span></div>
+                <div><strong>Structure:</strong> <span id="repStruct">Individual / Personal</span></div>
+                <div><strong>Version:</strong> v2.4-PRO</div>
+            </div>
+        </div>
+
+        <!-- 3. EXECUTIVE SUMMARY DOMINANT BANNER -->
+        <div id="repExecBanner" style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 5px solid #059669; padding: 10px 14px; margin-bottom: 12px; border-radius: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div id="repRecLabel" style="font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #059669;">RECOMMENDED OPTION: SCENARIO B</div>
+                    <div id="repExecMainDelta" style="font-size: 20px; font-weight: 900; color: #0f172a; margin-top: 1px;">+€28,450 Additional Net Income</div>
+                </div>
+                <div style="text-align: right;">
+                    <div id="repExecMonthlyDelta" style="font-size: 12px; font-weight: 700; color: #059669;">+€790 / Month</div>
+                    <div id="repExecPercentDelta" style="font-size: 10px; font-weight: 600; color: #475569;">+12.4% Net Improvement</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. PROFESSIONAL SIDE-BY-SIDE COMPARISON TABLE -->
+        <div style="margin-bottom: 12px;">
+            <h3 style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #334155; margin: 0 0 4px 0;">1. Financial Comparison Matrix</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 9px; text-align: left;">
+                <thead>
+                    <tr style="background: #0f172a; color: #ffffff;">
+                        <th style="padding: 5px 8px; font-weight: 600; width: 28%;">Metric</th>
+                        <th style="padding: 5px 8px; font-weight: 600; width: 22%; text-align: right;">Scenario A (Baseline)</th>
+                        <th style="padding: 5px 8px; font-weight: 600; width: 22%; text-align: right;">Scenario B (Target)</th>
+                        <th style="padding: 5px 8px; font-weight: 600; width: 28%; text-align: right;">Difference</th>
+                    </tr>
+                </thead>
+                <tbody id="repComparisonTableBody">
+                    <!-- Populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 5. FULL CALCULATION AUDIT TRAIL & 7. EFFECTIVE TAX RATE ANALYSIS -->
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <!-- Audit Trail: Scenario A & B -->
+            <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 10px; border-radius: 4px;">
+                <h3 style="font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1e293b; margin: 0క్‌ 4px 0;">2. Calculation Audit Trail</h3>
+                <div style="font-size: 8.5px; color: #334155; line-height: 1.4;" id="repAuditTrailContent">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Right Column: Advantage Analysis & Tax Rates -->
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                <!-- 6. AUTOMATIC ADVANTAGE ANALYSIS -->
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 10px; border-radius: 4px;">
+                    <h3 style="font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #166534; margin: 0 0 4px 0;">3. Why This Offer Is Better</h3>
+                    <ul id="repAdvantageBullets" style="margin: 0; padding-left: 14px; font-size: 8.5px; color: #14532d; line-height: 1.4;">
+                        <!-- Populated dynamically -->
+                    </ul>
+                </div>
+
+                <!-- 7. EFFECTIVE TAX RATE ANALYSIS -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 10px; border-radius: 4px;">
+                    <h3 style="font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #334155; margin: 0 0 4px 0;">4. Effective Tax Burden Analysis</h3>
+                    <div id="repTaxRateContent" style="font-size: 8.5px; color: #334155; line-height: 1.4;">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. PROFESSIONAL REPORT FOOTER -->
+        <div style="border-top: 1px solid #cbd5e1; padding-top: 6px; margin-top: auto; font-size: 7.5px; color: #64748b; line-height: 1.3;">
+            <div style="margin-bottom: 2px;"><strong>Assumptions Used:</strong> &bull; 20% statutory deduction &bull; Cyprus income tax progressive brackets / 15% flat corporate &bull; 2.65% GeSY contributions (capped at €180k) &bull; Agent commission & 19% VAT assumptions.</div>
+            <div><strong>Legal Disclaimer:</strong> Confidential financial comparison report prepared strictly for authorized stakeholders. Based on Cyprus Republic tax legislation. Consult a certified licensed accountant or tax advisor prior to executing lease agreements or financial submissions.</div>
+        </div>
+    </div>
+    <!-- ========================================================== -->
+
     <div id="exportWrapper" class="max-w-7xl mx-auto px-4 py-10">
         <!-- Header -->
         <header class="mb-10 flex flex-col md:flex-row items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6">
@@ -224,58 +317,54 @@
                 </div>
 
                 <!-- Expandable Explanation Section -->
-        <div class="mt-12 bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-            <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none">
-                <div class="flex items-center space-x-3">
-                    <span class="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-300 dark:border-slate-700">ℹ️</span>
-                    <h3 id="uiExpHeader" class="text-base font-bold text-slate-900 dark:text-white">How This Calculator Works (Cyprus Tax Logic)</h3>
+                <div class="mt-12 bg-white dark:bg-slate-950 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                    <button onclick="toggleExplanation()" class="w-full p-6 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors focus:outline-none">
+                        <div class="flex items-center space-x-3">
+                            <span class="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-300 dark:border-slate-700">ℹ️</span>
+                            <h3 id="uiExpHeader" class="text-base font-bold text-slate-900 dark:text-white">How This Calculator Works (Cyprus Tax Logic)</h3>
+                        </div>
+                        <span id="expChevron" class="text-slate-400 font-bold text-lg transition-transform duration-200">▼</span>
+                    </button>
+                    <div id="expContent" class="hidden p-6 border-t border-slate-200 dark:border-slate-800 space-y-6 text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-950">
+                        <div>
+                            <h4 id="uiExpSub1" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">1. Statutory Rental Expense Deduction (20%)</h4>
+                            <p id="uiExpDesc1">Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
+                        </div>
+                        <div>
+                            <h4 id="uiExpSub2" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)</h4>
+                            <p id="uiExpDesc2">For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
+                                <li><strong>€0 – €22,000:</strong> 0%</li>
+                                <li><strong>€22,001 – €32,000:</strong> 20%</li>
+                                <li><strong>€32,001 – €42,000:</strong> 25%</li>
+                                <li><strong>€42,001 – €72,000:</strong> 30%</li>
+                                <li><strong>Over €72,000:</strong> 35%</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 id="uiExpSub3" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">3. G.E.S.Y. (General Healthcare System) Contributions</h4>
+                            <p id="uiExpDesc3">Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
+                        </div>
+                        <div>
+                            <h4 id="uiExpSub4" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">4. Corporate Structure Alternative (15% Flat Rate)</h4>
+                            <p id="uiExpDesc4">If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.</p>
+                        </div>
+                        <div>
+                            <h4 id="uiExpSub5" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">5. Agent Fees & Commission VAT</h4>
+                            <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.</p>
+                        </div>
+                    </div>
                 </div>
-                <span id="expChevron" class="text-slate-400 font-bold text-lg transition-transform duration-200">▼</span>
-            </button>
-            <div id="expContent" class="hidden p-6 border-t border-slate-200 dark:border-slate-800 space-y-6 text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-950">
-                <div>
-                    <h4 id="uiExpSub1" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">1. Statutory Rental Expense Deduction (20%)</h4>
-                    <p id="uiExpDesc1">Under Cyprus tax legislation, landlords are automatically entitled to a flat <strong>20% deduction</strong> on gross rental income for maintenance, repairs, and wear-and-tear before income tax is assessed (i.e., Taxable Rental Net Profit = Gross Annual Rent × 80%).</p>
-                </div>
-                <div>
-                    <h4 id="uiExpSub2" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">2. Individual Marginal Tax Brackets (Progressive Stacking - 2026)</h4>
-                    <p id="uiExpDesc2">For individuals, income tax is progressive. Adding rental income to existing earnings can push you into higher marginal tax tiers. The calculator uses exact marginal rate stacking:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
-                        <li><strong>€0 – €22,000:</strong> 0%</li>
-                        <li><strong>€22,001 – €32,000:</strong> 20%</li>
-                        <li><strong>€32,001 – €42,000:</strong> 25%</li>
-                        <li><strong>€42,001 – €72,000:</strong> 30%</li>
-                        <li><strong>Over €72,000:</strong> 35%</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 id="uiExpSub3" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">3. G.E.S.Y. (General Healthcare System) Contributions</h4>
-                    <p id="uiExpDesc3">Cyprus imposes a <strong>2.65% G.E.S.Y. contribution</strong> calculated on the gross rental income for individuals (capped at €180,000 annual income). Corporate entities are exempt from G.E.S.Y. on rental profits.</p>
-                </div>
-                <div>
-                    <h4 id="uiExpSub4" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">4. Corporate Structure Alternative (15% Flat Rate)</h4>
-                    <p id="uiExpDesc4">If structured under a corporate entity, rental profits are subject to a flat <strong>15% corporate tax</strong> on the net rental profit (after the 20% allowance), bypassing personal progressive slabs and G.E.S.Y.</p>
-                </div>
-                <div>
-                    <h4 id="uiExpSub5" class="font-semibold text-slate-900 dark:text-white text-sm mb-1">5. Agent Fees & Commission VAT</h4>
-                    <p id="uiExpDesc5">Agent commissions are applied as a one-time Year 1 deduction. If VAT is toggled on, a 19% Cyprus VAT rate is added directly to the commission sum.</p>
-                </div>
+
+                <!-- Footer Disclaimer -->
+                <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
+                    <p id="uiDisclaimer" class="text-[10px] text-slate-500 leading-normal max-w-5xl mx-auto px-4">
+                        <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
+                    </p>
+                </footer>
             </div>
         </div>
-
-        <!-- Footer Disclaimer -->
-        <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center">
-            <p id="uiDisclaimer" class="text-[10px] text-slate-500 leading-normal max-w-5xl mx-auto px-4">
-                <strong>Disclaimer:</strong> This tool is provided strictly for educational and informational purposes to help users understand how variables such as lease terms, expense deductions, and declared income portions interact with Cyprus tax brackets and G.E.S.Y. calculations. It is not intended to provide formal tax, legal, or financial advice, nor does it promote, encourage, or endorse tax evasion or any form of non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for ensuring that all tax filings and financial declarations fully comply with relevant tax legislation and should consult a certified licensed accountant or tax advisor for professional guidance regarding their specific tax obligations.
-            </p>
-        </footer>
     </div>
-
-    <style>
-        @media print {
-            .no-print { display: none !important; }
-        }
-    </style>
 
     <script>
         let currentLang = 'en';
@@ -400,19 +489,199 @@
             }
         };
 
-        function exportToPDF() {
-            const element = document.getElementById('exportWrapper');
-            const filename = currentLang === 'el' ? 'Cyprus_Rental_Optimization_Report_EL.pdf' : 'Cyprus_Rental_Optimization_Report_EN.pdf';
+        // ==========================================================
+        // NEW PDF REPORT GENERATION FUNCTIONS (Objectives 1 - 11)
+        // ==========================================================
+
+        let calculatedState = {};
+
+        function buildReportData() {
+            const entityType = document.getElementById('entityType').value;
+            const otherIncome = Math.max(0, parseFloat(document.getElementById('otherIncome').value) || 0);
+
+            const termA = Math.max(1, parseInt(document.getElementById('leaseTermA').value) || 1);
+            const agentRent = Math.max(0, parseFloat(document.getElementById('agentRent').value) || 0);
+            const hasAgentA = document.getElementById('scenarioAHasAgent').checked;
+            const vatA = document.getElementById('agentVatA').checked;
+
+            const termB = Math.max(1, parseInt(document.getElementById('leaseTermB').value) || 1);
+            const directRent = Math.max(0, parseFloat(document.getElementById('directRent').value) || 0);
+            const declaredPortion = Math.max(0, parseFloat(document.getElementById('declaredPortion').value) || 0);
+            const cashPortion = Math.max(0, parseFloat(document.getElementById('cashPortion').value) || 0);
+            const hasAgentB = document.getElementById('scenarioBHasAgent').checked;
+            const vatB = document.getElementById('agentVatB').checked;
+
+            const grossAnnualA = agentRent * 12;
+            const grossTotalA = grossAnnualA * termA;
+            const agentFeeMultiplierA = vatA ? 1.19 : 1.0;
+            const agentFeeA = hasAgentA ? agentRent * agentFeeMultiplierA : 0;
+
+            const netProfitA = grossAnnualA * 0.80;
+            let annualTaxA = 0;
+            let taxBreakdownA = { incomeTax: 0, gesy: 0 };
+            if (entityType === 'individual') {
+                taxBreakdownA = calculateIndividualTaxAndGesy(netProfitA, grossAnnualA, otherIncome);
+                annualTaxA = taxBreakdownA.tax;
+            } else {
+                annualTaxA = calculateCompanyTax(netProfitA);
+            }
+
+            const totalTaxA = annualTaxA * termA;
+            const netTotalA = grossTotalA - agentFeeA - totalTaxA;
+            const netMonthlyA = netTotalA / (termA * 12);
+            const effectiveTaxRateA = grossTotalA > 0 ? (totalTaxA / grossTotalA) * 100 : 0;
+
+            const grossAnnualB = directRent * 12;
+            const grossTotalB = grossAnnualB * termB;
+            const declaredAnnualB = declaredPortion * 12;
+            const cashAnnualB = cashPortion * 12;
+            const agentFeeMultiplierB = vatB ? 1.19 : 1.0;
+            const agentFeeB = hasAgentB ? directRent * agentFeeMultiplierB : 0;
+
+            const netDeclaredProfitB = declaredAnnualB * 0.80;
+            let annualTaxB = 0;
+            let taxBreakdownB = { incomeTax: 0, gesy: 0 };
+            if (entityType === 'individual') {
+                taxBreakdownB = calculateIndividualTaxAndGesy(netDeclaredProfitB, declaredAnnualB, otherIncome);
+                annualTaxB = taxBreakdownB.tax;
+            } else {
+                annualTaxB = calculateCompanyTax(netDeclaredProfitB);
+            }
+
+            const totalTaxB = annualTaxB * termB;
+            const netAnnualB = (declaredAnnualB - annualTaxB) + cashAnnualB;
+            const netTotalB = (netAnnualB * termB) - agentFeeB;
+            const netMonthlyB = netTotalB / (termB * 12);
+            const effectiveTaxRateB = grossTotalB > 0 ? (totalTaxB / grossTotalB) * 100 : 0;
+
+            return {
+                entityType, termA, grossAnnualA, grossTotalA, agentFeeA, totalTaxA, netTotalA, netMonthlyA, netProfitA, taxBreakdownA, effectiveTaxRateA,
+                termB, grossAnnualB, grossTotalB, declaredAnnualB, cashAnnualB, agentFeeB, totalTaxB, netTotalB, netMonthlyB, netDeclaredProfitB, taxBreakdownB, effectiveTaxRateB,
+                diffMonthly: netMonthlyB - netMonthlyA,
+                diffAnnual: (netTotalB / termB) - (netTotalA / termA),
+                diffTotal: netTotalB - netTotalA,
+                diffTax: totalTaxA - totalTaxB
+            };
+        }
+
+        function populateReportTemplate() {
+            const data = buildReportData();
+            const isScenarioBWins = data.diffTotal >= 0;
+
+            // Header metadata
+            document.getElementById('repGenDate').innerText = new Date().toISOString().split('T')[0];
+            document.getElementById('repStruct').innerText = data.entityType === 'individual' ? 'Individual / Personal' : 'Company / Corporate';
+
+            // Executive Summary Banner
+            const banner = document.getElementById('repExecBanner');
+            banner.style.borderLeftColor = isScenarioBWins ? '#059669' : '#dc2626';
+            document.getElementById('repRecLabel').innerText = isScenarioBWins ? 'RECOMMENDED OPTION: SCENARIO B' : 'RECOMMENDED OPTION: SCENARIO A';
+            document.getElementById('repRecLabel').style.color = isScenarioBWins ? '#059669' : '#dc2626';
+            
+            const sign = data.diffTotal >= 0 ? '+' : '';
+            document.getElementById('repExecMainDelta').innerText = `${sign}€${Math.round(data.diffTotal).toLocaleString()} Net Income Advantage (${data.termB} Yrs)`;
+            document.getElementById('repExecMonthlyDelta').innerText = `${sign}€${Math.round(data.diffMonthly).toLocaleString()} / Month`;
+            document.getElementById('repExecMonthlyDelta').style.color = isScenarioBWins ? '#059669' : '#dc2626';
+            
+            const pctSign = data.diffMonthly >= 0 ? '+' : '';
+            const baseMonthly = data.netMonthlyA > 0 ? (data.diffMonthly / data.netMonthlyA) * 100 : 0;
+            document.getElementById('repExecPercentDelta').innerText = `${pctSign}${baseMonthly.toFixed(1)}% Monthly Improvement`;
+
+            // Comparison Table
+            const metrics = [
+                { name: 'Lease Term', a: `${data.termA} Years`, b: `${data.termB} Years`, diff: `${data.termB - data.termA} Yrs`, neutral: true },
+                { name: 'Gross Rent (Total)', a: formatCurrency(data.grossTotalA), b: formatCurrency(data.grossTotalB), diff: formatCurrency(data.grossTotalB - data.grossTotalA), neutral: false },
+                { name: 'Taxable Profit (Total)', a: formatCurrency(data.netProfitA * data.termA), b: formatCurrency(data.netDeclaredProfitB * data.termB), diff: formatCurrency((data.netDeclaredProfitB * data.termB) - (data.netProfitA * data.termA)), neutral: false },
+                { name: 'Agent Fee (Yr 1)', a: formatCurrency(data.agentFeeA), b: formatCurrency(data.agentFeeB), diff: formatCurrency(data.agentFeeB - data.agentFeeA), inverseColor: true },
+                { name: 'Total Taxes', a: formatCurrency(data.totalTaxA), b: formatCurrency(data.totalTaxB), diff: formatCurrency(data.totalTaxB - data.totalTaxA), inverseColor: true },
+                { name: 'Net Cash (Total Term)', a: formatCurrency(data.netTotalA), b: formatCurrency(data.netTotalB), diff: formatCurrency(data.diffTotal), neutral: false },
+                { name: 'Average Monthly Net', a: formatCurrency(data.netMonthlyA), b: formatCurrency(data.netMonthlyB), diff: formatCurrency(data.diffMonthly), neutral: false },
+                { name: 'Effective Tax Rate', a: `${data.effectiveTaxRateA.toFixed(1)}%`, b: `${data.effectiveTaxRateB.toFixed(1)}%`, diff: `${(data.effectiveTaxRateB - data.effectiveTaxRateA).toFixed(1)}%`, inverseColor: true }
+            ];
+
+            let tableHtml = '';
+            metrics.forEach((m, idx) => {
+                const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+                let diffColor = '#0f172a';
+                if (!m.neutral) {
+                    const isPositive = m.diff.includes('+') || (!m.diff.includes('-') && parseFloat(m.diff.replace(/[^0-9.-]+/g,"")) > 0);
+                    if (m.inverseColor) {
+                        diffColor = isPositive ? '#dc2626' : '#059669'; // higher tax/fee is red
+                    } else {
+                        diffColor = isPositive ? '#059669' : '#dc2626'; // higher net is green
+                    }
+                }
+                tableHtml += `
+                    <tr style="background: ${bg}; border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 4px 8px; font-weight: 600; color: #1e293b;">${m.name}</td>
+                        <td style="padding: 4px 8px; text-align: right; color: #475569;">${m.a}</td>
+                        <td style="padding: 4px 8px; text-align: right; color: #475569;">${m.b}</td>
+                        <td style="padding: 4px 8px; text-align: right; font-weight: 700; color: ${diffColor};">${m.diff}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('repComparisonTableBody').innerHTML = tableHtml;
+
+            // Audit Trail
+            document.getElementById('repAuditTrailContent').innerHTML = `
+                <div style="margin-bottom: 6px;">
+                    <strong>Scenario A (Baseline):</strong><br>
+                    &bull; Gross Rent: ${formatCurrency(data.grossAnnualA)}/yr &times; ${data.termA}y = ${formatCurrency(data.grossTotalA)}<br>
+                    &bull; Taxable Profit: ${formatCurrency(data.grossAnnualA)} &times; 80% = ${formatCurrency(data.netProfitA)}/yr<br>
+                    &bull; Tax &amp; GeSY: ${formatCurrency(data.totalTaxA)} total (${formatCurrency(data.taxBreakdownA.incomeTax)} tax + ${formatCurrency(data.taxBreakdownA.gesy)} GeSY /yr)<br>
+                    &bull; Net In-Hand: <strong style="color: #0f172a;">${formatCurrency(data.netTotalA)}</strong>
+                </div>
+                <div>
+                    <strong>Scenario B (Target Offer):</strong><br>
+                    &bull; Gross Rent: ${formatCurrency(data.grossAnnualB)}/yr &times; ${data.termB}y = ${formatCurrency(data.grossTotalB)}<br>
+                    &bull; Declared Taxable: ${formatCurrency(data.declaredAnnualB)} &times; 80% = ${formatCurrency(data.netDeclaredProfitB)}/yr<br>
+                    &bull; Tax &amp; GeSY: ${formatCurrency(data.totalTaxB)} total (${formatCurrency(data.taxBreakdownB.incomeTax)} tax + ${formatCurrency(data.taxBreakdownB.gesy)} GeSY /yr)<br>
+                    &bull; Net In-Hand: <strong style="color: #059669;">${formatCurrency(data.netTotalB)}</strong>
+                </div>
+            `;
+
+            // Advantage Analysis Bullets
+            const bullets = [
+                `✓ Produces <strong>${formatCurrency(data.diffTotal)}</strong> higher net cash return over lease timeline`,
+                `✓ Generates <strong>${formatCurrency(data.diffMonthly)}</strong> additional monthly cash flow`,
+                `✓ Lowers total tax & GeSY burden by <strong>${formatCurrency(data.diffTax)}</strong>`,
+                `✓ Effective tax rate reduced from <strong>${data.effectiveTaxRateA.toFixed(1)}%</strong> to <strong>${data.effectiveTaxRateB.toFixed(1)}%</strong>`,
+                `✓ Optimizes asset yield and capital retention efficiency`
+            ];
+            document.getElementById('repAdvantageBullets').innerHTML = bullets.map(b => `<li style="margin-bottom: 2px;">${b}</li>`).join('');
+
+            // Effective Tax Rate Analysis
+            const taxSavingsPct = data.totalTaxA > 0 ? ((data.totalTaxA - data.totalTaxB) / data.totalTaxA) * 100 : 0;
+            document.getElementById('repTaxRateContent').innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>Scenario A Effective Rate:</span> <strong>${data.effectiveTaxRateA.toFixed(1)}%</strong></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>Scenario B Effective Rate:</span> <strong style="color: #059669;">${data.effectiveTaxRateB.toFixed(1)}%</strong></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>Total Tax Savings:</span> <strong style="color: #059669;">${formatCurrency(data.diffTax)}</strong></div>
+                <div style="display: flex; justify-content: space-between;"><span>Tax Burden Reduction:</span> <strong style="color: #059669;">${taxSavingsPct.toFixed(1)}%</strong></div>
+            `;
+        }
+
+        function exportReportPDF() {
+            populateReportTemplate();
+            const element = document.getElementById('pdfReportContainer');
+            element.style.display = 'block';
+
+            const filename = currentLang === 'el' ? 'Cyprus_Rental_Optimization_Executive_Report_EL.pdf' : 'Cyprus_Rental_Optimization_Executive_Report_EN.pdf';
             const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5],
+                margin:       0,
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Temporarily ensure explanation is visible for complete PDF review if desired, or keep current state
-            html2pdf().from(element).set(opt).save();
+            html2pdf().from(element).set(opt).save().then(() => {
+                element.style.display = 'none';
+            });
+        }
+
+        // Override existing exportToPDF
+        function exportToPDF() {
+            exportReportPDF();
         }
 
         function toggleTheme() {
@@ -690,8 +959,6 @@
             elAdvMonthly.className = "text-2xl font-black mt-1 block " + (diffMonthly >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
             elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
             elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
-
-            
         }
 
         window.onload = function() {
