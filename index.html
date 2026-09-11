@@ -400,19 +400,400 @@
             }
         };
 
+        /* =====================================================================
+           PDF REPORT — one-page A4 memo built from the values computed in
+           calculate() (window.__lastCalc). No formulas live here; every number
+           shown is either a stored result or a re-labelling of one.
+           ===================================================================== */
+        const reportStrings = {
+            en: {
+                title: "Rental Net Income Comparison",
+                subtitle: "Baseline offer vs. target offer — Cyprus tax treatment",
+                prepared: "Prepared",
+                owner: "Owner",
+                individual: "Individual (marginal brackets + GeSY)",
+                company: "Company (flat 15% corporate tax)",
+                otherIncome: "Other annual income",
+                offerA: "Offer A — Baseline",
+                offerB: "Offer B — Target",
+                heroWinB: "Offer B leaves you {amt} more in hand over {n} {yrs}",
+                heroWinA: "Offer A leaves you {amt} more in hand over {n} {yrs}",
+                heroTie: "Both offers leave you with the same net amount",
+                heroNote: "Net = money actually kept after agent fees and all taxes.",
+                total: "Total advantage",
+                perYear: "Per year",
+                perMonth: "Per month",
+                uplift: "vs. baseline net",
+                whyTitle: "Where the difference comes from",
+                whyGross: "Gross rent difference",
+                whyTax: "Tax saved",
+                whyFee: "Agent fees saved",
+                whyEquals: "Total advantage",
+                whyHint: "These three items add up exactly to the total advantage.",
+                howTitle: "How each offer is calculated",
+                inputs: "Inputs",
+                perMo: "/mo",
+                years: "years",
+                year: "year",
+                yrs: "yrs",
+                yr: "yr",
+                agentYes: "agent fee, 1 month",
+                agentVat: "+19% VAT",
+                agentNo: "no agent fee",
+                declared: "declared",
+                cash: "cash",
+                // ledger rows
+                rGrossAnnual: "Gross annual rent",
+                rGrossTotal: "Gross rent over the term",
+                rDeclaredAnnual: "Declared annual portion",
+                rCashAnnual: "Cash annual portion",
+                rTaxable: "Taxable profit (20% statutory deduction)",
+                rIncomeTax: "Income tax (marginal brackets, stacked on other income)",
+                rGesy: "GeSY 2.65% on gross rent received (income cap €180,000)",
+                rGesyDeclared: "GeSY 2.65% on declared rent (income cap €180,000)",
+                rCorpTax: "Corporate tax 15% on taxable profit",
+                rGesyExempt: "GeSY — companies exempt",
+                rAnnualTax: "Total tax per year",
+                rTaxTerm: "Total tax over the term",
+                rNetAnnual: "Net per year = (declared − tax) + cash",
+                rAgentFee: "Agent fee (one-off, year 1)",
+                rNetTotal: "Net in hand over the term",
+                rNetMonthly: "Average net per month",
+                none: "none",
+                // comparison table
+                cmpTitle: "Side by side",
+                cmpMetric: "Metric",
+                cmpDiff: "B − A",
+                cmpGross: "Gross rent over the term",
+                cmpFee: "Agent fees",
+                cmpTax: "Total taxes",
+                cmpNet: "Net in hand over the term",
+                cmpNetYr: "Net per year",
+                cmpNetMo: "Net per month",
+                cmpEff: "Effective tax rate (tax ÷ gross)",
+                cmpTerm: "Lease term",
+                termNote: "Lease terms differ ({a} vs {b} {yrs}); per-year and per-month figures are averaged over each offer's own term for a fair comparison.",
+                methodTitle: "Method (Cyprus tax logic)",
+                m1: "20% flat statutory deduction on gross rent before income tax (taxable profit = gross × 80%).",
+                m2: "Individual income tax brackets: €0–22,000 at 0% · 22,001–32,000 at 20% · 32,001–42,000 at 25% · 42,001–72,000 at 30% · above 72,000 at 35%. Rent is stacked on top of other income, so only the extra tax caused by the rent is counted.",
+                m3: "GeSY contribution of 2.65% on gross rent received, on income up to €180,000 per year. Companies are exempt.",
+                m4: "Company ownership: flat 15% corporate tax on taxable profit; no progressive brackets and no GeSY.",
+                m5: "Agent commission = one month's rent, deducted once in year 1; 19% VAT added when selected. Only the declared portion of Offer B is taxed.",
+                disclaimer: "Disclaimer: for educational and informational purposes only. Not tax, legal or financial advice, and not an endorsement of any non-compliance with the laws of the Republic of Cyprus. Users are solely responsible for their tax filings and should consult a licensed accountant or tax advisor.",
+                generating: "Generating…"
+            },
+            el: {
+                title: "Σύγκριση Καθαρού Εισοδήματος Ενοικίων",
+                subtitle: "Βασική πρόταση έναντι στοχευμένης πρότασης — Κυπριακή φορολογική μεταχείριση",
+                prepared: "Ημερομηνία",
+                owner: "Ιδιοκτήτης",
+                individual: "Φυσικό πρόσωπο (κλίμακες + Γε.Σ.Υ.)",
+                company: "Εταιρεία (σταθερός εταιρικός φόρος 15%)",
+                otherIncome: "Άλλα ετήσια έσοδα",
+                offerA: "Πρόταση Α — Βάση αναφοράς",
+                offerB: "Πρόταση Β — Στόχος",
+                heroWinB: "Η Πρόταση Β σας αφήνει {amt} περισσότερα σε {n} {yrs}",
+                heroWinA: "Η Πρόταση Α σας αφήνει {amt} περισσότερα σε {n} {yrs}",
+                heroTie: "Και οι δύο προτάσεις αφήνουν το ίδιο καθαρό ποσό",
+                heroNote: "Καθαρό = χρήματα που πραγματικά μένουν μετά από μεσιτικές αμοιβές και όλους τους φόρους.",
+                total: "Συνολικό πλεονέκτημα",
+                perYear: "Ανά έτος",
+                perMonth: "Ανά μήνα",
+                uplift: "έναντι καθαρού Α",
+                whyTitle: "Από πού προκύπτει η διαφορά",
+                whyGross: "Διαφορά ακαθάριστου ενοικίου",
+                whyTax: "Εξοικονόμηση φόρου",
+                whyFee: "Εξοικονόμηση μεσιτικών",
+                whyEquals: "Συνολικό πλεονέκτημα",
+                whyHint: "Τα τρία αυτά στοιχεία αθροίζουν ακριβώς στο συνολικό πλεονέκτημα.",
+                howTitle: "Πώς υπολογίζεται κάθε πρόταση",
+                inputs: "Δεδομένα",
+                perMo: "/μήνα",
+                years: "έτη",
+                year: "έτος",
+                yrs: "έτη",
+                yr: "έτος",
+                agentYes: "μεσιτική αμοιβή, 1 μήνας",
+                agentVat: "+19% ΦΠΑ",
+                agentNo: "χωρίς μεσιτική αμοιβή",
+                declared: "δηλωθέν",
+                cash: "μετρητά",
+                rGrossAnnual: "Ακαθάριστο ετήσιο ενοίκιο",
+                rGrossTotal: "Ακαθάριστο ενοίκιο στη διάρκεια",
+                rDeclaredAnnual: "Δηλωθέν ετήσιο τμήμα",
+                rCashAnnual: "Ετήσιο τμήμα σε μετρητά",
+                rTaxable: "Φορολογητέο κέρδος (έκπτωση 20%)",
+                rIncomeTax: "Φόρος εισοδήματος (κλίμακες, πάνω από τα άλλα έσοδα)",
+                rGesy: "Γε.Σ.Υ. 2,65% επί ακαθάριστου ενοικίου (όριο €180.000)",
+                rGesyDeclared: "Γε.Σ.Υ. 2,65% επί δηλωθέντος ενοικίου (όριο €180.000)",
+                rCorpTax: "Εταιρικός φόρος 15% επί φορολογητέου κέρδους",
+                rGesyExempt: "Γε.Σ.Υ. — εταιρείες εξαιρούνται",
+                rAnnualTax: "Συνολικός φόρος ανά έτος",
+                rTaxTerm: "Συνολικός φόρος στη διάρκεια",
+                rNetAnnual: "Καθαρό ανά έτος = (δηλωθέν − φόρος) + μετρητά",
+                rAgentFee: "Μεσιτική αμοιβή (εφάπαξ, 1ο έτος)",
+                rNetTotal: "Καθαρό στο χέρι στη διάρκεια",
+                rNetMonthly: "Μέσο καθαρό ανά μήνα",
+                none: "καμία",
+                cmpTitle: "Παράλληλη σύγκριση",
+                cmpMetric: "Μέγεθος",
+                cmpDiff: "Β − Α",
+                cmpGross: "Ακαθάριστο ενοίκιο στη διάρκεια",
+                cmpFee: "Μεσιτικές αμοιβές",
+                cmpTax: "Συνολικοί φόροι",
+                cmpNet: "Καθαρό στο χέρι στη διάρκεια",
+                cmpNetYr: "Καθαρό ανά έτος",
+                cmpNetMo: "Καθαρό ανά μήνα",
+                cmpEff: "Πραγματικός φορολογικός συντελεστής (φόρος ÷ ακαθάριστο)",
+                cmpTerm: "Διάρκεια μίσθωσης",
+                termNote: "Οι διάρκειες διαφέρουν ({a} έναντι {b} {yrs}). Τα ποσά ανά έτος/μήνα είναι μέσοι όροι στη διάρκεια κάθε πρότασης για δίκαιη σύγκριση.",
+                methodTitle: "Μεθοδολογία (κυπριακή φορολογική λογική)",
+                m1: "Έκπτωση 20% επί του ακαθάριστου ενοικίου πριν τον φόρο εισοδήματος (φορολογητέο κέρδος = ακαθάριστο × 80%).",
+                m2: "Κλίμακες φυσικών προσώπων: €0–22.000 στο 0% · 22.001–32.000 στο 20% · 32.001–42.000 στο 25% · 42.001–72.000 στο 30% · άνω των 72.000 στο 35%. Το ενοίκιο προστίθεται πάνω από τα άλλα έσοδα, οπότε μετράται μόνο ο επιπλέον φόρος που προκαλεί.",
+                m3: "Εισφορά Γε.Σ.Υ. 2,65% επί του ακαθάριστου ενοικίου, για εισόδημα έως €180.000 ετησίως. Οι εταιρείες εξαιρούνται.",
+                m4: "Εταιρική ιδιοκτησία: σταθερός εταιρικός φόρος 15% επί του φορολογητέου κέρδους, χωρίς κλίμακες και χωρίς Γε.Σ.Υ.",
+                m5: "Μεσιτική προμήθεια = ένα μηνιαίο ενοίκιο, αφαιρείται μία φορά το 1ο έτος· προστίθεται ΦΠΑ 19% όταν επιλεγεί. Στην Πρόταση Β φορολογείται μόνο το δηλωθέν τμήμα.",
+                disclaimer: "Αποποίηση ευθύνης: μόνο για εκπαιδευτικούς και ενημερωτικούς σκοπούς. Δεν αποτελεί φορολογική, νομική ή οικονομική συμβουλή, ούτε επικροτεί οποιαδήποτε μη συμμόρφωση με τη νομοθεσία της Κυπριακής Δημοκρατίας. Οι χρήστες είναι αποκλειστικά υπεύθυνοι για τις φορολογικές τους δηλώσεις και θα πρέπει να συμβουλεύονται αδειούχο λογιστή ή φορολογικό σύμβουλο.",
+                generating: "Δημιουργία…"
+            }
+        };
+
+        const reportCSS = `
+            #pdfReportHost { position:absolute; top:0; left:0; z-index:100000; background:#fff; }
+            #pdfReport { position:relative; display:block; width:210mm; height:296mm; box-sizing:border-box;
+                padding:9mm 10mm 7mm; background:#fff; color:#1c2430; overflow:hidden;
+                font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:9px; line-height:1.3; -webkit-font-smoothing:antialiased; }
+            #pdfReport * { box-sizing:border-box; }
+            #pdfReport .num { font-variant-numeric:tabular-nums; white-space:nowrap; }
+            #pdfReport .serif { font-family:Georgia,"Times New Roman",serif; }
+            #pdfReport .head { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1.5px solid #1c2430; padding-bottom:5px; }
+            #pdfReport .head h1 { margin:0; font-size:17px; font-weight:700; letter-spacing:-0.01em; }
+            #pdfReport .head .sub { margin:2px 0 0; color:#5b6672; font-size:9px; }
+            #pdfReport .meta { text-align:right; color:#5b6672; font-size:8.5px; line-height:1.45; }
+            #pdfReport .meta b { color:#1c2430; font-weight:600; }
+            #pdfReport .hero { margin-top:8px; border:1.5px solid #157a55; background:#eaf6f0; padding:8px 11px 7px; }
+            #pdfReport .hero.lose { border-color:#2f5fa6; background:#ecf1fa; }
+            #pdfReport .hero.tie { border-color:#5b6672; background:#f2f4f6; }
+            #pdfReport .hero h2 { margin:0; font-size:16px; line-height:1.2; font-weight:700; color:#0f5c3f; }
+            #pdfReport .hero.lose h2 { color:#22447a; }
+            #pdfReport .hero.tie h2 { color:#1c2430; }
+            #pdfReport .hero .note { color:#3f5a4d; font-size:8.5px; margin-top:2px; }
+            #pdfReport .stats { display:flex; gap:8px; margin-top:7px; }
+            #pdfReport .stat { flex:1; background:#fff; border:1px solid #cfe5da; padding:5px 8px 4px; }
+            #pdfReport .hero.lose .stat { border-color:#c9d6ea; }
+            #pdfReport .stat .v { font-size:15px; font-weight:700; color:#0f5c3f; line-height:1.15; }
+            #pdfReport .hero.lose .stat .v { color:#22447a; }
+            #pdfReport .stat .l { color:#5b6672; font-size:8px; margin-top:1px; }
+            #pdfReport .bridge { display:flex; align-items:center; gap:6px; margin-top:7px; padding-top:6px; border-top:1px dashed #9cc7b3; }
+            #pdfReport .hero.lose .bridge { border-top-color:#a9bbdb; }
+            #pdfReport .bridge .t { font-weight:600; color:#1c2430; white-space:nowrap; }
+            #pdfReport .bridge .c { flex:1; background:#fff; border:1px solid #d9e2ea; padding:3px 7px; display:flex; justify-content:space-between; align-items:baseline; }
+            #pdfReport .bridge .c .l { color:#5b6672; font-size:8px; line-height:1.15; }
+            #pdfReport .bridge .c .v { font-weight:700; font-size:10px; }
+            #pdfReport .bridge .c.eq { border:1.5px solid #1c2430; }
+            #pdfReport .bridge .op { font-size:12px; color:#5b6672; font-weight:700; }
+            #pdfReport .pos { color:#157a55; } #pdfReport .neg { color:#b3372d; } #pdfReport .zero { color:#5b6672; }
+            #pdfReport .hint { color:#5b6672; font-size:7.8px; margin-top:3px; }
+            #pdfReport h3 { margin:9px 0 4px; font-size:10.5px; font-weight:700; color:#1c2430; border-bottom:1px solid #c9d1da; padding-bottom:2px; }
+            #pdfReport .cols { display:flex; gap:10px; }
+            #pdfReport .col { flex:1; border:1px solid #c9d1da; }
+            #pdfReport .col .cap { padding:4px 8px; font-weight:700; font-size:10px; color:#fff; }
+            #pdfReport .col.a .cap { background:#2f5fa6; } #pdfReport .col.b .cap { background:#157a55; }
+            #pdfReport .col .inp { padding:4px 8px; background:#f4f6f8; border-bottom:1px solid #e1e6ec; color:#3b4653; font-size:8.5px; line-height:1.4; }
+            #pdfReport .col .inp b { color:#1c2430; }
+            #pdfReport table.ledger { width:100%; border-collapse:collapse; }
+            #pdfReport table.ledger td { padding:2.6px 8px; vertical-align:top; border-bottom:1px solid #eef1f4; font-size:9px; }
+            #pdfReport table.ledger td.f { color:#5b6672; font-size:8.2px; padding-top:0; padding-bottom:3px; }
+            #pdfReport table.ledger td.v { text-align:right; font-weight:600; white-space:nowrap; }
+            #pdfReport table.ledger tr.sub td { color:#5b6672; }
+            #pdfReport table.ledger tr.sub td.v { color:#b3372d; }
+            #pdfReport table.ledger tr.tot td { background:#f4f6f8; font-weight:700; font-size:9.5px; border-top:1.5px solid #1c2430; border-bottom:0; padding:4px 8px; }
+            #pdfReport .col.a tr.tot td.v { color:#2f5fa6; } #pdfReport .col.b tr.tot td.v { color:#157a55; }
+            #pdfReport table.ledger tr.mo td { background:#f4f6f8; color:#3b4653; padding-top:0; padding-bottom:4px; border-bottom:0; }
+            #pdfReport table.cmp { width:100%; border-collapse:collapse; }
+            #pdfReport table.cmp th, #pdfReport table.cmp td { padding:3.2px 8px; font-size:9.2px; border-bottom:1px solid #e1e6ec; text-align:right; }
+            #pdfReport table.cmp th { background:#f4f6f8; font-weight:600; color:#3b4653; border-bottom:1px solid #c9d1da; }
+            #pdfReport table.cmp th:first-child, #pdfReport table.cmp td:first-child { text-align:left; }
+            #pdfReport table.cmp th.a { color:#2f5fa6; } #pdfReport table.cmp th.b { color:#157a55; }
+            #pdfReport table.cmp tr.key td { font-weight:700; font-size:9.5px; background:#eaf6f0; }
+            #pdfReport .method { display:flex; gap:12px; }
+            #pdfReport .method ul { margin:0; padding-left:11px; flex:1; color:#3b4653; font-size:8.3px; line-height:1.35; }
+            #pdfReport .method li { margin-bottom:2px; }
+            #pdfReport .disc { margin-top:6px; padding-top:4px; border-top:1px solid #c9d1da; color:#7b8794; font-size:7px; line-height:1.3; }
+        `;
+
+        function buildPdfReport(c, lang) {
+            const s = reportStrings[lang] || reportStrings.en;
+            const eur = formatCurrency;
+            const signed = v => (v >= 0 ? '+' : '−') + eur(Math.abs(v));
+            const cls = v => Math.round(v) > 0 ? 'pos' : (Math.round(v) < 0 ? 'neg' : 'zero');
+            const yrsWord = n => n === 1 ? s.yr : s.yrs;
+            const pct = (num, den) => den > 0 ? (num / den * 100).toFixed(1).replace('.', lang === 'el' ? ',' : '.') + '%' : '—';
+            const ind = c.entityType === 'individual';
+
+            // Tax split (income tax vs GeSY) — re-labels the same helper calculate() used; same inputs, same outputs.
+            const splitA = ind ? calculateIndividualTaxAndGesy(c.netProfitA, c.grossAnnualA, c.otherIncome) : { incomeTax: c.annualTaxA, gesy: 0 };
+            const splitB = ind ? calculateIndividualTaxAndGesy(c.netDeclaredProfitB, c.declaredAnnualB, c.otherIncome) : { incomeTax: c.annualTaxB, gesy: 0 };
+
+            // Advantage bridge — the three components of netTotal, each already present in __lastCalc.
+            const dGross = c.grossTotalB - c.grossTotalA;
+            const dTax   = c.totalTaxA - c.totalTaxB;
+            const dFee   = c.agentFeeA - c.agentFeeB;
+
+            const date = new Date().toLocaleDateString(lang === 'el' ? 'el-GR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            const agentTxt = (has, vat) => has ? (s.agentYes + (vat ? ' ' + s.agentVat : '')) : s.agentNo;
+
+            let heroClass = 'win', heroTitle;
+            if (Math.round(c.diffTotal) > 0) heroTitle = s.heroWinB;
+            else if (Math.round(c.diffTotal) < 0) { heroClass = 'lose'; heroTitle = s.heroWinA; }
+            else { heroClass = 'tie'; heroTitle = s.heroTie; }
+            const heroTerm = Math.round(c.diffTotal) >= 0 ? c.termB : c.termA;
+            heroTitle = heroTitle.replace('{amt}', eur(Math.abs(c.diffTotal))).replace('{n}', heroTerm).replace('{yrs}', yrsWord(heroTerm));
+            const upliftTxt = Math.round(c.netTotalA) !== 0 ? signed(c.diffTotal / c.netTotalA * 100).replace(/€/, '').replace(/,/g, '') : '—';
+            const upliftPct = Math.round(c.netTotalA) !== 0 ? (c.diffTotal >= 0 ? '+' : '−') + Math.abs(c.diffTotal / c.netTotalA * 100).toFixed(1) + '%' : '—';
+
+            const row = (label, formula, value, extra) => `<tr class="${extra || ''}"><td>${label}${formula ? `<div class="f">${formula}</div>` : ''}</td><td class="v num">${value}</td></tr>`;
+
+            // ---- Offer A ledger
+            const taxRowsA = ind
+                ? row(s.rIncomeTax, `${eur(c.netProfitA)} ${lang==='el'?'πάνω από':'on top of'} ${eur(c.otherIncome)}`, eur(splitA.incomeTax), 'sub')
+                  + row(s.rGesy, `2.65% × ${eur(c.grossAnnualA)}`, eur(splitA.gesy), 'sub')
+                : row(s.rCorpTax, `15% × ${eur(c.netProfitA)}`, eur(splitA.incomeTax), 'sub') + row(s.rGesyExempt, '', '€0', 'sub');
+            const ledgerA = `
+                ${row(s.rGrossAnnual, `${eur(c.agentRent)} × 12`, eur(c.grossAnnualA))}
+                ${row(s.rGrossTotal, `${eur(c.grossAnnualA)} × ${c.termA} ${yrsWord(c.termA)}`, eur(c.grossTotalA))}
+                ${row(s.rTaxable, `${eur(c.grossAnnualA)} × 80%`, eur(c.netProfitA))}
+                ${taxRowsA}
+                ${row(s.rAnnualTax, `${eur(splitA.incomeTax)} + ${eur(splitA.gesy)}`, eur(c.annualTaxA))}
+                ${row(s.rTaxTerm, `${eur(c.annualTaxA)} × ${c.termA} ${yrsWord(c.termA)}`, eur(c.totalTaxA))}
+                ${row(s.rAgentFee, c.hasAgentA ? `${eur(c.agentRent)} × ${c.agentFeeMultiplierA.toFixed(2)}` : s.none, c.hasAgentA ? '−' + eur(c.agentFeeA) : '€0')}
+                ${row(s.rNetTotal, `${eur(c.grossTotalA)} − ${eur(c.agentFeeA)} − ${eur(c.totalTaxA)}`, eur(c.netTotalA), 'tot')}
+                ${row(s.rNetMonthly, `${eur(c.netTotalA)} ÷ ${c.termA * 12}`, eur(c.netMonthlyA) + s.perMo, 'mo')}`;
+
+            // ---- Offer B ledger
+            const taxRowsB = ind
+                ? row(s.rIncomeTax, `${eur(c.netDeclaredProfitB)} ${lang==='el'?'πάνω από':'on top of'} ${eur(c.otherIncome)}`, eur(splitB.incomeTax), 'sub')
+                  + row(s.rGesyDeclared, `2.65% × ${eur(c.declaredAnnualB)}`, eur(splitB.gesy), 'sub')
+                : row(s.rCorpTax, `15% × ${eur(c.netDeclaredProfitB)}`, eur(splitB.incomeTax), 'sub') + row(s.rGesyExempt, '', '€0', 'sub');
+            const ledgerB = `
+                ${row(s.rGrossAnnual, `${eur(c.directRent)} × 12`, eur(c.grossAnnualB))}
+                ${row(s.rGrossTotal, `${eur(c.grossAnnualB)} × ${c.termB} ${yrsWord(c.termB)}`, eur(c.grossTotalB))}
+                ${row(s.rDeclaredAnnual + ' / ' + s.rCashAnnual, `${eur(c.declaredPortion)} × 12 / ${eur(c.cashPortion)} × 12`, `${eur(c.declaredAnnualB)} / ${eur(c.cashAnnualB)}`)}
+                ${row(s.rTaxable, `${eur(c.declaredAnnualB)} × 80%`, eur(c.netDeclaredProfitB))}
+                ${taxRowsB}
+                ${row(s.rAnnualTax, `${eur(splitB.incomeTax)} + ${eur(splitB.gesy)}`, eur(c.annualTaxB))}
+                ${row(s.rTaxTerm, `${eur(c.annualTaxB)} × ${c.termB} ${yrsWord(c.termB)}`, eur(c.totalTaxB))}
+                ${row(s.rNetAnnual, `(${eur(c.declaredAnnualB)} − ${eur(c.annualTaxB)}) + ${eur(c.cashAnnualB)}`, eur(c.netAnnualB))}
+                ${row(s.rAgentFee, c.hasAgentB ? `${eur(c.directRent)} × ${c.agentFeeMultiplierB.toFixed(2)}` : s.none, c.hasAgentB ? '−' + eur(c.agentFeeB) : '€0')}
+                ${row(s.rNetTotal, `${eur(c.netAnnualB)} × ${c.termB} − ${eur(c.agentFeeB)}`, eur(c.netTotalB), 'tot')}
+                ${row(s.rNetMonthly, `${eur(c.netTotalB)} ÷ ${c.termB * 12}`, eur(c.netMonthlyB) + s.perMo, 'mo')}`;
+
+            const netYrA = c.netTotalA / c.termA, netYrB = c.netTotalB / c.termB;
+            const cmpRow = (label, a, b, d, key) => `<tr class="${key ? 'key' : ''}"><td>${label}</td><td class="num">${a}</td><td class="num">${b}</td><td class="num ${d.cls}">${d.txt}</td></tr>`;
+            const cmp = `
+                ${cmpRow(s.cmpTerm, `${c.termA} ${yrsWord(c.termA)}`, `${c.termB} ${yrsWord(c.termB)}`, { txt: c.termB - c.termA === 0 ? '—' : (c.termB - c.termA > 0 ? '+' : '') + (c.termB - c.termA), cls: 'zero' })}
+                ${cmpRow(s.cmpGross, eur(c.grossTotalA), eur(c.grossTotalB), { txt: signed(dGross), cls: cls(dGross) })}
+                ${cmpRow(s.cmpFee, '−' + eur(c.agentFeeA), '−' + eur(c.agentFeeB), { txt: signed(dFee), cls: cls(dFee) })}
+                ${cmpRow(s.cmpTax, '−' + eur(c.totalTaxA), '−' + eur(c.totalTaxB), { txt: signed(dTax), cls: cls(dTax) })}
+                ${cmpRow(s.cmpEff, pct(c.totalTaxA, c.grossTotalA), pct(c.totalTaxB, c.grossTotalB), { txt: '', cls: 'zero' })}
+                ${cmpRow(s.cmpNet, eur(c.netTotalA), eur(c.netTotalB), { txt: signed(c.diffTotal), cls: cls(c.diffTotal) }, true)}
+                ${cmpRow(s.cmpNetYr, eur(netYrA), eur(netYrB), { txt: signed(c.diffAnnual), cls: cls(c.diffAnnual) })}
+                ${cmpRow(s.cmpNetMo, eur(c.netMonthlyA), eur(c.netMonthlyB), { txt: signed(c.diffMonthly), cls: cls(c.diffMonthly) })}`;
+
+            const termNote = c.termA !== c.termB ? `<div class="hint">${s.termNote.replace('{a}', c.termA).replace('{b}', c.termB).replace('{yrs}', s.yrs)}</div>` : '';
+
+            const el = document.createElement('div');
+            el.id = 'pdfReport';
+            el.innerHTML = `
+                <style>${reportCSS}</style>
+                <div class="head">
+                    <div><h1 class="serif">${s.title}</h1><p class="sub">${s.subtitle}</p></div>
+                    <div class="meta">${s.prepared}: <b>${date}</b><br>${s.owner}: <b>${ind ? s.individual : s.company}</b>${ind ? `<br>${s.otherIncome}: <b>${eur(c.otherIncome)}</b>` : ''}</div>
+                </div>
+
+                <div class="hero ${heroClass}">
+                    <h2 class="serif">${heroTitle}</h2>
+                    <div class="note">${s.heroNote}</div>
+                    <div class="stats">
+                        <div class="stat"><div class="v num">${signed(c.diffTotal)}</div><div class="l">${s.total} (${heroTerm} ${yrsWord(heroTerm)})</div></div>
+                        <div class="stat"><div class="v num">${signed(c.diffAnnual)}</div><div class="l">${s.perYear}</div></div>
+                        <div class="stat"><div class="v num">${signed(c.diffMonthly)}</div><div class="l">${s.perMonth}</div></div>
+                        <div class="stat"><div class="v num">${upliftPct}</div><div class="l">${s.uplift}</div></div>
+                    </div>
+                    <div class="bridge">
+                        <span class="t">${s.whyTitle}:</span>
+                        <div class="c"><span class="l">${s.whyGross}</span><span class="v num ${cls(dGross)}">${signed(dGross)}</span></div><span class="op">+</span>
+                        <div class="c"><span class="l">${s.whyTax}</span><span class="v num ${cls(dTax)}">${signed(dTax)}</span></div><span class="op">+</span>
+                        <div class="c"><span class="l">${s.whyFee}</span><span class="v num ${cls(dFee)}">${signed(dFee)}</span></div><span class="op">=</span>
+                        <div class="c eq"><span class="l">${s.whyEquals}</span><span class="v num ${cls(c.diffTotal)}">${signed(c.diffTotal)}</span></div>
+                    </div>
+                    <div class="hint">${s.whyHint}</div>
+                </div>
+
+                <h3>${s.howTitle}</h3>
+                <div class="cols">
+                    <div class="col a">
+                        <div class="cap">${s.offerA}</div>
+                        <div class="inp">${s.inputs}: <b>${eur(c.agentRent)}${s.perMo}</b> · <b>${c.termA} ${yrsWord(c.termA)}</b> · ${agentTxt(c.hasAgentA, c.vatA)}</div>
+                        <table class="ledger">${ledgerA}</table>
+                    </div>
+                    <div class="col b">
+                        <div class="cap">${s.offerB}</div>
+                        <div class="inp">${s.inputs}: <b>${eur(c.directRent)}${s.perMo}</b> = <b>${eur(c.declaredPortion)}</b> ${s.declared} + <b>${eur(c.cashPortion)}</b> ${s.cash} · <b>${c.termB} ${yrsWord(c.termB)}</b> · ${agentTxt(c.hasAgentB, c.vatB)}</div>
+                        <table class="ledger">${ledgerB}</table>
+                    </div>
+                </div>
+
+                <h3>${s.cmpTitle}</h3>
+                <table class="cmp">
+                    <tr><th>${s.cmpMetric}</th><th class="a">${s.offerA}</th><th class="b">${s.offerB}</th><th>${s.cmpDiff}</th></tr>
+                    ${cmp}
+                </table>
+                ${termNote}
+
+                <h3>${s.methodTitle}</h3>
+                <div class="method">
+                    <ul><li>${s.m1}</li><li>${s.m2}</li><li>${s.m3}</li></ul>
+                    <ul><li>${s.m4}</li><li>${s.m5}</li></ul>
+                </div>
+                <div class="disc">${s.disclaimer}</div>`;
+            return el;
+        }
+
         function exportToPDF() {
-            const element = document.getElementById('exportWrapper');
+            calculate(); // make sure the snapshot reflects the current inputs
+            const c = window.__lastCalc;
+            const btn = document.getElementById('pdfBtn');
+            const btnText = document.getElementById('pdfBtnText');
+            const prevText = btnText.innerText;
+            btn.disabled = true;
+            btnText.innerText = reportStrings[currentLang].generating;
+
+            const report = buildPdfReport(c, currentLang);
+            const host = document.createElement('div');
+            host.id = 'pdfReportHost';
+            host.appendChild(report);
+            const prevScroll = window.scrollY;
+            document.body.appendChild(host);
+            window.scrollTo(0, 0);
+
             const filename = currentLang === 'el' ? 'Cyprus_Rental_Optimization_Report_EL.pdf' : 'Cyprus_Rental_Optimization_Report_EN.pdf';
             const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5],
+                margin:       0,
                 filename:     filename,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                html2canvas:  { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0, backgroundColor: '#ffffff' },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: 'avoid-all' }
             };
 
-            // Temporarily ensure explanation is visible for complete PDF review if desired, or keep current state
-            html2pdf().from(element).set(opt).save();
+            const cleanup = () => {
+                host.remove();
+                window.scrollTo(0, prevScroll);
+                btn.disabled = false;
+                btnText.innerText = prevText;
+            };
+            html2pdf().from(report).set(opt).save().then(cleanup).catch(cleanup);
         }
 
         function toggleTheme() {
@@ -691,7 +1072,15 @@
             elAdvAnnual.className = "text-2xl font-black mt-1 block " + (diffAnnual >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
             elAdvTotal.className = "text-2xl font-black mt-1 block " + (diffTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400');
 
-            
+            // Snapshot of the values computed above — consumed by the PDF report builder only.
+            window.__lastCalc = {
+                entityType, otherIncome,
+                termA, agentRent, hasAgentA, vatA,
+                termB, directRent, declaredPortion, cashPortion, hasAgentB, vatB,
+                grossAnnualA, grossTotalA, agentFeeMultiplierA, agentFeeA, netProfitA, annualTaxA, totalTaxA, netTotalA, netMonthlyA,
+                grossAnnualB, grossTotalB, declaredAnnualB, cashAnnualB, agentFeeMultiplierB, agentFeeB, netDeclaredProfitB, annualTaxB, totalTaxB, netAnnualB, netTotalB, netMonthlyB,
+                diffMonthly, diffAnnual, diffTotal
+            };
         }
 
         window.onload = function() {
