@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyprus Rental Net Income Optimization Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include html2pdf library for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -12,7 +14,7 @@
     </script>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
-    <div class="max-w-7xl mx-auto px-4 py-10">
+    <div id="exportWrapper" class="max-w-7xl mx-auto px-4 py-10">
         <!-- Header -->
         <header class="mb-10 flex flex-col md:flex-row items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6">
             <div class="text-center md:text-left mb-4 md:mb-0">
@@ -20,8 +22,11 @@
                 <h1 id="uiTitle" class="text-3xl font-extrabold mt-2 tracking-tight">Cyprus Rental Net Income Optimization Tool</h1>
                 <p id="uiSubtitle" class="text-slate-600 dark:text-slate-400 text-sm mt-1">Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.</p>
             </div>
-            <!-- Actions: Language & Theme Switcher -->
-            <div class="flex items-center space-x-3">
+            <!-- Actions: Language, Theme Switcher & PDF Export -->
+            <div class="flex items-center space-x-3 no-print">
+                <button onclick="exportToPDF()" id="pdfBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
+                    <span>📄 <span id="pdfBtnText">Export PDF</span></span>
+                </button>
                 <button onclick="toggleTheme()" id="themeBtn" class="px-4 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <span id="themeIcon">🌙</span>
                     <span id="themeText">Night Mode</span>
@@ -34,7 +39,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Control Panel -->
-            <div class="lg:col-span-1 bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 space-y-6">
+            <div class="lg:col-span-1 bg-white dark:bg-slate-950 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 space-y-6 no-print">
                 <h2 id="uiControlsHeader" class="text-lg font-bold border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center justify-between">
                     <span>Scenario Controls</span>
                     <span class="text-xs text-slate-500 font-normal">Live Calculation</span>
@@ -270,6 +275,12 @@
         </footer>
     </div>
 
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
+
     <script>
         let currentLang = 'en';
         let currentTheme = 'light'; // Default to day mode as requested
@@ -277,6 +288,7 @@
         const translations = {
             en: {
                 langBtnText: "🌐 Ελληνικά (EL)",
+                pdfBtnText: "Export PDF",
                 title: "Cyprus Rental Net Income Optimization Tool",
                 subtitle: "Side-by-side comparison with independent lease term lengths for baseline vs. target scenarios.",
                 controlsHeader: "Scenario Controls",
@@ -336,6 +348,7 @@
             },
             el: {
                 langBtnText: "🌐 English (EN)",
+                pdfBtnText: "Εξαγωγή PDF",
                 title: "Εργαλείο Βελτιστοποίησης Καθαρού Εισοδήματος Ενοικίων Κύπρου",
                 subtitle: "Παράλληλη σύγκριση με ανεξάρτητες διάρκειες μίσθωσης για βασικό έναντι στοχευμένου σεναρίου.",
                 controlsHeader: "Έλεγχος Σεναρίων",
@@ -395,6 +408,21 @@
             }
         };
 
+        function exportToPDF() {
+            const element = document.getElementById('exportWrapper');
+            const filename = currentLang === 'el' ? 'Cyprus_Rental_Optimization_Report_EL.pdf' : 'Cyprus_Rental_Optimization_Report_EN.pdf';
+            const opt = {
+                margin:       [0.5, 0.5, 0.5, 0.5],
+                filename:     filename,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Temporarily ensure explanation is visible for complete PDF review if desired, or keep current state
+            html2pdf().from(element).set(opt).save();
+        }
+
         function toggleTheme() {
             const htmlEl = document.documentElement;
             const themeIcon = document.getElementById('themeIcon');
@@ -418,6 +446,7 @@
             const t = translations[currentLang];
 
             document.getElementById('langBtn').querySelector('span').innerText = t.langBtnText;
+            document.getElementById('pdfBtnText').innerText = t.pdfBtnText;
             document.getElementById('themeText').innerText = currentTheme === 'dark' ? (currentLang === 'en' ? 'Day Mode' : 'Λειτουργία Ημέρας') : (currentLang === 'en' ? 'Night Mode' : 'Νυχτερινή Λειτουργία');
             document.getElementById('uiTitle').innerText = t.title;
             document.getElementById('uiSubtitle').innerText = t.subtitle;
